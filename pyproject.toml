@@ -2,7 +2,7 @@
 name = "devops-2025"
 version = "0.1.0"
 description = "Project for the course DevOps, Software Evolution and Software Maintenance"
-authors = ["Your Name <you@example.com>"]
+authors = ["Christina Aftzidis <caft@itu.dk>", "Daniel Vikkelsø Held-Hansen <dhel@itu.dk>", "Frederico Santos Alves <fsan@itu.dk>", "Laurids Robert Holme Pedersen <lrpe@itu.dk>", "Laurits Brok Pedersen <labp@itu.dk>", "Rakul Maria Hjalmarsdóttir Tórgarð <rakt@itu.dk>"]
 readme = "README.md"
 package-mode = false
 
