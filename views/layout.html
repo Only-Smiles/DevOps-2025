@@ -1,0 +1,33 @@
+<!doctype html>
+<title><%= @title || 'Welcome' %> | MiniTwit</title>
+<link rel="stylesheet" type="text/css" href="<%= url('/static/style.css') %>">
+<div class="page">
+  <h1>MiniTwit</h1>
+  <div class="navigation">
+    <% if @user %>
+      <a href="<%= url('/timeline') %>">my timeline</a> |
+      <a href="<%= url('/public_timeline') %>">public timeline</a> |
+      <a href="<%= url('/logout') %>">sign out [<%= @user.username %>]</a>
+    <% else %>
+      <a href="<%= url('/public_timeline') %>">public timeline</a> |
+      <a href="<%= url('/register') %>">sign up</a> |
+      <a href="<%= url('/login') %>">sign in</a>
+    <% end %>
+  </div>
+
+  <% if @flashes && !@flashes.empty? %>
+    <ul class="flashes">
+      <% @flashes.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <div class="body">
+    <%= yield :body %>  <!-- This is where you define content blocks in Sinatra -->
+  </div>
+
+  <div class="footer">
+    MiniTwit &mdash; A Sinatra Application
+  </div>
+</div>
