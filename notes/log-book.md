@@ -1,6 +1,8 @@
 # Week 2 07.02.2025
 
-## Brainstorming sesh
+## 1) Refactor ITU-MiniTwit to another language and technology of your choice.
+
+### Brainstorming sesh
 
 We started a brainstorming session where we listed up different tech-stacks that we could use. The following stacks were put on the board:
 
@@ -31,6 +33,10 @@ We discussed pro's and cons for the two languages and voted. The results were:
 - 1 in favor of Express
 
 Given this, we decided to go with Ruby for backend and use Sinatra for the framework.
+
+### Refactoring from Python to Ruby
+
+We decided to refactor the code together by bringing the code up to the screen and then all of us sitting and refactoring the code together.
 
 
 # Week 1 - 31.01.2025
