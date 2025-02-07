@@ -38,6 +38,10 @@ Given this, we decided to go with Ruby for backend and use Sinatra for the frame
 
 We decided to refactor the code together by bringing the code up to the screen and then all of us sitting and refactoring the code together.
 
+### Branch naming convention
+
+We discussed that we should keep some sort of branch naming convention. We used [this article](https://medium.com/@abhay.pixolo/naming-conventions-for-git-branches-a-cheatsheet-8549feca2534) for naming conventions. We didn't end up choosing any specific syntax, but we agree that we should have some kind of structure to link our branches to github issues.
+
 
 # Week 1 - 31.01.2025
 
