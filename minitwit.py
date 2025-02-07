@@ -21,7 +21,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 
 # configuration
-DATABASE = './tmp/minitwit.db'
+DATABASE = './db/minitwit.db'
 PER_PAGE = 30
 DEBUG = True
 SECRET_KEY = 'development key'
@@ -68,7 +68,7 @@ def gravatar_url(email, size=80):
     return 'http://www.gravatar.com/avatar/%s?d=identicon&s=%d' % \
         (md5(email.strip().lower().encode('utf-8')).hexdigest(), size)
 
-
+# TODO
 @app.before_request
 def before_request():
     """Make sure we are connected to the database each request and look
@@ -80,7 +80,7 @@ def before_request():
         g.user = query_db('select * from user where user_id = ?',
                           [session['user_id']], one=True)
 
-
+# TODO
 @app.after_request
 def after_request(response):
     """Closes the database again at the end of the request."""
@@ -98,7 +98,7 @@ def timeline():
     if not g.user:
         return redirect(url_for('public_timeline'))
     offset = request.args.get('offset', type=int)
-    return render_template('timeline.html', messages=query_db('''
+    return render_template('.html', messages=query_db('''
         select message.*, user.* from message, user
         where message.flagged = 0 and message.author_id = user.user_id and (
             user.user_id = ? or
