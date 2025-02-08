@@ -1,0 +1,18 @@
+<%# TODO: How to handle the block title? Public vs. users timeline ....%>
+<h2>
+    <%= @title %>
+</h2>
+<% if @user %>
+    <%# TODO: if the user is logged in ...%>
+<% end %>
+<ul class="messages">
+    <% if @messages.length > 0 %>
+        <p>You have messages</p>
+    <% else %>
+        <li>
+            <em>
+                There's no messages so far.
+            </em>
+        </li>
+    <% end %>
+</ul>
