@@ -15,6 +15,4 @@ COPY views ./views
 
 COPY minitwit.rb  ./
 
-
-
-
+CMD ["ruby", "minitwit.rb"]
