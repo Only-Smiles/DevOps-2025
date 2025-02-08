@@ -11,7 +11,6 @@ class MiniTwit < Sinatra::Base
   SECRET_KEY = SecureRandom.hex(32)
   PER_PAGE = 30
   DATABASE = './db/minitwit.db'
-  #set :views, File.dirname(__FILE__) + "/views"
 
   # Configure session management inside a configure block
   configure do
@@ -126,7 +125,7 @@ class MiniTwit < Sinatra::Base
       password_hash = BCrypt::Password.create(password)
       query_db('INSERT INTO user (username, email, pw_hash) VALUES (?, ?, ?)', [@username, @email, password_hash])
       # TODO: is not "flashing" this message to the user in the login page
-      flash[:notice] = "You were successfully registered and can login now"
+      put "You were successfully registered and can login now"
       # Redirect to login page after successful registration
       redirect '/login'
     end
