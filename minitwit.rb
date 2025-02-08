@@ -10,7 +10,7 @@ require 'securerandom'
 class MiniTwit < Sinatra::Base
   SECRET_KEY = SecureRandom.hex(32)
   PER_PAGE = 30
-  DATABASE = './db/minitwit.db'
+  DATABASE = '/tmp/minitwit.db'
 
   # Configure session management inside a configure block
   configure do
@@ -161,3 +161,4 @@ class MiniTwit < Sinatra::Base
   # Start the application
   run! if __FILE__ == $PROGRAM_NAME
 end
+
