@@ -10,7 +10,10 @@
         <% @messages.each do |message| %>
             <li>
                 <img src="<%= gravatar_url(message['email'], size=48) %>" alt="User Gravatar" />
-                <strong><%= message['username'] %></strong>: <%= message['text'] %>
+                <strong>
+                    <a href="<%= message['username'] %>"><%= message['username'] %></a>
+                </strong>
+                    <%= message['text'] %>
                 <small>— <%= format_datetime(message['pub_date']) %></small>
             </li>
         <% end %>

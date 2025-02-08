@@ -1,4 +1,5 @@
 require 'sinatra/base'
+require 'sinatra/flash'
 require 'sqlite3'
 require 'bcrypt'
 require 'erb'
@@ -67,12 +68,11 @@ class MiniTwit < Sinatra::Base
       AND (user.user_id = ? OR user.user_id IN (SELECT whom_id FROM follower WHERE who_id = ?))
       ORDER BY message.pub_date DESC LIMIT ?''',
       [@user['user_id'], @user['user_id'], PER_PAGE])
-    @title = @user + "'s Timeline"
+    @title = "My Timeline"
     erb :timeline
   end
 
   get '/public' do
-    puts "Views directory: #{settings.views}"
     @messages = query_db('''
       SELECT message.*, user.* FROM message, user
       WHERE message.flagged = 0 AND message.author_id = user.user_id
@@ -101,12 +101,33 @@ class MiniTwit < Sinatra::Base
   end
 
   post '/register' do
-    if params[:password] != params[:password2]
-      erb :register, locals: { error: 'Passwords do not match' }
+    @username = params[:username]
+    @email = params[:email]
+    password = params[:password]
+    password2 = params[:password2]
+  
+    if @username.empty?
+      @error = 'You have to enter a username'
+      return erb :register
+    elsif @email.empty?   # TODO: not checking if email contains a '@'
+      @error = 'You have to enter a valid email address'
+      return erb :register
+    elsif password.empty?
+      @error = 'You have to enter a password'
+      return erb :register
+    elsif password != password2
+      @error = 'The two passwords do not match'
+      return erb :register
+    elsif !query_db('SELECT * FROM user WHERE username = ?', [@username], true).nil?
+      @error = "Username is already taken."
+      return erb :register
     else
-      pw_hash = BCrypt::Password.create(params[:password])
-      query_db('INSERT INTO user (username, email, pw_hash) VALUES (?, ?, ?)',
-              [params[:username], params[:email], pw_hash])
+      # Store the new user in the database
+      password_hash = BCrypt::Password.create(password)
+      query_db('INSERT INTO user (username, email, pw_hash) VALUES (?, ?, ?)', [@username, @email, password_hash])
+      # TODO: is not "flashing" this message to the user in the login page
+      flash[:notice] = "You were successfully registered and can login now"
+      # Redirect to login page after successful registration
       redirect '/login'
     end
   end
@@ -125,6 +146,7 @@ class MiniTwit < Sinatra::Base
       WHERE user.user_id = message.author_id AND user.user_id = ?
       ORDER BY message.pub_date DESC LIMIT ?''',
       [@profile_user['user_id'], PER_PAGE])
+    @title = "#{params[:username]}'s Timeline"
     erb :timeline, locals: { followed: followed }
   end
 
