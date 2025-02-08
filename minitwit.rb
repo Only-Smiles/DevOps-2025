@@ -82,13 +82,11 @@ class MiniTwit < Sinatra::Base
   end
 
   get '/login' do
-    puts "Login page accessed!"
     @title = "Sign In"
     erb :login
   end
 
   post '/login' do
-    puts "Login page accessed - post method!"
     user = query_db('SELECT * FROM user WHERE username = ?', [params[:username]], true)
     if user && BCrypt::Password.new(user['pw_hash']) == params[:password]
       session[:user_id] = user['user_id']
@@ -99,7 +97,6 @@ class MiniTwit < Sinatra::Base
   end
 
   get '/register' do
-    puts "Register page accessed!"
     erb :register
   end
 

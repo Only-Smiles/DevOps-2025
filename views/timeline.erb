@@ -7,7 +7,13 @@
 <% end %>
 <ul class="messages">
     <% if @messages.length > 0 %>
-        <p>You have messages</p>
+        <% @messages.each do |message| %>
+            <li>
+                <img src="<%= gravatar_url(message['email'], size=48) %>" alt="User Gravatar" />
+                <strong><%= message['username'] %></strong>: <%= message['text'] %>
+                <small>— <%= format_datetime(message['pub_date']) %></small>
+            </li>
+        <% end %>
     <% else %>
         <li>
             <em>
