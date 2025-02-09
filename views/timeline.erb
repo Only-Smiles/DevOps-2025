@@ -3,7 +3,26 @@
     <%= @title %>
 </h2>
 <% if @user %>
-    <%# TODO: if the user is logged in ...%>
+    <% if request.path_info == "/#{@profile_user.username}" %>
+        <div class=followstatus>
+        <% if @user.user_id == @profile_user.user_id %>
+            This is you!
+        <% elsif @followed %>
+            You are currently following this user.
+            <a class="unfollow" href="">Unfollow user</a>.
+        <% else %>
+            You are not yet following this user.
+            <a class="follow" href="">Follow user</a>.
+        <% end %>
+    <% end %>
+<% elsif request.path_info == "/timeline" %>
+    <div class="twitbox">
+    <h3>What's on your mind <% @user.username? %></h3>
+    <form action="" method="post">
+        <p><input type="text" name="text" size=60><!--
+        --><input type="submit" value="Share">
+    </form>
+    </div>
 <% end %>
 <ul class="messages">
     <% if @messages.length > 0 %>

@@ -1,20 +1,22 @@
 require 'sinatra/base'
-require 'sinatra/flash'
+require 'rack-flash'
 require 'sqlite3'
 require 'bcrypt'
 require 'erb'
 require 'rack/session/cookie'
 require 'securerandom'
 
-
 class MiniTwit < Sinatra::Base
   SECRET_KEY = SecureRandom.hex(32)
   PER_PAGE = 30
   DATABASE = './db/minitwit.db'
+  
 
   # Configure session management inside a configure block
   configure do
+    enable :sessions
     use Rack::Session::Cookie, key: 'rack.session', secret: SECRET_KEY
+    use Rack::Flash
   end
 
   # Database connection helper
@@ -77,6 +79,7 @@ class MiniTwit < Sinatra::Base
       WHERE message.flagged = 0 AND message.author_id = user.user_id
       ORDER BY message.pub_date DESC LIMIT ?''', [PER_PAGE])
     @title = "Public Timeline"
+    flash[:success] = "Hooray, Flash is working!"
     erb :timeline
   end
 
@@ -86,9 +89,11 @@ class MiniTwit < Sinatra::Base
   end
 
   post '/login' do
-    user = query_db('SELECT * FROM user WHERE username = ?', [params[:username]], true)
-    if user && BCrypt::Password.new(user['pw_hash']) == params[:password]
-      session[:user_id] = user['user_id']
+    @user = query_db('SELECT * FROM user WHERE username = ?', [params[:username]], true)
+    val = query_db("SELECT pw_hash FROM user WHERE username = ?", [params[:username]], true)
+    puts val
+    if @user && BCrypt::Password.new(@user['pw_hash']) == params[:password]
+      session[:user_id] = @user['user_id']
       redirect '/'
     else
       erb :login, locals: { error: 'Invalid username or password' }
@@ -123,9 +128,9 @@ class MiniTwit < Sinatra::Base
     else
       # Store the new user in the database
       password_hash = BCrypt::Password.create(password)
-      query_db('INSERT INTO user (username, email, pw_hash) VALUES (?, ?, ?)', [@username, @email, password_hash])
+      query_db('INSERT INTO user (username, email, pw_hash) VALUES (?, ?, ?)', [@username, @email, password_hash.to_s])
       # TODO: is not "flashing" this message to the user in the login page
-      put "You were successfully registered and can login now"
+      puts "You were successfully registered and can login now"
       # Redirect to login page after successful registration
       redirect '/login'
     end
@@ -160,4 +165,5 @@ class MiniTwit < Sinatra::Base
 
   # Start the application
   run! if __FILE__ == $PROGRAM_NAME
+
 end

@@ -98,7 +98,7 @@ def timeline():
     if not g.user:
         return redirect(url_for('public_timeline'))
     offset = request.args.get('offset', type=int)
-    return render_template('.html', messages=query_db('''
+    return render_template('timeline.html', messages=query_db('''
         select message.*, user.* from message, user
         where message.flagged = 0 and message.author_id = user.user_id and (
             user.user_id = ? or

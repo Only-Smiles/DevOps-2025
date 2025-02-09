@@ -13,7 +13,7 @@
             <% if @user %>
                 <a href="/timeline">my timeline</a> |
                 <a href="/public">public timeline</a> |
-                <a href="/logout">sign out <% @user['username'] %></a>
+                <a href="/logout">sign out [<% @user['username'] %>]</a>
             <% else %>
                 <a href="/public">public timeline</a> |
                 <a href="/register">sign up</a> |
@@ -22,6 +22,14 @@
         </div>
         <%# -- TODO: missing the with flashes block ---  %>
         <div class="body">
+            <ul class="flashes">
+            <% flash.keys.each do |type| %>
+                <div data-alert class="flash <%= type %> alert-box radius">
+                    <%= flash[type] %>
+                    <a href="#" class="close">&times;</a>
+                </div>
+            <% end %>
+
             <%= yield %>
         </div>
         <div class="footer">
