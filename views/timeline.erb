@@ -14,8 +14,7 @@
             <a class="follow" href="">Follow user</a>.
         <% end %>
     <% end %>
-<% end %>
-<% if @profile_user && request.path_info == "/timeline" %>
+    <% if request.path_info == "/timeline" %>
         <div class="twitbox">
         <h3>What's on your mind <%= @user['username'] %>?</h3>
         <form action="/add_message" method="post">
@@ -23,6 +22,7 @@
             --><input type="submit" value="Share">
         </form>
         </div>
+    <% end %>
 <% end %>
 <ul class="messages">
     <% if @messages.length > 0 %>
