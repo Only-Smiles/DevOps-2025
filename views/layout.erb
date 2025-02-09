@@ -24,10 +24,7 @@
         <div class="body">
             <ul class="flashes">
             <% flash.keys.each do |type| %>
-                <div data-alert class="flash <%= type %> alert-box radius">
-                    <%= flash[type] %>
-                    <a href="#" class="close">&times;</a>
-                </div>
+                    <li><%= flash[type] %></li>
             <% end %>
 
             <%= yield %>

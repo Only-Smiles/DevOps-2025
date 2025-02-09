@@ -79,7 +79,6 @@ class MiniTwit < Sinatra::Base
       WHERE message.flagged = 0 AND message.author_id = user.user_id
       ORDER BY message.pub_date DESC LIMIT ?''', [PER_PAGE])
     @title = "Public Timeline"
-    flash[:success] = "Hooray, Flash is working!"
     erb :timeline
   end
 
@@ -90,10 +89,9 @@ class MiniTwit < Sinatra::Base
 
   post '/login' do
     @user = query_db('SELECT * FROM user WHERE username = ?', [params[:username]], true)
-    val = query_db("SELECT pw_hash FROM user WHERE username = ?", [params[:username]], true)
-    puts val
     if @user && BCrypt::Password.new(@user['pw_hash']) == params[:password]
       session[:user_id] = @user['user_id']
+      flash[:notice] = 'You were logged in'
       redirect '/'
     else
       erb :login, locals: { error: 'Invalid username or password' }
@@ -130,7 +128,7 @@ class MiniTwit < Sinatra::Base
       password_hash = BCrypt::Password.create(password)
       query_db('INSERT INTO user (username, email, pw_hash) VALUES (?, ?, ?)', [@username, @email, password_hash.to_s])
       # TODO: is not "flashing" this message to the user in the login page
-      puts "You were successfully registered and can login now"
+      flash[:notice] = "You were successfully registered and can login now"
       # Redirect to login page after successful registration
       redirect '/login'
     end
@@ -138,8 +136,11 @@ class MiniTwit < Sinatra::Base
 
   get '/logout' do
     session.clear
+    flash[:notice] = "You were logged out"
     redirect '/public'
   end
+
+  # TODO: I don't think we have the follow and unfollow option right now
 
   get '/:username' do
     @profile_user = query_db('SELECT * FROM user WHERE username = ?', [params[:username]], true)
@@ -159,6 +160,8 @@ class MiniTwit < Sinatra::Base
     if params[:text] && !params[:text].empty?
       query_db('INSERT INTO message (author_id, text, pub_date, flagged) VALUES (?, ?, ?, 0)',
               [@user['user_id'], params[:text], Time.now.to_i])
+      
+      flash[:notice] = "Your message was recorded"
       redirect '/'
     end
   end
