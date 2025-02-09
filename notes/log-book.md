@@ -1,6 +1,6 @@
-# Week 2 07.02.2025
+# Week 2 - 07.02.2025
 
-## 1) Refactor ITU-MiniTwit to another language and technology of your choice.
+## Refactor ITU-MiniTwit to another language and technology of your choice.
 
 ### Brainstorming sesh
 
@@ -36,9 +36,11 @@ Given this, we decided to go with Ruby for backend and use Sinatra for the frame
 
 ### Refactoring from Python to Ruby
 
-We decided to refactor the code together by bringing the code up to the screen and then all of us sitting and refactoring the code together.
+We decided to refactor the code together by bringing the code up to the screen and then all of us sitting and refactoring the code together. However we did not manage to do much progress, and decided to split up and work further on the refactoring individually or in pairs. We use discord for communication, so we decided that we will keep eachother up to date by communicating what we've done.
 
-We did not manage to do much progress, and decided to split up and work further on the refactoring individually or in pairs. We use discord for communication, so we decided that we will keep eachother up to date by communicating what we've done.
+#### Known issues related
+
+The Mac users had issues with ensuring that the correct Ruby version was used. We discovered that an older Ruby version already being installed on their laptops, and that the path was looking as this version instead of the new version installed by homebrew. In order to solve the issues, we updated the path on our laptops to point to the correct path in the homebrew folder.
 
 ### Branch naming convention
 
