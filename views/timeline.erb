@@ -15,7 +15,7 @@
         <% end %>
     <% end %>
 <% end %>
-<% if request.path_info == "/timeline" %>
+<% if @profile_user && request.path_info == "/timeline" %>
         <div class="twitbox">
         <h3>What's on your mind <%= @user['username'] %>?</h3>
         <form action="/add_message" method="post">

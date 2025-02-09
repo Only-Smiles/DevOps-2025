@@ -102,8 +102,12 @@ class MiniTwit < Sinatra::Base
       session[:user_id] = @user['user_id']
       flash[:notice] = 'You were logged in'
       redirect '/'
-    else
-      erb :login, locals: { error: 'Invalid username or password' }
+    elsif @user.nil?
+      @error = 'Invalid username'
+      erb :login
+    elsif BCrypt::Password.new(@user['pw_hash']) != params[:password]
+      @error = 'Invalid password'
+      erb :login
     end
   end
 
@@ -121,7 +125,7 @@ class MiniTwit < Sinatra::Base
     if @username.empty?
       @error = 'You have to enter a username'
       return erb :register
-    elsif @email.empty?   # TODO: not checking if email contains a '@'
+    elsif @email.empty? || !@email.include?('@')
       @error = 'You have to enter a valid email address'
       return erb :register
     elsif password.empty?
