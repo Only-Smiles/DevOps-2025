@@ -11,7 +11,6 @@ class MiniTwit < Sinatra::Base
   PER_PAGE = 30
   DATABASE = './db/minitwit.db'
   
-
   # Configure session management inside a configure block
   configure do
     enable :sessions
