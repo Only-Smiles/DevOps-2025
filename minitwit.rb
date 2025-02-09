@@ -81,6 +81,15 @@ class MiniTwit < Sinatra::Base
     @title = "Public Timeline"
     erb :timeline
   end
+  
+  get '/timeline' do
+    @messages = query_db('''
+      SELECT message.*, user.* FROM message, user
+      WHERE message.flagged = 0 AND message.author_id = user.user_id
+      ORDER BY message.pub_date DESC LIMIT ?''', [PER_PAGE])
+    @title = "Timeline"
+    erb :timeline
+  end
 
   get '/login' do
     @title = "Sign In"
@@ -99,6 +108,7 @@ class MiniTwit < Sinatra::Base
   end
 
   get '/register' do
+    @title = "Sign Up"
     erb :register
   end
 
@@ -140,8 +150,6 @@ class MiniTwit < Sinatra::Base
     redirect '/public'
   end
 
-  # TODO: I don't think we have the follow and unfollow option right now
-
   get '/:username' do
     @profile_user = query_db('SELECT * FROM user WHERE username = ?', [params[:username]], true)
     halt 404 unless @profile_user
@@ -165,6 +173,9 @@ class MiniTwit < Sinatra::Base
       redirect '/'
     end
   end
+
+
+  # TODO: I don't think we have the follow and unfollow option right now
 
   # Start the application
   run! if __FILE__ == $PROGRAM_NAME

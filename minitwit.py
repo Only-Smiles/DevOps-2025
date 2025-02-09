@@ -80,7 +80,6 @@ def before_request():
         g.user = query_db('select * from user where user_id = ?',
                           [session['user_id']], one=True)
 
-# TODO
 @app.after_request
 def after_request(response):
     """Closes the database again at the end of the request."""
