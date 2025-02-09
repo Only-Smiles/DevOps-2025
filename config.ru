@@ -1,2 +1,2 @@
 require './minitwit'
-run Sinatra::Application
+run MiniTwit.new
