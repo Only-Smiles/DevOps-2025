@@ -7,4 +7,3 @@ Requires python>=3.12
 pip install poetry
 poetry install
 ```
-
