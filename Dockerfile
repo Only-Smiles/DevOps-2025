@@ -19,4 +19,4 @@ COPY public/stylesheets ./public/stylesheets
 COPY views ./views
 COPY minitwit.rb  ./
 
-ENTRYPOINT [ "rackup" ]
+CMD ["rackup", "--host", "0.0.0.0", "-p", "4567"]
