@@ -5,7 +5,7 @@ FROM ruby:3.4.1-bookworm
 WORKDIR /app
 
 # Maybe remove this later to avoid running our website on 'stale' database
-COPY db/minitwit.db /tmp/
+COPY db/minitwit.db ./db/minitwit.db
 
 # Copy and install dependencies
 COPY Gemfile Gemfile.lock ./
