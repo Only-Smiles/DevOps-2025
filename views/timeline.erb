@@ -8,13 +8,17 @@
             This is you!
         <% elsif @followed %>
             You are currently following this user.
-            <a class="unfollow" href="">Unfollow user</a>.
+            <form action="/<%= @profile_user['username'] %>/unfollow" method="post">
+                <button type="submit" class="unfollow">Unfollow user</button>
+            </form>
         <% else %>
             You are not yet following this user.
-            <a class="follow" href="">Follow user</a>.
+            <form action="/<%= @profile_user['username'] %>/follow" method="post">
+                <button type="submit" class="follow">Follow user</button>
+            </form>
         <% end %>
     <% end %>
-    <% if request.path_info == "/timeline" %>
+    <% if request.path_info == "/" %>
         <div class="twitbox">
         <h3>What's on your mind <%= @user['username'] %>?</h3>
         <form action="/add_message" method="post">
