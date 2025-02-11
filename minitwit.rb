@@ -80,15 +80,6 @@ class MiniTwit < Sinatra::Base
     @title = "Public Timeline"
     erb :timeline
   end
-  
-  get '/timeline' do
-    @messages = query_db('''
-      SELECT message.*, user.* FROM message, user
-      WHERE message.flagged = 0 AND message.author_id = user.user_id
-      ORDER BY message.pub_date DESC LIMIT ?''', [PER_PAGE])
-    @title = "Timeline"
-    erb :timeline
-  end
 
   get '/login' do
     @title = "Sign In"
@@ -156,7 +147,8 @@ class MiniTwit < Sinatra::Base
   get '/:username' do
     @profile_user = query_db('SELECT * FROM user WHERE username = ?', [params[:username]], true)
     halt 404 unless @profile_user
-    followed = @user && query_db('SELECT 1 FROM follower WHERE who_id = ? AND whom_id = ?', [@user['user_id'], @profile_user['user_id']], true)
+    followedresult = @user ? query_db('SELECT COUNT(*) AS count FROM follower WHERE who_id = ? AND whom_id = ?', [@user['user_id'], @profile_user['user_id']]) : [{ 'count' => 0 }]
+    followed = followedresult.first['count'].to_i > 0
     @messages = query_db('''
       SELECT message.*, user.* FROM message, user
       WHERE user.user_id = message.author_id AND user.user_id = ?
@@ -177,6 +169,23 @@ class MiniTwit < Sinatra::Base
     end
   end
 
+  post '/:username/follow' do
+    halt 401, "Unauthorized" unless @user
+    whom_id = get_user_id(params[:username])
+    halt 404, "User not found" unless whom_id
+    query_db('INSERT INTO follower (who_id, whom_id) VALUES (?, ?)', [@user['user_id'], whom_id])
+    flash[:notice] = "You are now following \"#{params[:username]}\""
+    redirect "/#{params[:username]}"
+  end
+
+  post '/:username/unfollow' do
+    halt 401, "Unauthorized" unless @user
+    whom_id = get_user_id(params[:username])
+    halt 404, "User not found" unless whom_id
+    query_db('DELETE FROM follower WHERE who_id = ? AND whom_id = ?', [@user['user_id'], whom_id])
+    flash[:notice] = "You are no longer following \"#{params[:username]}\""
+    redirect "/#{params[:username]}"
+  end
 
   # TODO: I don't think we have the follow and unfollow option right now
 
