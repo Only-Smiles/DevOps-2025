@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title><%= @title %> | Minitwit</title>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+</head>
+
+<body>
+    <div class="page">
+        <h1>MiniTwit</h1>
+        <div class="navigation">
+            <% if @user %>
+                <a href="/">my timeline</a> |
+                <a href="/public">public timeline</a> |
+                <a href="/logout">sign out [<%= @user['username'] %>]</a>
+            <% else %>
+                <a href="/public">public timeline</a> |
+                <a href="/register">sign up</a> |
+                <a href="/login">sign in</a> 
+            <% end %>
+        </div>
+        <div class="body">
+            <ul class="flashes">
+            <% flash.keys.each do |type| %>
+                    <li><%= flash[type] %></li>
+            <% end %>
+            <%= yield %>
+        </div>
+        <div class="footer">
+            Minitwit - A Sinatra application
+        </div>
+    </div>
+</body>
+</html>

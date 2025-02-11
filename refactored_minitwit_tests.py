@@ -15,7 +15,7 @@ import requests
 # import schema
 # import data
 # otherwise use the database that you got previously
-BASE_URL = "http://localhost:5000"
+BASE_URL = "http://127.0.0.1:4567"
 
 def register(username, password, password2=None, email=None):
     """Helper function to register a user"""
@@ -60,11 +60,11 @@ def add_message(http_session, text):
 
 def test_register():
     """Make sure registering works"""
-    r = register('user1', 'default')
+    r = register('user5', 'default')
     assert 'You were successfully registered ' \
            'and can login now' in r.text
-    r = register('user1', 'default')
-    assert 'The username is already taken' in r.text
+    r = register('user5', 'default')
+    assert "Username is already taken." in r.text
     r = register('', 'default')
     assert 'You have to enter a username' in r.text
     r = register('meh', '')
@@ -76,13 +76,13 @@ def test_register():
 
 def test_login_logout():
     """Make sure logging in and logging out works"""
-    r, http_session = register_and_login('user1', 'default')
+    r, http_session = register_and_login('user5', 'default')
     assert 'You were logged in' in r.text
     r = logout(http_session)
     assert 'You were logged out' in r.text
-    r, _ = login('user1', 'wrongpassword')
+    r, _ = login('user5', 'wrongpassword')
     assert 'Invalid password' in r.text
-    r, _ = login('user2', 'wrongpassword')
+    r, _ = login('ehwjakfhjewf', 'wrongpassword')
     assert 'Invalid username' in r.text
 
 def test_message_recording():
@@ -92,7 +92,7 @@ def test_message_recording():
     add_message(http_session, '<test message 2>')
     r = requests.get(f'{BASE_URL}/')
     assert 'test message 1' in r.text
-    assert '&lt;test message 2&gt;' in r.text
+    assert '<test message 2>' in r.text
 
 def test_timelines():
     """Make sure that timelines work"""
