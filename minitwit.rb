@@ -148,14 +148,14 @@ class MiniTwit < Sinatra::Base
     @profile_user = query_db('SELECT * FROM user WHERE username = ?', [params[:username]], true)
     halt 404 unless @profile_user
     followedresult = @user ? query_db('SELECT COUNT(*) AS count FROM follower WHERE who_id = ? AND whom_id = ?', [@user['user_id'], @profile_user['user_id']]) : [{ 'count' => 0 }]
-    @followed = followedresult.first['count'].to_i > 0
+    followed = followedresult.first['count'].to_i > 0
     @messages = query_db('''
       SELECT message.*, user.* FROM message, user
       WHERE user.user_id = message.author_id AND user.user_id = ?
       ORDER BY message.pub_date DESC LIMIT ?''',
       [@profile_user['user_id'], PER_PAGE])
     @title = "#{params[:username]}'s Timeline"
-    erb :timeline, locals: { followed: @followed }
+    erb :timeline, locals: { followed: followed }
   end
 
   post '/add_message' do

@@ -6,7 +6,7 @@
         <div class=followstatus>
         <% if @user['user_id'] == @profile_user['user_id'] %>
             This is you!
-        <% elsif @followed %>
+        <% elsif followed %>
             You are currently following this user.
             <form action="/<%= @profile_user['username'] %>/unfollow" method="post">
                 <button type="submit" class="unfollow">Unfollow user</button>
