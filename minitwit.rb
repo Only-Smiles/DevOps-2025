@@ -1,4 +1,5 @@
 require 'sinatra/base'
+require 'json'
 require 'rack-flash'
 require 'sqlite3'
 require 'bcrypt'
@@ -30,6 +31,13 @@ class MiniTwit < Sinatra::Base
     db.close
     one ? result.first : result
   end
+
+  def req_from_sim(req)
+    from_sim = request.env['Authorization']
+    if (from_sim != 'Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh')
+       JSON({status: 403, 'error_msg': 'You are not authorized to use this resource!'})
+    end 
+  end 
 
   # Get user ID by username
   def get_user_id(username)
@@ -187,7 +195,25 @@ class MiniTwit < Sinatra::Base
     redirect "/#{params[:username]}"
   end
 
-  # TODO: I don't think we have the follow and unfollow option right now
+  post '/fllws/:username' do 
+    # check if from simulator 
+    # check user id 
+    # if elseif follow/unfollow in request json 
+  end 
+
+  get '/fllws/:username' do
+    # write request to some txt bc that's who we are apparently (see og)
+    req = req_from_sim(request)
+    return req unless req.nil?
+    halt 404 unless @user
+    no_followers = request.env['no'] || 100
+    followers = query_db('SELECT u.username FROM user u
+            INNER JOIN follow f on f.whom_id=u.user_id
+            WHERE f.who_id = ?
+            LIMIT ?', [@user['user_id'], no_followers])
+    follower_names = followers.map{|x| x['username']}
+    JSON({'follows': follower_names})
+  end 
 
   # Start the application
   run! if __FILE__ == $PROGRAM_NAME
