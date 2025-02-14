@@ -52,7 +52,7 @@ Vagrant.configure("2") do |config|
       echo "All dependencies from Gemfile successfully installed!"
 
       echo "Starting the Sinatra application with rackup..."
-      nohup bundle exec ruby minitwit.rb -o 0.0.0.0 -p 4567 > out.log &
+      nohup bundle exec rackup --host 0.0.0.0 -p 4567 > out.log &
       echo "================================================================="
       echo "=                            DONE                               ="
       echo "================================================================="
