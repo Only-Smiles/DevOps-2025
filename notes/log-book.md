@@ -1,3 +1,20 @@
+# Week 3 - 14.02.2025
+
+## Vagrant and Digital Ocean setup
+
+Mac users were not able to install the VirtualBox program, as the architecture of VirtualBox is amd64 and our Macbooks have arm64. Some members in the group installed another Virtual Box, such as UTM, which supports arm64 architecture. If UTM is installed instead, an additional plugin to vagrant is needed, follow the [installation guide](https://naveenrajm7.github.io/vagrant_utm/).
+
+However, we quickly found out, that we didn't need to set this up for the project, as we are depending on DigitalOcean cloud service. We followed the installation instructions for setting up Digital Ocean provided in the [README EXERCISE](https://github.com/itu-devops/lecture_notes/blob/master/sessions/session_03/README_EXERCISE.md) file from class.
+
+After this we sat down and configure the Vagrantfile to spin up a VM on Digital Ocean. We set up all the required depenedencies to run the project. The virtual machine can be started by running `vagrant up` from the root in the project folder.
+
+> NB! Right now the virtual machine is expecting you to have setup your Digital Ocean account, with ssh_keynam and token. You need to export these variables in your .zrch file. Your .zrch file should look something like this (replace the values with your personal values)
+
+```
+export SSH_KEY_NAME="{YOUR_DIGITAL_OCEAN_KEYNAME}"
+export DIGITAL_OCEAN_TOKEN="{YOUR_DICITAL_OCEAN_TOKEN}"
+```
+
 # Week 2 - 07.02.2025
 
 ## Refactor ITU-MiniTwit to another language and technology of your choice.

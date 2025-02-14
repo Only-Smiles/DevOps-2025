@@ -55,7 +55,7 @@ Vagrant.configure("2") do |config|
       echo "=                            DONE                               ="
       echo "=   Your Sinatra app is running. Navigate in your browser to:   ="
       THIS_IP=`hostname -I | cut -d" " -f1`
-      echo "=   http://${THIS_IP}:4567"                                     ="
+      echo "=   http://${THIS_IP}:4567                                      ="
       echo "================================================================="
     SHELL
   end
