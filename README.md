@@ -5,6 +5,12 @@ Project repository for group 'the happy group'
 
 Requires ruby version >= 3.4.1
 
+Requires a bundle installation. Can be installed by running the following command
+
+```
+sudo gem install bundler
+```
+
 Before running the project, you will need to install all the dependencies from the Gemfile.
 Run `bundle install` from the terminal in order to do so.
 

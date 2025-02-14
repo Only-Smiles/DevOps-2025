@@ -16,7 +16,7 @@ Vagrant.configure("2") do |config|
       provider.token = ENV["DIGITAL_OCEAN_TOKEN"]
       provider.image = 'ubuntu-22-04-x64'
       provider.region = 'fra1'
-      provider.size = 's-1vcpu-1gb'
+      provider.size = 's-1vcpu-2gb'
       provider.privatenetworking = true
     end
 
@@ -29,29 +29,30 @@ Vagrant.configure("2") do |config|
       sudo apt-get install -y sqlite3
       echo "Installed sqlite3!"
       sqlite3 --version
-
+      
       echo "Installing ruby..."
-      gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+      gpg --keyserver keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
       curl -sSL https://get.rvm.io/ | bash -s stable
       source /etc/profile.d/rvm.sh
+      rvm get head
       rvm install ruby
       rvm use ruby --default
       echo "Installed ruby!"
       ruby -v
 
       echo "Installing Bundler..."
-      sudo gem install bundler
+      gem install bundle
       echo "Successfully installed Bundler!"
 
       echo "Changing to the project directory..."
       cd /vagrant
       
       echo "Installing Ruby dependencies from Gemfile..."
-      bundle install --path vendor/bundle
+      bundle install #--path vendor/bundle
       echo "All dependencies from Gemfile successfully installed!"
 
       echo "Starting the Sinatra application with rackup..."
-      nohup rackup --host 0.0.0.0 -p 4567 > out.log &
+      nohup bundle exec ruby minitwit.rb -o 0.0.0.0 -p 4567 > out.log &
       echo "================================================================="
       echo "=                            DONE                               ="
       echo "================================================================="
@@ -63,6 +64,6 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision "shell", privileged: false, inline: <<-SHELL
     export DEBIAN_FRONTEND=noninteractive
-    sudo apt-get update
+    sudo apt-get update -y
   SHELL
 end
