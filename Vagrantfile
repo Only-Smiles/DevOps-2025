@@ -70,17 +70,18 @@ Vagrant.configure("2") do |config|
       echo "Provisioning new droplet..."
       cd /vagrant || exit
 
-      chmod +x install-part1.sh
-      ./install-part1.sh
+      chmod +x install-dependencies.sh
+      ./install-dependencies.sh
 
-      chmod +x install-part2.sh
-      ./install-part2.sh
+      echo "=== Starting the Sinatra application with rackup ==="
+      nohup bundle exec rackup --host 0.0.0.0 -p 4567 > out.log &
+      echo "New droplet provisioning complete."
 
       echo "Waiting for new droplet to be registered with the API..."
       sleep 30
 
-      chmod +x install-part3.sh
-      ./install-part3.sh "#{DIGITAL_OCEAN_TOKEN}" "#{unique_hostname}" "#{RESERVED_IP}"
+      chmod +x reassign_reserved_ip.sh
+      ./reassign_reserved_ip.sh "#{DIGITAL_OCEAN_TOKEN}" "#{unique_hostname}" "#{RESERVED_IP}"
 
       echo "================================================================="
       echo "=                            DONE                               ="

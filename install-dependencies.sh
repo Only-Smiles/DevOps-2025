@@ -25,3 +25,23 @@ curl -sSL https://get.rvm.io/ | bash -s stable
 wait -n
 source /etc/profile.d/rvm.sh
 echo "===   Installed RVM !                ==="
+
+echo "===      Installing ruby           ==="
+rvm get head
+wait -n
+rvm install ruby
+wait -n
+rvm use ruby --default
+wait -n
+ruby -v
+echo "===   Installed ruby!                 ==="
+
+echo "===   Installing Bundler              ==="
+gem install bundler
+wait -n
+echo "===   Installed Bundler!              ==="
+
+echo "===   Installing Ruby dependencies    ==="
+bundle install
+wait -n
+echo "===   Installed Ruby dependencies     ==="
