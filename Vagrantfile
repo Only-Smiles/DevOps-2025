@@ -1,67 +1,96 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+require 'net/http'
+require 'json'
+
+DIGITAL_OCEAN_TOKEN = ENV["DIGITAL_OCEAN_TOKEN"]
+DROPLET_REGION = 'fra1'
+
+unique_hostname = "webserver-#{Time.now.strftime('%Y%m%d%H%M')}"
+
+# Function to get an existing reserved IP or create one
+def get_or_create_reserved_ip()
+  uri = URI("https://api.digitalocean.com/v2/reserved_ips")
+  request = Net::HTTP::Get.new(uri)
+  request["Authorization"] = "Bearer #{DIGITAL_OCEAN_TOKEN}"
+  request["Content-Type"] = "application/json"
+
+  response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+    http.request(request)
+  end
+
+  reserved_ips = JSON.parse(response.body)["reserved_ips"]
+
+  # Check if we have a reserved IP in the desired region
+  reserved_ip = reserved_ips&.find { |ip| ip["region"]["slug"] == DROPLET_REGION }
+
+  if reserved_ip
+    puts "Using existing reserved IP: #{reserved_ip["ip"]}"
+    return reserved_ip["ip"]
+  else
+    puts "Requesting a new reserved IP..."
+    uri = URI("https://api.digitalocean.com/v2/reserved_ips")
+    request = Net::HTTP::Post.new(uri)
+    request["Authorization"] = "Bearer #{DIGITAL_OCEAN_TOKEN}"
+    request["Content-Type"] = "application/json"
+    request.body = { "region" => DROPLET_REGION }.to_json
+
+    response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+      http.request(request)
+    end
+
+    reserved_ip = JSON.parse(response.body)["reserved_ip"]
+    puts "New reserved IP created: #{reserved_ip["ip"]}"
+    return reserved_ip["ip"]
+  end
+end
+
+RESERVED_IP = get_or_create_reserved_ip()
+
 Vagrant.configure("2") do |config|
   config.vm.box = 'digital_ocean'
   config.vm.box_url = "https://github.com/devopsgroup-io/vagrant-digitalocean/raw/master/box/digital_ocean.box"
-  config.ssh.private_key_path = '~/.ssh/personal-user'
+  config.ssh.private_key_path = '~/.ssh/id_ed25519'
   config.vm.synced_folder ".", "/vagrant", type: "rsync"
 
-  config.vm.define "webserver", primary: false do |server|
-
+  # Define the new droplet (blue/green deployment)
+  config.vm.define unique_hostname, primary: false do |server|
     server.vm.provider :digital_ocean do |provider|
       provider.ssh_key_name = ENV["SSH_KEY_NAME"]
-      provider.token = ENV["DIGITAL_OCEAN_TOKEN"]
+      provider.token = DIGITAL_OCEAN_TOKEN
       provider.image = 'ubuntu-22-04-x64'
-      provider.region = 'fra1'
+      provider.region = DROPLET_REGION
       provider.size = 's-1vcpu-2gb'
       provider.privatenetworking = true
+      # Use a common tag to identify all webserver droplets
+      provider.tags = ["webserver"]
     end
 
-    server.vm.hostname = "webserver"
+    # Use a unique hostname for the new droplet
+    server.vm.hostname = unique_hostname
 
     server.vm.provision "shell", inline: <<-SHELL
-      sudo apt-get update
-    
-      echo "===      Installing sqlite3...     ==="
-      sudo apt-get install -y sqlite3
-      echo "===      Installed sqlite3!        ==="
-      sqlite3 --version
-      
-      echo "===      Installing ruby...        ==="
-      gpg --keyserver keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
-      curl -sSL https://get.rvm.io/ | bash -s stable
-      source /etc/profile.d/rvm.sh
-      rvm get head
-      rvm install ruby
-      rvm use ruby --default
-      echo "===      Installed ruby!           ==="
-      ruby -v
+      echo "Provisioning new droplet..."
+      cd /vagrant || exit
 
-      echo "===      Installing Bundler...     ==="
-      gem install bundle
-      echo "===      Successfully installed Bundler!    ==="
+      chmod +x install-part1.sh
+      ./install-part1.sh
 
-      echo "=== Changing to the project directory...    ==="
-      cd /vagrant
-      
-      echo "===   Installing Ruby dependencies from Gemfile...    ==="
-      bundle install #--path vendor/bundle
-      echo "===   All dependencies from Gemfile successfully installed!   ==="
+      chmod +x install-part2.sh
+      ./install-part2.sh
 
-      echo "===   Starting the Sinatra application with rackup...     ==="
-      nohup bundle exec rackup --host 0.0.0.0 -p 4567 > out.log &
+      echo "Waiting for new droplet to be registered with the API..."
+      sleep 30
+
+      chmod +x install-part3.sh
+      ./install-part3.sh "#{DIGITAL_OCEAN_TOKEN}" "#{unique_hostname}" "#{RESERVED_IP}"
+
       echo "================================================================="
       echo "=                            DONE                               ="
       echo "=   Your Sinatra app is running. Navigate in your browser to:   ="
-      THIS_IP=`hostname -I | cut -d" " -f1`
-      echo "=   http://${THIS_IP}:4567                                      ="
+      echo "=   http://#{RESERVED_IP}:4567                                  ="
       echo "================================================================="
     SHELL
   end
-
-  config.vm.provision "shell", privileged: false, inline: <<-SHELL
-    export DEBIAN_FRONTEND=noninteractive
-    sudo apt-get update -y
-  SHELL
 end
