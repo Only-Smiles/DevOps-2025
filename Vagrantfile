@@ -70,12 +70,8 @@ Vagrant.configure("2") do |config|
       echo "Provisioning new droplet..."
       cd /vagrant || exit
 
-      chmod +x install-dependencies.sh
-      ./install-dependencies.sh
-
-      echo "=== Starting the Sinatra application with rackup ==="
-      nohup bundle exec rackup --host 0.0.0.0 -p 4567 > out.log &
-      echo "New droplet provisioning complete."
+      chmod +x start_web_server.sh
+      ./start_web_server.sh
 
       echo "Waiting for new droplet to be registered with the API..."
       sleep 30

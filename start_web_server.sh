@@ -45,3 +45,7 @@ echo "===   Installing Ruby dependencies    ==="
 bundle install
 wait -n
 echo "===   Installed Ruby dependencies     ==="
+
+echo "=== Starting the Sinatra application with rackup ==="
+nohup bundle exec rackup --host 0.0.0.0 -p 4567 > out.log &
+echo "New droplet provisioning complete."
