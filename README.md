@@ -44,6 +44,11 @@ vagrant plugin install vagrant-digitalocean
 
 Change ssh path in `Vagrantfile` to your own ssh private key.
 (Make sure that you have setup ENV variables `SSH_KEY_NAME`, `DIGITAL_OCEAN_TOKEN`)
+Your .zshrc file should look like this:
+```
+export SSH_KEY_NAME="{YOUR_DIGITAL_OCEAN_KEYNAME}"
+export DIGITAL_OCEAN_TOKEN="{YOUR_DICITAL_OCEAN_TOKEN}"
+```
 
 Run `vagrant up` to deploy a new version.
 

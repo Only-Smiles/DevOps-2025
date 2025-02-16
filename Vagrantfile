@@ -22,7 +22,6 @@ def get_or_create_reserved_ip()
 
   reserved_ips = JSON.parse(response.body)["reserved_ips"]
 
-  # Check if we have a reserved IP in the desired region
   reserved_ip = reserved_ips&.find { |ip| ip["region"]["slug"] == DROPLET_REGION }
 
   if reserved_ip
@@ -54,7 +53,6 @@ Vagrant.configure("2") do |config|
   config.ssh.private_key_path = '~/.ssh/id_ed25519'
   config.vm.synced_folder ".", "/vagrant", type: "rsync"
 
-  # Define the new droplet (blue/green deployment)
   config.vm.define unique_hostname, primary: false do |server|
     server.vm.provider :digital_ocean do |provider|
       provider.ssh_key_name = ENV["SSH_KEY_NAME"]
@@ -63,11 +61,9 @@ Vagrant.configure("2") do |config|
       provider.region = DROPLET_REGION
       provider.size = 's-1vcpu-2gb'
       provider.privatenetworking = true
-      # Use a common tag to identify all webserver droplets
       provider.tags = ["webserver"]
     end
 
-    # Use a unique hostname for the new droplet
     server.vm.hostname = unique_hostname
 
     server.vm.provision "shell", inline: <<-SHELL

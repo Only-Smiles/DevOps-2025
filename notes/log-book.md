@@ -1,19 +1,38 @@
 # Week 3 - 14.02.2025
 
-## Vagrant and Digital Ocean setup
+## Vagrant with local virtual machine
 
-Mac users were not able to install the VirtualBox program, as the architecture of VirtualBox is amd64 and our Macbooks have arm64. Some members in the group installed another Virtual Box, such as UTM, which supports arm64 architecture. If UTM is installed instead, an additional plugin to vagrant is needed, follow the [installation guide](https://naveenrajm7.github.io/vagrant_utm/).
+We started by creating a Vagrant file that sets up a local virtual machine, installs the necessary dependencies required to run our program, and executes it. We based our Vagrant file on the code provided in the exercises with only minor modifications.
+Since everyone in our group except one person uses macOS with an ARM64 architecture, we couldn't use VirtualBox. Instead, some of us used UTM, while others opted for VMware.
 
-However, we quickly found out, that we didn't need to set this up for the project, as we are depending on DigitalOcean cloud service. We followed the installation instructions for setting up Digital Ocean provided in the [README EXERCISE](https://github.com/itu-devops/lecture_notes/blob/master/sessions/session_03/README_EXERCISE.md) file from class.
+To use UTM, we used this [installation guide](https://naveenrajm7.github.io/vagrant_utm/). 
+To use VMware, we used this [installation guide](https://developer.hashicorp.com/vagrant/docs/providers/vmware/installation).
 
-After this we sat down and configure the Vagrantfile to spin up a VM on Digital Ocean. We set up all the required depenedencies to run the project. The virtual machine can be started by running `vagrant up` from the root in the project folder.
+After successfully configuring a Vagrant file that could spin up an Ubuntu virtual machine and run our web server locally, we decided to refactor it into a hosted virtual machine using DigitalOcean.
 
-> NB! Right now the virtual machine is expecting you to have setup your Digital Ocean account, with ssh_keynam and token. You need to export these variables in your .zrch file. Your .zrch file should look something like this (replace the values with your personal values)
+## Vagrant with Digital Ocean
+Choosing DigitalOcean was an easy decision for us since the GitHub Student Pack provides $200 in credits. From the course material, we knew that our web server would need to handle a high volume of traffic, and DigitalOcean allows us to easily scale up our web server to accommodate more requests.
 
-```
-export SSH_KEY_NAME="{YOUR_DIGITAL_OCEAN_KEYNAME}"
-export DIGITAL_OCEAN_TOKEN="{YOUR_DICITAL_OCEAN_TOKEN}"
-```
+We also explored the DigitalOcean API and web portal and found their documentation and UI very intuitive and easy to follow.
+
+To set up our Vagrant file, we used a mix of DigitalOcean's official documentation and LLM-generated guidance. Since most of the heavy lifting had already been done when creating the local Vagrant file, we quickly managed to get a working VM running through the API.
+
+## Vagrant with a Restricted (Floating) IP
+Note: DigitalOcean has renamed from "Floating IP" to "Restricted IP," so I will refer to it as a Restricted IP, even though the project work instructions on GitHub still call it a Floating IP.
+
+One issue with our previous approach is that we receive a new public IP address every time we deploy a new version of MiniTwit.
+Another issue is that deploying a new version requires us to destroy the currently running VM and create a new one, leading to downtime where users can't access MiniTwit.
+
+To solve this, we first created a Restricted IP in the DigitalOcean dashboard and assigned it to our running VM. Now, when we deploy a new version, we simply create a new VM and use the DigitalOcean dashboard to reassign the Restricted IP to the new instance.
+
+To avoid doing this manually, we automated the process in our Vagrant file using the DigitalOcean API. Now, when we run vagrant up, it does the following:
+
+Creates a new droplet with a unique name: `webserver-#{Time.now.strftime('%Y%m%d%H%M')}`.
+Checks if a Restricted IP already exists.
+If not, it creates a new one via the API.
+If it does exist, we reuse the existing one.
+It reassigns the restriced IP to the new VM and deletes the old one VM.
+This eliminates downtime and ensures that the IP address remains the same across deployments.
 
 # Week 2 - 07.02.2025
 
