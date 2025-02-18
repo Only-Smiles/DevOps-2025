@@ -1,9 +1,7 @@
 require 'sinatra/base'
 require 'json'
-require 'rack-flash'
 require 'sqlite3'
 require 'bcrypt'
-require 'erb'
 require 'rack/session/cookie'
 require 'securerandom'
 
@@ -16,7 +14,6 @@ class MiniTwit < Sinatra::Base
   configure do
     enable :sessions
     use Rack::Session::Cookie, key: 'rack.session', secret: SECRET_KEY
-    use Rack::Flash
   end
 
   # Database connection helper
@@ -31,6 +28,14 @@ class MiniTwit < Sinatra::Base
     db.close
     one ? result.first : result
   end
+
+  def req_from_sim(req)
+    puts request.env['Authorization']
+    from_sim = request.env['Authorization']
+    if (from_sim != 'Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh')
+       JSON({status: 403, 'error_msg': 'You are not authorized to use this resource!'})
+    end 
+  end 
 
   # Get user ID by username
   def get_user_id(username)
@@ -53,6 +58,15 @@ class MiniTwit < Sinatra::Base
   before do
     @db = connect_db
     @user = session[:user_id] ? query_db('SELECT * FROM user WHERE user_id = ?', [session[:user_id]], true) : nil
+    # Parse JSON request body
+    begin
+      content_type :json
+      request.body.rewind
+      @data = JSON.parse(request.body.read)
+    rescue JSON::ParserError
+      status 401
+      body JSON({ 'error': 'InvalidJSON', 'message': 'Invalid JSON format' })
+    end
   end
 
   # After request
@@ -70,7 +84,7 @@ class MiniTwit < Sinatra::Base
       ORDER BY message.pub_date DESC LIMIT ?''',
       [@user['user_id'], @user['user_id'], PER_PAGE])
     @title = "My Timeline"
-    erb :timeline
+#    # erb :timeline
   end
 
   get '/public' do
@@ -79,69 +93,66 @@ class MiniTwit < Sinatra::Base
       WHERE message.flagged = 0 AND message.author_id = user.user_id
       ORDER BY message.pub_date DESC LIMIT ?''', [PER_PAGE])
     @title = "Public Timeline"
-    erb :timeline
+    # erb :timeline
   end
 
   get '/login' do
     @title = "Sign In"
-    erb :login
+    # erb :login
   end
 
   post '/login' do
     @user = query_db('SELECT * FROM user WHERE username = ?', [params[:username]], true)
     if @user && BCrypt::Password.new(@user['pw_hash']) == params[:password]
       session[:user_id] = @user['user_id']
-      flash[:notice] = 'You were logged in'
+      # flash[:notice] = 'You were logged in'
       redirect '/'
     elsif @user.nil?
       @error = 'Invalid username'
-      erb :login
+      # erb :login
     elsif BCrypt::Password.new(@user['pw_hash']) != params[:password]
       @error = 'Invalid password'
-      erb :login
+      # erb :login
     end
   end
 
   get '/register' do
     @title = "Sign Up"
-    erb :register
+    # erb :register
   end
 
   post '/register' do
-    @username = params[:username]
-    @email = params[:email]
-    password = params[:password]
-    password2 = params[:password2]
+    content_type :json
+
+    puts @data
+    @username = @data['username']
+    @email = @data['email']
+    password = @data['pwd']
   
     if @username.empty?
-      @error = 'You have to enter a username'
-      return erb :register
+      status 400
+      body JSON({ 'error': "MissingUsername", 'message': "You have to enter a username" })
     elsif @email.empty? || !@email.include?('@')
-      @error = 'You have to enter a valid email address'
-      return erb :register
+      status 400
+      body JSON({ 'error': "MissingEmail", 'message': "You have to enter a valid email address" })
     elsif password.empty?
-      @error = 'You have to enter a password'
-      return erb :register
-    elsif password != password2
-      @error = 'The two passwords do not match'
-      return erb :register
+      status 400
+      body JSON({ 'error': "MissingPassowrd", 'message': "You have to enter a password" })
     elsif !query_db('SELECT * FROM user WHERE username = ?', [@username], true).nil?
-      @error = "Username is already taken."
-      return erb :register
+      body JSON({ 'error': "UsernameTaken", 'message': "Username is already taken." })
     else
       # Store the new user in the database
       password_hash = BCrypt::Password.create(password)
       query_db('INSERT INTO user (username, email, pw_hash) VALUES (?, ?, ?)', [@username, @email, password_hash.to_s])
-      # TODO: is not "flashing" this message to the user in the login page
-      flash[:notice] = "You were successfully registered and can login now"
       # Redirect to login page after successful registration
-      redirect '/login'
+      status 200
+      body JSON({ 'message': 'Account creation successful' })
     end
   end
 
   get '/logout' do
     session.clear
-    flash[:notice] = "You were logged out"
+    # flash[:notice] = "You were logged out"
     redirect '/public'
   end
 
@@ -156,7 +167,7 @@ class MiniTwit < Sinatra::Base
       ORDER BY message.pub_date DESC LIMIT ?''',
       [@profile_user['user_id'], PER_PAGE])
     @title = "#{params[:username]}'s Timeline"
-    erb :timeline, locals: { followed: followed }
+    # erb :timeline, locals: { followed: followed }
   end
 
   post '/add_message' do
@@ -165,28 +176,46 @@ class MiniTwit < Sinatra::Base
       query_db('INSERT INTO message (author_id, text, pub_date, flagged) VALUES (?, ?, ?, 0)',
               [@user['user_id'], params[:text], Time.now.to_i])
       
-      flash[:notice] = "Your message was recorded"
+      # flash[:notice] = "Your message was recorded"
       redirect '/'
     end
   end
 
-  post '/:username/follow' do
+
+  post '/fllws/:username' do 
+    # Left out while testing TODO: Testing does give Authorization token so use that 
+    # req = req_from_sim(request)
+    # return req unless req.nil?
+
     halt 401, "Unauthorized" unless @user
-    whom_id = get_user_id(params[:username])
+    whom_id = get_user_id(@data['username'])
     halt 404, "User not found" unless whom_id
-    query_db('INSERT INTO follower (who_id, whom_id) VALUES (?, ?)', [@user['user_id'], whom_id])
-    flash[:notice] = "You are now following \"#{params[:username]}\""
-    redirect "/#{params[:username]}"
+
+    if @data.key?('unfollow')
+      query_db('DELETE FROM follower WHERE who_id = ? AND whom_id = ?', [@user['user_id'], whom_id])  
+      status 200
+      body JSON({ 'message': 'Unfollowed #{whom_id}' })
+    elsif @data.key?('follow')
+      query_db('INSERT INTO follower (who_id, whom_id) VALUES (?, ?)', [@user['user_id'], whom_id])
+      status 200
+      body JSON({ 'message': 'Followed #{whom_id}',  })
+    end
   end
 
-  post '/:username/unfollow' do
-    halt 401, "Unauthorized" unless @user
-    whom_id = get_user_id(params[:username])
-    halt 404, "User not found" unless whom_id
-    query_db('DELETE FROM follower WHERE who_id = ? AND whom_id = ?', [@user['user_id'], whom_id])
-    flash[:notice] = "You are no longer following \"#{params[:username]}\""
-    redirect "/#{params[:username]}"
-  end
+
+  get '/fllws/:username' do
+    # write request to some txt bc that's who we are apparently (see og)
+    # req = req_from_sim(request)
+    # return req unless req.nil?
+    halt 404 unless @user
+    no_followers = request.env['no'] || 100
+    followers = query_db('SELECT u.username FROM user u
+            INNER JOIN follow f on f.whom_id=u.user_id
+            WHERE f.who_id = ?
+            LIMIT ?', [@user['user_id'], no_followers])
+    follower_names = followers.map{|x| x['username']}
+    JSON({'follows': follower_names})
+  end 
 
   # Start the application
   run! if __FILE__ == $PROGRAM_NAME
