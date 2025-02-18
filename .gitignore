@@ -62,3 +62,7 @@ build-iPhoneSimulator/
 
 # Ignore vagrant folder
 *.vagrant
+
+
+# Python
+__pycache__
