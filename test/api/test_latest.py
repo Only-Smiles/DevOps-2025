@@ -11,11 +11,12 @@ def test_latest():
     params = {'latest': 1337}
     response = requests.post(url, data=json.dumps(data),
                              params=params, headers=HEADERS)
-    assert response.ok
+    assert response.ok, f"Got {response.status_code} with {response.content}"
 
     # verify that latest was updated
     url = f'{BASE_URL}/latest'
     response = requests.get(url, headers=HEADERS)
-    assert response.ok
-    assert response.json()['latest'] == 1337
+    assert response.ok, f"Got {response.status_code} with {response.content}"
+    assert response.json()['latest'] == 1337, \
+        f"Expected 'latest == 1337', got {response.content}"
 
