@@ -124,7 +124,6 @@ class MiniTwit < Sinatra::Base
   post '/register' do
     content_type :json
 
-    puts @data
     @username = @data['username']
     @email = @data['email']
     password = @data['pwd']
