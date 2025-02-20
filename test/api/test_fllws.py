@@ -4,7 +4,29 @@ from conftest import BASE_URL, HEADERS
 import json
 import requests
 
-def test_follow_user():
+
+@pytest.fixture()
+def register_b_c():
+    username = 'b'
+    email = 'b@b.b'
+    pwd = 'b'
+    data = {'username': username, 'email': email, 'pwd': pwd}
+    params = {'latest': 5}
+    response = requests.post(f'{BASE_URL}/register', data=json.dumps(data),
+                             headers=HEADERS, params=params)
+    assert response.ok
+
+    username = 'c'
+    email = 'c@c.c'
+    pwd = 'c'
+    data = {'username': username, 'email': email, 'pwd': pwd}
+    params = {'latest': 5}
+    response = requests.post(f'{BASE_URL}/register', data=json.dumps(data),
+                             headers=HEADERS, params=params)
+    assert response.ok
+
+
+def test_follow_user(register_b_c):
     username = 'foo'
     url = f'{BASE_URL}/fllws/{username}'
     data = {'follow': 'b'}
