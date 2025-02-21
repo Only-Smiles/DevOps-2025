@@ -17,10 +17,6 @@ class MiniTwit < Sinatra::Base
       status 404
       body JSON({ 'message': "Either #{who_id} or #{@data} not found" })
     end
-    puts "WHO_ID"
-    puts who_id
-    puts "WHOM_ID"
-    puts whom_id
 
       
     if @data.key?('unfollow')
@@ -44,9 +40,9 @@ class MiniTwit < Sinatra::Base
     id = get_user_id(username)
 
     followers = query_db('SELECT u.username FROM user u
-            INNER JOIN follower f on f.whom_id=u.username
+            INNER JOIN follower f on f.whom_id=u.user_id
             WHERE f.who_id = ?
-            LIMIT ?', [username, no_followers])
+            LIMIT ?', [id, no_followers])
     follower_names = followers.map{|x| x['username']}
     status 200
     body JSON({'follows': follower_names})
