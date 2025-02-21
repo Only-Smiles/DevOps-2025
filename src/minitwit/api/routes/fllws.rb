@@ -5,8 +5,8 @@ class MiniTwit < Sinatra::Base
   post '/fllws/:username' do 
     content_type :json
     # Left out while testing TODO: Testing does give Authorization token so use that 
-    # req = req_from_sim(request)
-    # return req unless req.nil?
+    req = req_from_sim(request)
+    return req unless req.nil?
 
     # halt 401, "Unauthorized" unless @user
 
