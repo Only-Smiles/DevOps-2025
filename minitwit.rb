@@ -1,4 +1,5 @@
 require 'sinatra/base'
+require 'json'
 require 'rack-flash'
 require 'sqlite3'
 require 'bcrypt'
@@ -186,8 +187,6 @@ class MiniTwit < Sinatra::Base
     flash[:notice] = "You are no longer following \"#{params[:username]}\""
     redirect "/#{params[:username]}"
   end
-
-  # TODO: I don't think we have the follow and unfollow option right now
 
   # Start the application
   run! if __FILE__ == $PROGRAM_NAME
