@@ -1,5 +1,13 @@
 # Week 3 - 14.02.2025
 
+## Implement an API for the simulator in your ITU-MiniTwit
+
+We started by creating issues for the different endpoints.
+
+We considered using GitHub Pages as an alternative to Digitalocean for hosting, but GitHub pages is only for static material and we also had group members that had used Digitalocean before.
+
+We split up in pairs, with one working on deployment and one on implementing the endpoints. This ended up being harder than expected because we had issues just getting the test script to run properly. Specifically, the check for the request coming from the simulator always fails.
+
 ## Vagrant with local virtual machine
 
 We started by creating a Vagrant file that sets up a local virtual machine, installs the necessary dependencies required to run our program, and executes it. We based our Vagrant file on the code provided in the exercises with only minor modifications.
@@ -33,6 +41,12 @@ If not, it creates a new one via the API.
 If it does exist, we reuse the existing one.
 It reassigns the restriced IP to the new VM and deletes the old one VM.
 This eliminates downtime and ensures that the IP address remains the same across deployments.
+
+## Implement an API for the simulator in you ITU Minitwit
+
+We split our repository into frontend and API, which means there is a bit of code duplication. The reason for this is that the simulator wants status codes and json responses but our frontend returns http. We took that opportunity to also restructure the files, so that each endpoint is in its own file and can be implemented independently.
+
+Laurids implemented the register and fllws endpoints and that is where we ended for the week, the rest of the endpoints will be implemented next week.
 
 # Week 2 - 07.02.2025
 
