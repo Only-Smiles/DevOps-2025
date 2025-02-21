@@ -17,7 +17,7 @@ class MiniTwit < Sinatra::Base
       body JSON({ 'error': "MissingEmail", 'message': "You have to enter a valid email address" })
     elsif password.empty?
       status 400
-      body JSON({ 'error': "MissingPassowrd", 'message': "You have to enter a password" })
+      body JSON({ 'error': "MissingPassword", 'message': "You have to enter a password" })
     elsif !query_db('SELECT * FROM user WHERE username = ?', [@username], true).nil?
       body JSON({ 'error': "UsernameTaken", 'message': "Username is already taken." })
     else
