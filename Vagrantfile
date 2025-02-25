@@ -78,11 +78,6 @@ Vagrant.configure("2") do |config|
       echo "Provisioning new droplet..."
       cd /vagrant 
 
-      echo "===   Installing jq for json parsing  ==="
-      sudo apt-get install -y jq
-      wait -n
-      echo "===   Installed jq for json parsing  ==="
-
       chmod +x reassign_reserved_ip.sh
       ./reassign_reserved_ip.sh "#{DIGITAL_OCEAN_TOKEN}" "#{unique_hostname}" "#{RESERVED_IP}"
 

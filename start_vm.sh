@@ -29,3 +29,8 @@ echo -e "\nSelecting Minitwit Folder as default folder when you ssh into the ser
 echo "cd /minitwit" >> ~/.bash_profile
 
 chmod +x /minitwit/deploy.sh
+
+echo "\nInstalling jq for json parsing ...\n"
+sudo apt-get install -y jq
+wait -n
+echo "\nInstalled jq for json parsing  ...\n"
