@@ -29,9 +29,3 @@ echo -e "\nSelecting Minitwit Folder as default folder when you ssh into the ser
 echo "cd /minitwit" >> ~/.bash_profile
 
 chmod +x /minitwit/deploy.sh
-
-echo "================================================================="
-echo "=                            DONE                               ="
-echo "=   Your Sinatra app is running. Navigate in your browser to:   ="
-echo "=   http://#{RESERVED_IP}:5000                                  ="
-echo "================================================================="
