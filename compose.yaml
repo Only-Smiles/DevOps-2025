@@ -8,7 +8,11 @@ services:
     image: ${DOCKER_USERNAME}/minitwitimage
     ports:
       - "5000:5000"
+    networks:
+      - main
   test:
     image: ${DOCKER_USERNAME}/minitwittestimage
     depends_on:
       - web
+    networks:
+      - main
