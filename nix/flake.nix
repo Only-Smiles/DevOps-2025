@@ -1,18 +1,22 @@
 {
     description = "A flake for ruby project";
 
-    inputs = { nixpkgs.url = "nixpkgs/nixos-unstable"; };
+    inputs = { 
+        nixpkgs.url = "nixpkgs/nixos-unstable"; 
 
-    outputs = { self, nixpkgs, ... }:
+        flake-utils.url = "github:numtide/flake-utils";
+    };
+
+    outputs = { self, nixpkgs, flake-utils, ... }:
+        flake-utils.lib.eachDefaultSystem (system:
         let
-            system = "aarch64-darwin";
             pkgs = nixpkgs.legacyPackages.${system};
             packageOverrides = pkgs.callPackage ./python-packages.nix { };
-            python = pkgs.python3.override { inherit packageOverrides; };
+            python = pkgs.python313.override { inherit packageOverrides; };
 
         in
             {
-            devShells.${system}.default = pkgs.mkShell {
+            devShells.default = pkgs.mkShell {
                 buildInputs = with pkgs; [
                     git
                     ruby_3_4
@@ -29,11 +33,11 @@
 
                 shellHook = ''
           if [ ! -d .bundle ]; then
-          bundle install --gemfile ../gemfile
+          bundle install # --gemfile ../Gemfile
           fi
           '';
             };
 
-        };
+        });
 
 }

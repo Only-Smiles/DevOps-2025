@@ -15,7 +15,7 @@
 /tmp/
 
 # Used by dotenv library to load environment variables.
-.env
+# .env
 
 # Ignore bin
 bin/
@@ -69,3 +69,7 @@ build-iPhoneSimulator/
 
 # Python
 __pycache__
+
+# direnv cache
+.direnv
+
