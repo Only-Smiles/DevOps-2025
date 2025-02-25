@@ -75,14 +75,8 @@ Vagrant.configure("2") do |config|
     server.vm.provision "shell", path: './start_vm.sh'
 
     server.vm.provision "shell", inline: <<-SHELL
-      # echo "Provisioning new droplet..."
+      echo "Provisioning new droplet..."
       cd /vagrant 
-
-      # chmod +x start_web_server.sh
-      # ./start_web_server.sh
-
-      # echo "Waiting for new droplet to be registered with the API..."
-      # sleep 30
 
       echo "===   Installing jq for json parsing  ==="
       sudo apt-get install -y jq
