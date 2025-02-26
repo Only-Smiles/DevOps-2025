@@ -11,12 +11,11 @@ class MiniTwit < Sinatra::Base
 
     who_username = params[:username]
     who_id = get_user_id(who_username)
+    halt 404, who_username + " was not found" unless !who_id.nil?
+
     whom_username = @data['follow'] || @data['unfollow']
     whom_id = get_user_id(whom_username)
-    if whom_id.nil? || who_id.nil?
-      status 404
-      body JSON({ 'message': "Either #{who_id} or #{@data} not found" })
-    end
+    halt 404, whom_username + " was not found" unless !whom_id.nil?
 
       
     if @data.key?('unfollow')
