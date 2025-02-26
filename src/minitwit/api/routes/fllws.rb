@@ -2,7 +2,7 @@ require 'sinatra'
 
 class MiniTwit < Sinatra::Base
 
-  post '/fllws/:username' do 
+  post '/fllws/:username' do
     content_type :json
     req = req_from_sim(request)
     return req unless req.nil?
@@ -16,16 +16,16 @@ class MiniTwit < Sinatra::Base
     whom_username = @data['follow'] || @data['unfollow']
     whom_id = get_user_id(whom_username)
     halt 404, whom_username + " was not found" unless !whom_id.nil?
-
-      
+    
+    
     if @data.key?('unfollow')
       query_db('DELETE FROM follower WHERE who_id = ? AND whom_id = ?', [who_id, whom_id])
       status 200
-      body JSON({ 'message': 'Unfollowed #{whom_id}' })
+      body JSON({ 'message': 'Unfollowed ' + whom_username })
     elsif @data.key?('follow')
       query_db('INSERT INTO follower (who_id, whom_id) VALUES (?, ?)', [who_id, whom_id])
       status 200
-      body JSON({ 'message': 'Followed #{whom_id}',  })
+      body JSON({ 'message': 'Followed ' + whom_username,  })
     end
   end
 
@@ -34,7 +34,7 @@ class MiniTwit < Sinatra::Base
     req = req_from_sim(request)
     return req unless req.nil?
 
-    no_followers = request.env['no'] || 100
+    no_followers = params[:no] || 100
     username = params[:username]
     id = get_user_id(username)
 
