@@ -26,7 +26,7 @@ class MiniTwit < Sinatra::Base
     # Parse JSON request body
     begin
       content_type :json
-      request.body.rewind
+
       @data = JSON.parse(request.body.read)
     rescue JSON::ParserError
       status 401
