@@ -26,7 +26,6 @@ class MiniTwit < Sinatra::Base
     # Parse JSON request body
     begin
       content_type :json
-      request.body.rewind
 
       @latest = params[:latest]
       @data = JSON.parse(request.body.read)
