@@ -2,8 +2,16 @@ require 'sinatra'
 
 class MiniTwit < Sinatra::Base
 
-  post '/fllws/:username' do
+  post '/api/fllws/:username' do
     content_type :json
+
+    begin
+      @data = JSON.parse(request.body.read)
+    rescue JSON::ParserError
+      status 400
+      return body JSON({ 'error': "InvalidJSON", 'message': "Request body must be valid JSON" })
+    end
+    
     req = req_from_sim(request)
     return req unless req.nil?
 
@@ -30,7 +38,7 @@ class MiniTwit < Sinatra::Base
   end
 
 
-  get '/fllws/:username' do
+  get '/api/fllws/:username' do
     req = req_from_sim(request)
     return req unless req.nil?
 

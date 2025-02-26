@@ -3,8 +3,8 @@ require 'sinatra'
 class MiniTwit < Sinatra::Base
 
   # Routes
-  get '/' do
-    redirect '/public' unless @user
+  get '/api' do
+    redirect '/api/public' unless @user
     @messages = query_db('''
       SELECT message.*, user.* FROM message, user
       WHERE message.flagged = 0 AND message.author_id = user.user_id
@@ -15,7 +15,7 @@ class MiniTwit < Sinatra::Base
 #    # erb :timeline
   end
 
-  get '/public' do
+  get '/api/public' do
     @messages = query_db('''
       SELECT message.*, user.* FROM message, user
       WHERE message.flagged = 0 AND message.author_id = user.user_id
@@ -24,12 +24,12 @@ class MiniTwit < Sinatra::Base
     # erb :timeline
   end
 
-  get '/login' do
+  get '/api/login' do
     @title = "Sign In"
     # erb :login
   end
 
-  post '/login' do
+  post '/api/login' do
     @user = query_db('SELECT * FROM user WHERE username = ?', [params[:username]], true)
     if @user && BCrypt::Password.new(@user['pw_hash']) == params[:password]
       session[:user_id] = @user['user_id']
@@ -45,13 +45,13 @@ class MiniTwit < Sinatra::Base
   end
 
 
-  get '/logout' do
+  get '/api/logout' do
     session.clear
     # flash[:notice] = "You were logged out"
     redirect '/public'
   end
 
-  get '/:username' do
+  get '/api/:username' do
     @profile_user = query_db('SELECT * FROM user WHERE username = ?', [params[:username]], true)
     halt 404 unless @profile_user
     followedresult = @user ? query_db('SELECT COUNT(*) AS count FROM follower WHERE who_id = ? AND whom_id = ?', [@user['user_id'], @profile_user['user_id']]) : [{ 'count' => 0 }]

@@ -1,7 +1,7 @@
 require 'sinatra'
 class MiniTwit < Sinatra::Base
 
-  get '/latest' do
+  get '/api/latest' do
     content_type :json
 
     # Build the absolute path to the file in the same directory as this file

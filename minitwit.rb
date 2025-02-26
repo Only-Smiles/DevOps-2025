@@ -60,7 +60,7 @@ class MiniTwit < Sinatra::Base
     @db.close if @db
   end
 
-  # Routes
+  # Frontend Routes
   get '/' do
     redirect '/public' unless @user
     @messages = query_db('''
@@ -188,7 +188,10 @@ class MiniTwit < Sinatra::Base
     redirect "/#{params[:username]}"
   end
 
+  # API Backend Routes
+  require_relative 'src/minitwit/api/helpers/init'
+  require_relative 'src/minitwit/api/routes/init'
+
   # Start the application
   run! if __FILE__ == $PROGRAM_NAME
-
 end
