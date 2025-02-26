@@ -32,9 +32,9 @@
 
 
                 shellHook = ''
-          if [ ! -d .bundle ]; then
+          export GEM_HOME=$PWD/.bundle
+          export PATH=$GEM_HOME/bin:$PATH
           bundle install # --gemfile ../Gemfile
-          fi
           '';
             };
 
