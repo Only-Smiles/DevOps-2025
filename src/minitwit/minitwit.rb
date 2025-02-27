@@ -17,7 +17,7 @@ require './controllers/api_controller'
 class MiniTwit < Sinatra::Base
   SECRET_KEY = SecureRandom.hex(32)
   PER_PAGE = 30
-  DATABASE = './db/minitwit.db'
+  DATABASE = '../test/artifacts/test.db'
   
   configure do
     enable :sessions

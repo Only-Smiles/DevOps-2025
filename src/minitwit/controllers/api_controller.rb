@@ -8,6 +8,7 @@ class ApiController < BaseController
   
   after do
     update_latest
+    close_db
   end
   
   # Latest action
@@ -122,11 +123,8 @@ class ApiController < BaseController
   def parse_api_request
     begin
       @latest = params[:latest]
-      if request.body.size > 0
-        @data = JSON.parse(request.body.read)
-      else
-        @data = {}
-      end
+      body_content = request.body.read.strip
+      @data = body_content.empty? ? {} : JSON.parse(body_content)
     rescue JSON::ParserError
       halt 401, JSON.generate({ 'error': 'InvalidJSON', 'message': 'Invalid JSON format' })
     end

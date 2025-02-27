@@ -19,6 +19,15 @@ module DbHelper
     DbHelper.query_db(query, args, one)
   end
 
+  def self.close_db
+    @db&.close
+    @db = nil
+  end
+
+  def close_db
+    DbHelper.close_db
+  end
+
   # Get user ID by username
   def get_user_id(username)
     user = query_db('SELECT user_id FROM user WHERE username = ?', [username], true)
