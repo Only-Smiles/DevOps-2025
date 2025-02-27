@@ -10,7 +10,7 @@ require 'securerandom'
 class MiniTwit < Sinatra::Base
   SECRET_KEY = SecureRandom.hex(32)
   PER_PAGE = 30
-  DATABASE = '../../test/artifacts/test.db'
+  DATABASE = 'db/minitwit.db'
   
   # Configure session management inside a configure block
   configure do
