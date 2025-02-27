@@ -1,4 +1,6 @@
 class ApiController < BaseController
+
+  LATEST = '../tmp/latest_processed_sim_action_id.txt'
   
   before do
     content_type :json
@@ -8,11 +10,12 @@ class ApiController < BaseController
   
   after do
     update_latest
+    close_db
   end
   
   # Latest action
   get '/api/latest' do
-    file_path = File.join(File.dirname(__FILE__), '../db/latest_processed_sim_action_id.txt')
+    file_path = File.join(File.dirname(__FILE__), LATEST)
     
     latest_processed_command_id = -1
     if File.exist?(file_path)
@@ -122,11 +125,8 @@ class ApiController < BaseController
   def parse_api_request
     begin
       @latest = params[:latest]
-      if request.body.size > 0
-        @data = JSON.parse(request.body.read)
-      else
-        @data = {}
-      end
+      body_content = request.body.read.strip
+      @data = body_content.empty? ? {} : JSON.parse(body_content)
     rescue JSON::ParserError
       halt 401, JSON.generate({ 'error': 'InvalidJSON', 'message': 'Invalid JSON format' })
     end
@@ -135,7 +135,7 @@ class ApiController < BaseController
   # Update latest processed action ID
   def update_latest
     if !@latest.nil?
-      file_path = File.join(File.dirname(__FILE__), '../db/latest_processed_sim_action_id.txt')
+      file_path = File.join(File.dirname(__FILE__), LATEST)
       File.write(file_path, @latest)
     end
   end
