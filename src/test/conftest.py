@@ -4,10 +4,12 @@ import base64
 
 import sqlite3
 import pytest
+import requests
+import json
 
-BASE_URL = 'http://127.0.0.1:5000'
-DATABASE = f"{Path('.').cwd()}/artifacts/test.db"
-SCHEMA = f"{Path('.').cwd()}/artifacts/schema.sql"
+BASE_URL = 'http://127.0.0.1:4567/api'
+DATABASE = "tmp/mock.db"
+SCHEMA = "tmp/schema.sql"
 USERNAME = 'simulator'
 PWD = 'super_safe!'
 CREDENTIALS = ':'.join([USERNAME, PWD]).encode('ascii')
@@ -17,7 +19,7 @@ HEADERS = {'Connection': 'close',
            'Authorization': f'Basic {ENCODED_CREDENTIALS}'}
 
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="module", autouse=True)
 def setup():
     def init_db():
         """Creates the database tables."""
@@ -29,3 +31,17 @@ def setup():
 # Empty the database and initialize the schema again
     Path(DATABASE).unlink()
     init_db()
+
+
+@pytest.fixture(scope="module")
+def register_users():
+    users = ["foo", "a", "b", "c"]
+    for user in users:
+        username = user
+        email = f'{user}@{user}.{user}'
+        pwd = user
+        data = {'username': username, 'email': email, 'pwd': pwd}
+        response = requests.post(f'{BASE_URL}/register', data=json.dumps(data),
+                                 headers=HEADERS)
+        assert response.ok
+

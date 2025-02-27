@@ -17,7 +17,8 @@ Run `bundle install` from the terminal in order to do so.
 Now you will be able to run the project from the terminal
 
 ```
-ruby minitwit.rb
+cd /src/minitwit
+bundle exec rackup -p 4567
 ```
 
 ## Docker

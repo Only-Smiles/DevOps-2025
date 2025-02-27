@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title><%= @title %> | Minitwit</title>
+    <title><%= @title %> | Minitwit</title>
     <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
 </head>
 
@@ -10,10 +10,10 @@
     <div class="page">
         <h1>MiniTwit</h1>
         <div class="navigation">
-            <% if @user %>
+            <% if current_user %>
                 <a href="/">my timeline</a> |
                 <a href="/public">public timeline</a> |
-                <a href="/logout">sign out [<%= @user['username'] %>]</a>
+                <a href="/logout">sign out [<%= current_user['username'] %>]</a>
             <% else %>
                 <a href="/public">public timeline</a> |
                 <a href="/register">sign up</a> |

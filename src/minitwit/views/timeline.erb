@@ -1,10 +1,10 @@
 <h2>
     <%= @title %>
 </h2>
-<% if @user %>
+<% if current_user %>
     <% if @profile_user && request.path_info == "/#{@profile_user['username']}" %>
         <div class=followstatus>
-        <% if @user['user_id'] == @profile_user['user_id'] %>
+        <% if current_user['user_id'] == @profile_user['user_id'] %>
             This is you!
         <% elsif followed %>
             You are currently following this user.
@@ -20,7 +20,7 @@
     <% end %>
     <% if request.path_info == "/" %>
         <div class="twitbox">
-        <h3>What's on your mind <%= @user['username'] %>?</h3>
+        <h3>What's on your mind <%= current_user['username'] %>?</h3>
         <form action="/add_message" method="post">
             <p><input type="text" name="text" size=60><!--
             --><input type="submit" value="Share">
