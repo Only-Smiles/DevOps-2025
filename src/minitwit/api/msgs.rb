@@ -2,7 +2,7 @@ require 'sinatra'
 
 class MiniTwit < Sinatra::Base
 
-  post '/msgs/:username' do
+  post '/api/msgs/:username' do
     req = req_from_sim(request)
     return req unless req.nil?
 
@@ -19,7 +19,7 @@ class MiniTwit < Sinatra::Base
   end
 
 
-  get '/msgs/:username' do
+  get '/api/msgs/:username' do
     req = req_from_sim(request)
     return req unless req.nil?
 
@@ -49,7 +49,7 @@ class MiniTwit < Sinatra::Base
   end
 
 
-  get '/msgs' do
+  get '/api/msgs' do
     req = req_from_sim(request)
     return req unless req.nil?
 

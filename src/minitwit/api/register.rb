@@ -2,7 +2,7 @@ require 'sinatra'
 
 class MiniTwit < Sinatra::Base
 
-  post '/register' do
+  post '/api/register' do
     content_type :json
 
     @username = @data['username']
