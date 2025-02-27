@@ -8,8 +8,8 @@ import requests
 import json
 
 BASE_URL = 'http://127.0.0.1:4567/api'
-DATABASE = f"{Path('.').cwd()}/artifacts/test.db"
-SCHEMA = f"{Path('.').cwd()}/artifacts/schema.sql"
+DATABASE = "tmp/mock.db"
+SCHEMA = "tmp/schema.sql"
 USERNAME = 'simulator'
 PWD = 'super_safe!'
 CREDENTIALS = ':'.join([USERNAME, PWD]).encode('ascii')

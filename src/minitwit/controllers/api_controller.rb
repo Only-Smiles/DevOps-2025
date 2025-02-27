@@ -1,4 +1,6 @@
 class ApiController < BaseController
+
+  LATEST = '../tmp/latest_processed_sim_action_id.txt'
   
   before do
     content_type :json
@@ -13,7 +15,7 @@ class ApiController < BaseController
   
   # Latest action
   get '/api/latest' do
-    file_path = File.join(File.dirname(__FILE__), '../db/latest_processed_sim_action_id.txt')
+    file_path = File.join(File.dirname(__FILE__), LATEST)
     
     latest_processed_command_id = -1
     if File.exist?(file_path)
@@ -133,7 +135,7 @@ class ApiController < BaseController
   # Update latest processed action ID
   def update_latest
     if !@latest.nil?
-      file_path = File.join(File.dirname(__FILE__), '../db/latest_processed_sim_action_id.txt')
+      file_path = File.join(File.dirname(__FILE__), LATEST)
       File.write(file_path, @latest)
     end
   end
