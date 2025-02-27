@@ -98,7 +98,7 @@ class WebController < BaseController
   end
   
   # Follow a user
-  post '/:username/follow' do
+  def follow()
     halt 401, "Unauthorized" unless current_user
     
     whom_id = get_user_id(params[:username])
@@ -108,9 +108,17 @@ class WebController < BaseController
     flash[:notice] = "You are now following \"#{params[:username]}\""
     redirect "/#{params[:username]}"
   end
+
+  get '/:username/follow' do
+    follow
+  end
+
+  post '/:username/follow' do
+    follow
+  end
   
   # Unfollow a user
-  post '/:username/unfollow' do
+  def unfollow()
     halt 401, "Unauthorized" unless current_user
     
     whom_id = get_user_id(params[:username])
@@ -119,5 +127,13 @@ class WebController < BaseController
     unfollow_user(current_user['user_id'], whom_id)
     flash[:notice] = "You are no longer following \"#{params[:username]}\""
     redirect "/#{params[:username]}"
+  end
+
+  get '/:username/unfollow' do
+    unfollow
+  end
+
+  post '/:username/unfollow' do
+    unfollow
   end
 end
