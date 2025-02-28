@@ -1,5 +1,5 @@
 import pytest
-from conftest import BASE_URL, HEADERS
+from conftest import API_URL, HEADERS
 
 import json
 import requests
@@ -7,7 +7,7 @@ import requests
 
 def test_follow_user(register_users):
     username = 'foo'
-    url = f'{BASE_URL}/fllws/{username}'
+    url = f'{API_URL}/fllws/{username}'
     data = {'follow': 'b'}
     params = {'latest': 7}
     response = requests.post(url, data=json.dumps(data),
@@ -29,13 +29,13 @@ def test_follow_user(register_users):
     assert "c" in json_data["follows"], f"c doesn't follow foo, {json_data}"
 
     # verify that latest was updated
-    response = requests.get(f'{BASE_URL}/latest', headers=HEADERS)
+    response = requests.get(f'{API_URL}/latest', headers=HEADERS)
     assert response.json()['latest'] == 9, f"Expected 'latest == 9', got {response.content}"
 
 
 def test_a_unfollows_b(register_users):
     username = 'a'
-    url = f'{BASE_URL}/fllws/{username}'
+    url = f'{API_URL}/fllws/{username}'
 
     #  first send unfollow command
     data = {'unfollow': 'b'}
@@ -52,5 +52,5 @@ def test_a_unfollows_b(register_users):
         f"b still follows a, {response.json()}"
 
     # verify that latest was updated
-    response = requests.get(f'{BASE_URL}/latest', headers=HEADERS)
+    response = requests.get(f'{API_URL}/latest', headers=HEADERS)
     assert response.json()['latest'] == 11, f"Expected 'latest == 11', got {response.content}"

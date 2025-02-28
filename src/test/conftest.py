@@ -6,10 +6,13 @@ import sqlite3
 import pytest
 import requests
 import json
+from os.path import dirname, abspath, join
 
-BASE_URL = 'http://127.0.0.1:4567/api'
-DATABASE = "tmp/mock.db"
-SCHEMA = "tmp/schema.sql"
+BASE_URL = 'http://localhost:4567'
+API_URL = f"{BASE_URL}/api"
+BASE_DIR = dirname(abspath(__file__))
+DATABASE = join(BASE_DIR, "tmp", "mock.db")
+SCHEMA = join(BASE_DIR, "tmp", "schema.sql")
 USERNAME = 'simulator'
 PWD = 'super_safe!'
 CREDENTIALS = ':'.join([USERNAME, PWD]).encode('ascii')
@@ -41,7 +44,7 @@ def register_users():
         email = f'{user}@{user}.{user}'
         pwd = user
         data = {'username': username, 'email': email, 'pwd': pwd}
-        response = requests.post(f'{BASE_URL}/register', data=json.dumps(data),
+        response = requests.post(f'{API_URL}/register', data=json.dumps(data),
                                  headers=HEADERS)
         assert response.ok
 
