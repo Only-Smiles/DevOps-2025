@@ -7,6 +7,7 @@ require 'erb'
 require 'rack/session/cookie'
 require 'securerandom'
 require 'digest/md5'
+require 'sequel'
 
 # Require helpers and controllers
 Dir["./helpers/*.rb"].each {|file| require file }
@@ -18,7 +19,7 @@ class MiniTwit < Sinatra::Base
   SECRET_KEY = SecureRandom.hex(32)
   PER_PAGE = 30
   DATABASE = 'tmp/minitwit.db'
-  
+    
   configure do
     enable :sessions
     use Rack::Session::Cookie, key: 'rack.session', secret: SECRET_KEY

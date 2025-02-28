@@ -2,6 +2,8 @@ class WebController < BaseController
 
   # Index route
   get '/' do
+    puts 'current user:'
+    puts current_user
     redirect '/public' unless current_user
     @messages = get_timeline_messages(current_user['user_id'])
     @title = "My Timeline"
@@ -11,6 +13,7 @@ class WebController < BaseController
   # Public timeline
   get '/public' do
     @messages = get_public_messages
+    puts @messages
     @title = "Public Timeline"
     erb :timeline
   end
