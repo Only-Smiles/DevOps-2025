@@ -8,7 +8,6 @@ module AuthHelper
   end
 
   def current_user
-    puts @current_user ||= session[:user_id] ? get_user_by_id(session[:user_id]) : nil
     @current_user ||= session[:user_id] ? get_user_by_id(session[:user_id]) : nil
   end
   
@@ -27,7 +26,7 @@ module AuthHelper
     db[:user].insert(
       username: username, 
       email: email, 
-      pw_hash: password_hash.to_s
+      pw_hash: password_hash
     )
     
     { success: true }

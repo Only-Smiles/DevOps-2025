@@ -3,7 +3,7 @@
 </h2>
 <% if current_user %>
     <% if @profile_user && request.path_info == "/#{@profile_user[:username]}" %>
-        <div class=followstatus>
+        <div class="followstatus">
         <% if current_user[:user_id] == @profile_user[:user_id] %>
             This is you!
         <% elsif followed %>
@@ -17,13 +17,16 @@
                 <button type="submit" class="follow">Follow user</button>
             </form>
         <% end %>
+        </div>
     <% end %>
     <% if request.path_info == "/" %>
         <div class="twitbox">
         <h3>What's on your mind <%= current_user[:username] %>?</h3>
         <form action="/add_message" method="post">
-            <p><input type="text" name="text" size=60><!--
-            --><input type="submit" value="Share">
+            <p>
+              <input type="text" name="text" size="60">
+              <input type="submit" value="Share">
+            </p>
         </form>
         </div>
     <% end %>
@@ -36,7 +39,7 @@
                 <strong>
                     <a href="<%= message[:username] %>"><%= message[:username] %></a>
                 </strong>
-                    <%= message[:text] %>
+                <%= message[:text] %>
                 <small>— <%= format_datetime(message[:pub_date]) %></small>
             </li>
         <% end %>
