@@ -25,9 +25,9 @@ jobs:
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
           
       - name: Run Website
-        run: cd src/minitwit && nohup bundle exec rackup --port 4567 &
+        run: nohup bundle exec rackup --port 4567 &
         env:
-          ENVIRONMENT: 'test'
+          ENV: 'test'
 
       - name: Python Setup 
         uses: actions/setup-python@v5
@@ -37,4 +37,4 @@ jobs:
       - name: Run Tests
         run: |
             pip install pytest requests &&
-            cd src/test && pytest
+            pytest

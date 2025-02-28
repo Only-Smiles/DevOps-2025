@@ -6,11 +6,13 @@ import sqlite3
 import pytest
 import requests
 import json
+from os.path import dirname, abspath, join
 
 BASE_URL = 'http://localhost:4567'
 API_URL = f"{BASE_URL}/api"
-DATABASE = "tmp/mock.db"
-SCHEMA = "tmp/schema.sql"
+BASE_DIR = dirname(abspath(__file__))
+DATABASE = join(BASE_DIR, "tmp", "mock.db")
+SCHEMA = join(BASE_DIR, "tmp", "schema.sql")
 USERNAME = 'simulator'
 PWD = 'super_safe!'
 CREDENTIALS = ':'.join([USERNAME, PWD]).encode('ascii')

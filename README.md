@@ -17,9 +17,14 @@ Run `bundle install` from the terminal in order to do so.
 Now you will be able to run the project from the terminal
 
 ```
-cd /src/minitwit
-bundle exec rackup -p 4567
+bundle exec rackup /src/minitwit -p 4567
 ```
+
+## Testing
+For testing you will need two libraries `pytest` and `requests`, these can be installed with pip: `pip install pytest requests`
+Secondly, you must have an environment variable `ENV` set to one of test, dev, prod
+Now with the website running as described above, you can simply run `pytest`
+
 
 ## Docker
 
