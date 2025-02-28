@@ -1,0 +1,33 @@
+name: Continuous Testing
+
+on:
+  pull_request:
+
+  # allow manual triggers for now too
+  workflow_dispatch:
+
+  push:
+    branches:
+      - '**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Ruby Setup
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4' # Not needed with a .ruby-version, .tool-versions or mise.toml
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+        run: nohup bundle exec rackup --port 4567 &
+
+        name: Python Setup 
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13' 
+        run: pip install pytest requests
+        run: cd src/test && pytest

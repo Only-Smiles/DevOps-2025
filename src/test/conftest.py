@@ -7,7 +7,8 @@ import pytest
 import requests
 import json
 
-BASE_URL = 'http://127.0.0.1:4567/api'
+BASE_URL = 'http://localhost:4567'
+API_URL = f"{BASE_URL}/api"
 DATABASE = "tmp/mock.db"
 SCHEMA = "tmp/schema.sql"
 USERNAME = 'simulator'
@@ -41,7 +42,7 @@ def register_users():
         email = f'{user}@{user}.{user}'
         pwd = user
         data = {'username': username, 'email': email, 'pwd': pwd}
-        response = requests.post(f'{BASE_URL}/register', data=json.dumps(data),
+        response = requests.post(f'{API_URL}/register', data=json.dumps(data),
                                  headers=HEADERS)
         assert response.ok
 
