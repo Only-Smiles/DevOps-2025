@@ -46,6 +46,10 @@ bundle install
 wait -n
 echo "===   Installed Ruby dependencies     ==="
 
+cd src/minitwit || exit
+
 echo "=== Starting the Sinatra application with rackup ==="
 nohup bundle exec rackup --host 0.0.0.0 -p 4567 > out.log &
 echo "New droplet provisioning complete."
+
+cd ../.. || exit
