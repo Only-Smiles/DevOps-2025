@@ -9,13 +9,13 @@
     :copyright: (c) 2010 by Armin Ronacher.
     :license: BSD, see LICENSE for more details.
 """
+from conftest import BASE_URL
 import requests
 
 
 # import schema
 # import data
 # otherwise use the database that you got previously
-BASE_URL = "http://127.0.0.1:4567"
 
 def register(username, password, password2=None, email=None):
     """Helper function to register a user"""

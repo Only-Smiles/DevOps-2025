@@ -1,0 +1,19 @@
+# Ruby ubuntu image
+FROM ruby:3.4.1-bookworm
+
+RUN apt-get update && apt-get -y upgrade
+
+# Equivalent to mkdir -p /app && cd /app
+WORKDIR /app
+
+# Copy and install dependencies
+COPY Gemfile Gemfile.lock ./
+RUN bundle install
+
+# Copy source folder
+COPY src/minitwit/ .
+
+ENV ENV=dev
+
+ENTRYPOINT ["bundle", "exec", "rackup"]
+CMD ["--host", "0.0.0.0", "--port", "4567"]

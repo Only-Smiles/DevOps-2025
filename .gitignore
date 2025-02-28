@@ -16,6 +16,11 @@
 
 # Used by dotenv library to load environment variables.
 .env
+.envrc
+
+# Ignore bin
+bin/
+obj/
 
 # Ignore Byebug command history file.
 .byebug_history
