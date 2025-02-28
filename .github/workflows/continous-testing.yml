@@ -23,11 +23,18 @@ jobs:
         with:
           ruby-version: '3.4' # Not needed with a .ruby-version, .tool-versions or mise.toml
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+          
+      - name: Run Website
         run: nohup bundle exec rackup --port 4567 &
+        env:
+          ENVIRONMENT: 'test'
 
-        name: Python Setup 
+      - name: Python Setup 
         uses: actions/setup-python@v5
         with:
           python-version: '3.13' 
-        run: pip install pytest requests
-        run: cd src/test && pytest
+      
+      - name: Run Tests
+        run: |
+            pip install pytest requests &&
+            cd src/test && pytest
