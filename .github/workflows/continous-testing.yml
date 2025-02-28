@@ -25,7 +25,7 @@ jobs:
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
           
       - name: Run Website
-        run: nohup bundle exec rackup --port 4567 &
+        run: cd src/minitwit && nohup bundle exec rackup --port 4567 &
         env:
           ENVIRONMENT: 'test'
 
