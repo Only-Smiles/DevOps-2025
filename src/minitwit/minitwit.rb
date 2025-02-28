@@ -7,6 +7,7 @@ require 'erb'
 require 'rack/session/cookie'
 require 'securerandom'
 require 'digest/md5'
+require 'dotenv/load'
 
 # Require helpers and controllers
 Dir["./helpers/*.rb"].each {|file| require file }
@@ -17,7 +18,11 @@ require './controllers/api_controller'
 class MiniTwit < Sinatra::Base
   SECRET_KEY = SecureRandom.hex(32)
   PER_PAGE = 30
-  DATABASE = 'tmp/minitwit.db'
+  DATABASE = {
+    'test' => '../test/tmp/mock.db',
+    'dev' => 'tmp/minitwit.db',
+    'prod' => '/tmp/minitwit.db',
+  }[ENV.fetch('ENVIRONMENT', 'dev')]
   
   configure do
     enable :sessions
