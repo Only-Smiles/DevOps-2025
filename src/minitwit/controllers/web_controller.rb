@@ -89,10 +89,10 @@ class WebController < BaseController
     
     followed = false
     if current_user
-      followed = is_following?(current_user['user_id'], @profile_user['user_id'])
+      followed = is_following?(current_user[:user_id], @profile_user[:user_id])
     end
     
-    @messages = get_user_messages(@profile_user['user_id'])
+    @messages = get_user_messages(@profile_user[:user_id])
     @title = "#{params[:username]}'s Timeline"
     erb :timeline, locals: { followed: followed }
   end
