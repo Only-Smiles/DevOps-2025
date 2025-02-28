@@ -114,11 +114,13 @@ class ApiController < BaseController
     username = params[:username]
     id = get_user_id(username)
     
+    halt 404, JSON.generate({ 'error': 'User not found', 'message': "User #{username} was not found" }) unless id
+    
     followers = get_followers(id, no_followers)
     follower_names = followers.map { |x| x['username'] }
     
     status 200
-    JSON.generate({'follows': follower_names})
+    JSON.generate({ 'follows': follower_names })
   end
 
   # Parse API request body
