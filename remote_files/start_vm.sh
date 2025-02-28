@@ -16,7 +16,7 @@ docker run --rm hello-world
 docker rmi hello-world
 
 echo -e "\nOpening port for minitwit ...\n"
-ufw allow 5000 && \
+ufw allow 4567 && \
 ufw allow 22/tcp
 
 echo ". $HOME/.bashrc" >> $HOME/.bash_profile
@@ -29,6 +29,11 @@ echo -e "\nSelecting Minitwit Folder as default folder when you ssh into the ser
 echo "cd /minitwit" >> ~/.bash_profile
 
 chmod +x /minitwit/deploy.sh
+
+echo "\nInstalling sqlite3 ...\n"
+sudo apt-get install -y sqlite3
+wait -n
+echo "\nInstalled sqlite3  ...\n"
 
 echo "\nInstalling jq for json parsing ...\n"
 sudo apt-get install -y jq

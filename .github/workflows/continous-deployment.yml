@@ -4,19 +4,18 @@ name: Continuous Deployment
 on:
   push:
     # Run workflow every time something is pushed to the main branch
-    branches:
-      - main
+    tags:
+      - '**'
 
   # allow manual triggers for now too
   workflow_dispatch:
-    manual: true
 
 # Remember to set the following secrets in your repository's settings:
 # https://github.com/your_username/itu-minitwit-ci/settings/secrets/actions
 # DOCKER_USERNAME
 # DOCKER_PASSWORD
-# SSH_USER
-# SSH_KEY
+# GA_USERNAME
+# GA_PRIVATE_KEY
 # SSH_HOST
 
 jobs:
@@ -80,7 +79,7 @@ jobs:
           echo "$SSH_KEY" > ~/.ssh/ga_ssh_key
           chmod 600 ~/.ssh/ga_ssh_key
         env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
+          SSH_KEY: ${{ secrets.GA_PRIVATE_KEY }}
 
       - name: Deploy to server
         # Configure the ~./bash_profile and deploy.sh file on the Vagrantfile
@@ -90,4 +89,4 @@ jobs:
           '/minitwit/deploy.sh'
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_HOST: ${{ secrets.GA_USERNAME }}

@@ -1,10 +1,4 @@
-version: '3.3'
-
-networks:
-  main:
-
 services:
-
   minitwitimage:
     image: ${DOCKER_USERNAME}/minitwitimage
     container_name: minitwit
@@ -13,7 +7,12 @@ services:
     depends_on:
       - itusqlimage
     ports:
-        - '5000:5000'
+        - '4567:4567'
+    volumes:
+      - '/tmp/minitwit.db:/tmp/minitwit.db'
+    environment:
+      - ENV=prod
+
 
   itusqlimage:
     image: ${DOCKER_USERNAME}/mysqlimage
@@ -24,3 +23,6 @@ services:
       - '3306:3306'
     environment:
         - MYSQL_ROOT_PASSWORD=root
+
+networks:
+  main:
