@@ -5,7 +5,7 @@ class BaseController < Sinatra::Base
     set :public_folder, 'public'
   end
 
-  include DbHelper
-  include AuthHelper
-  include FormatHelper
+  helpers DbHelper
+  helpers AuthHelper
+  helpers FormatHelper  
 end
