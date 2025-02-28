@@ -3,7 +3,7 @@ name: Continuous Deployment
 
 on:
   push:
-    # Run workflow every time something is pushed to the main branch
+    # Run workflow every time a new tag is created
     tags:
       - '**'
 

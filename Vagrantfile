@@ -83,8 +83,7 @@ Vagrant.configure("2") do |config|
 
       echo "================================================================="
       echo "=                            DONE                               ="
-      echo "=   Your Sinatra app is running. Navigate in your browser to:   ="
-      echo "=   http://#{RESERVED_IP}:4567                                  ="
+      echo "=                 Your droplet is running.                      ="
       echo "================================================================="
     SHELL
   end
