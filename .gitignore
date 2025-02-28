@@ -17,6 +17,9 @@
 # Used by dotenv library to load environment variables.
 # .env
 
+# Ignore bin
+bin/
+
 # Ignore Byebug command history file.
 .byebug_history
 
@@ -62,3 +65,11 @@ build-iPhoneSimulator/
 
 # Ignore vagrant folder
 *.vagrant
+
+
+# Python
+__pycache__
+
+# direnv cache
+.direnv
+
