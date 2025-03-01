@@ -4,6 +4,7 @@
 require 'net/http'
 require 'json'
 
+DOCKER_USERNAME = 'rakt'
 DIGITAL_OCEAN_TOKEN = ENV["DIGITAL_OCEAN_TOKEN"]
 DROPLET_REGION = 'fra1'
 SSH_KEYS_FILE = "/tmp/digitalocean_ssh_keys.txt"
@@ -34,7 +35,7 @@ ssh_keys = fetch_digitalocean_ssh_keys(DIGITAL_OCEAN_TOKEN)
 Vagrant.configure("2") do |config|
   config.vm.box = 'digital_ocean'
   config.vm.box_url = "https://github.com/devopsgroup-io/vagrant-digitalocean/raw/master/box/digital_ocean.box"
-  config.ssh.private_key_path = '~/.ssh/personal-user'
+  config.ssh.private_key_path = ENV["PRIVATE_KEY_PATH"]
 
   config.vm.synced_folder "remote_files", "/minitwit", type: "rsync"
   config.vm.synced_folder '.', '/vagrant', disabled: true
@@ -52,7 +53,7 @@ Vagrant.configure("2") do |config|
 
     server.vm.hostname = unique_hostname
 
-    server.vm.provision "shell", inline: 'echo "export DOCKER_USERNAME=' + "'" + ENV["DOCKER_USERNAME"] + "'" + '" >> ~/.bash_profile'
+    server.vm.provision "shell", inline: 'echo "export DOCKER_USERNAME=' + "'" + DOCKER_USERNAME + "'" + '" >> ~/.bash_profile'
     server.vm.provision "shell", path: './start_vm.sh'
 
     # Save SSH keys to a temporary file
