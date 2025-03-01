@@ -34,7 +34,7 @@ ssh_keys = fetch_digitalocean_ssh_keys(DIGITAL_OCEAN_TOKEN)
 Vagrant.configure("2") do |config|
   config.vm.box = 'digital_ocean'
   config.vm.box_url = "https://github.com/devopsgroup-io/vagrant-digitalocean/raw/master/box/digital_ocean.box"
-  config.ssh.private_key_path = '~/.ssh/id_ed25519'
+  config.ssh.private_key_path = '~/.ssh/personal-user'
 
   config.vm.synced_folder "remote_files", "/minitwit", type: "rsync"
   config.vm.synced_folder '.', '/vagrant', disabled: true
