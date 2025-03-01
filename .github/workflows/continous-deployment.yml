@@ -3,8 +3,8 @@ name: Continuous Deployment
 
 on:
   push:
-  branches:
-    - cicd2
+    branches:
+      - cicd2
 
   # allow manual triggers for now too
   workflow_dispatch:
