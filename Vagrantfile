@@ -30,6 +30,44 @@ def fetch_digitalocean_ssh_keys(token)
   end
 end
 
+# Function to get an existing reserved IP or create one
+def get_or_create_reserved_ip()
+  uri = URI("https://api.digitalocean.com/v2/reserved_ips")
+  request = Net::HTTP::Get.new(uri)
+  request["Authorization"] = "Bearer #{DIGITAL_OCEAN_TOKEN}"
+  request["Content-Type"] = "application/json"
+
+  response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+    http.request(request)
+  end
+
+  reserved_ips = JSON.parse(response.body)["reserved_ips"]
+
+  reserved_ip = reserved_ips&.find { |ip| ip["region"]["slug"] == DROPLET_REGION }
+
+  if reserved_ip
+    puts "Using existing reserved IP: #{reserved_ip["ip"]}"
+    return reserved_ip["ip"]
+  else
+    puts "Requesting a new reserved IP..."
+    uri = URI("https://api.digitalocean.com/v2/reserved_ips")
+    request = Net::HTTP::Post.new(uri)
+    request["Authorization"] = "Bearer #{DIGITAL_OCEAN_TOKEN}"
+    request["Content-Type"] = "application/json"
+    request.body = { "region" => DROPLET_REGION }.to_json
+
+    response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+      http.request(request)
+    end
+
+    reserved_ip = JSON.parse(response.body)["reserved_ip"]
+    puts "New reserved IP created: #{reserved_ip["ip"]}"
+    return reserved_ip["ip"]
+  end
+end
+
+RESERVED_IP = get_or_create_reserved_ip()
+
 ssh_keys = fetch_digitalocean_ssh_keys(DIGITAL_OCEAN_TOKEN)
 
 Vagrant.configure("2") do |config|
@@ -77,6 +115,9 @@ Vagrant.configure("2") do |config|
       if [ ! -f /tmp/minitwit.db ]; then
         sqlite3 /tmp/minitwit.db < schema.sql
       fi
+
+      chmod +x reassign_reserved_ip.sh
+      ./reassign_reserved_ip.sh "#{DIGITAL_OCEAN_TOKEN}" "#{unique_hostname}" "#{RESERVED_IP}"
 
       echo "================================================================="
       echo "=                            DONE                               ="
