@@ -89,4 +89,4 @@ jobs:
           '/minitwit/deploy.sh'
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_HOST: ${{ secrets.GA_USERNAME }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
