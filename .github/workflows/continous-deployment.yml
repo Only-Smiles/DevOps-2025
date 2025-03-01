@@ -3,9 +3,8 @@ name: Continuous Deployment
 
 on:
   push:
-    # Run workflow every time a new tag is created
-    tags:
-      - '**'
+  branches:
+    - cicd2
 
   # allow manual triggers for now too
   workflow_dispatch:
