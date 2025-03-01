@@ -108,6 +108,8 @@ Vagrant.configure("2") do |config|
       rm /tmp/authorized_keys
     SHELL
 
+    server.vm.provision "shell", path: './reassign_reserved_ip.sh', args: [DIGITAL_OCEAN_TOKEN, unique_hostname, RESERVED_IP]
+
     server.vm.provision "shell", inline: <<-SHELL
       echo "Provisioning new droplet..."
 
@@ -116,13 +118,11 @@ Vagrant.configure("2") do |config|
         sqlite3 /tmp/minitwit.db < schema.sql
       fi
 
-      chmod +x reassign_reserved_ip.sh
-      ./reassign_reserved_ip.sh "#{DIGITAL_OCEAN_TOKEN}" "#{unique_hostname}" "#{RESERVED_IP}"
-
       echo "================================================================="
       echo "=                            DONE                               ="
       echo "=                 Your droplet is running.                      ="
       echo "================================================================="
     SHELL
+
   end
 end

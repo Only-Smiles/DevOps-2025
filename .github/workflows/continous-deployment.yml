@@ -13,8 +13,8 @@ on:
 # https://github.com/your_username/itu-minitwit-ci/settings/secrets/actions
 # DOCKER_USERNAME
 # DOCKER_PASSWORD
-# GA_USERNAME
 # GA_PRIVATE_KEY
+# SSH_USER
 # SSH_HOST
 
 jobs:
