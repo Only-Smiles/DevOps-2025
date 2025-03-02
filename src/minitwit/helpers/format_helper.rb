@@ -14,9 +14,9 @@ module FormatHelper
   def format_messages_for_api(messages)
     messages.map do |msg|
       {
-        "content" => msg["text"],
-        "pub_date" => msg["pub_date"],
-        "user" => msg["username"]
+        "content" => msg[:text],
+        "pub_date" => msg[:pub_date],
+        "user" => msg[:username]
       }
     end
   end
