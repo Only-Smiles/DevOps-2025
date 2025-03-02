@@ -3,9 +3,8 @@ name: Continuous Deployment
 
 on:
   push:
-    # Run workflow every time a new tag is created
-    tags:
-      - '**'
+    branches:
+      - main
 
   # allow manual triggers for now too
   workflow_dispatch:
@@ -14,8 +13,8 @@ on:
 # https://github.com/your_username/itu-minitwit-ci/settings/secrets/actions
 # DOCKER_USERNAME
 # DOCKER_PASSWORD
-# GA_USERNAME
 # GA_PRIVATE_KEY
+# SSH_USER
 # SSH_HOST
 
 jobs:
@@ -89,4 +88,4 @@ jobs:
           '/minitwit/deploy.sh'
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_HOST: ${{ secrets.GA_USERNAME }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
