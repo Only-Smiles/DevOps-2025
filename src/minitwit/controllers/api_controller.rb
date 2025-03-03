@@ -40,7 +40,7 @@ class ApiController < BaseController
     result = register_user(username, email, password)
     
     if result[:success]
-      status 200
+      status 204
       JSON.generate({ 'message': 'Account creation successful' })
     else
       status 400
