@@ -2,6 +2,8 @@ services:
   minitwitimage:
     image: ${DOCKER_USERNAME}/minitwitimage
     container_name: minitwit
+    stdin_open: true
+    tty: true
     networks:
       - main
     depends_on:
