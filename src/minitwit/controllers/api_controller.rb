@@ -40,7 +40,7 @@ class ApiController < BaseController
     result = register_user(username, email, password)
     
     if result[:success]
-      status 200
+      status 204
       JSON.generate({ 'message': 'Account creation successful' })
     else
       status 400
@@ -117,10 +117,9 @@ class ApiController < BaseController
     halt 404, JSON.generate({ 'error': 'User not found', 'message': "User #{username} was not found" }) unless id
     
     followers = get_followers(id, no_followers)
-    follower_names = followers.map { |x| x['username'] }
     
     status 200
-    JSON.generate({ 'follows': follower_names })
+    JSON.generate({ 'follows': followers })
   end
 
   # Parse API request body
