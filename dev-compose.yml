@@ -1,6 +1,9 @@
 services:
   minitwitimage:
     image: ${DOCKER_USERNAME}/minitwitimage
+    build:
+      context: .
+      dockerfile: images/Dockerfile.minitwit
     container_name: minitwit
     stdin_open: true
     tty: true
@@ -13,12 +16,15 @@ services:
     volumes:
       - '/tmp/minitwit.db:/tmp/minitwit.db'
     environment:
-      - ENV=${ENV}
+      - ENV=dev
       - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
 
 
   itusqlimage:
     image: ${DOCKER_USERNAME}/dbimage
+    build:
+      context: .
+      dockerfile: images/Dockerfile.mysql
     container_name: minitwit_db
     networks:
       - main
@@ -38,14 +44,12 @@ services:
     networks:
       - main
 
-
   grafana:
     image: grafana/grafana:11.5.2
     ports:
       - "3000:3000"
     networks:
       - main
-
 
 networks:
   main:
