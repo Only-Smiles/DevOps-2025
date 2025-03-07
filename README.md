@@ -8,7 +8,7 @@ Requires ruby version >= 3.4.1
 
 Requires a bundle installation. Can be installed by running the following command
 
-```
+```bash
 sudo gem install bundler
 ```
 
@@ -17,7 +17,7 @@ Run `bundle install` from the terminal in order to do so.
 
 Now you will be able to run the project from the terminal
 
-```
+```bash
 bundle exec rackup src/minitwit/config.ru -p 4567
 ```
 
@@ -25,7 +25,7 @@ bundle exec rackup src/minitwit/config.ru -p 4567
 
 For testing you will need two libraries `pytest` and `requests`, these can be installed with pip:
 
-```
+```bash
 pip install pytest requests
 ```
 
@@ -38,7 +38,7 @@ This assumes you have installed Docker on your computer.
 
 In order to run the application in a docker container, run the following two commands
 
-```
+```bash
 docker build -t thg/rubytwit:latest .
 docker run --rm -p 4567:4567 thg/rubytwit
 ```
@@ -53,7 +53,7 @@ You also need to install Vagrant on your machine.
 
 Install Vagrant DigitalOcean Plugin
 
-```
+```bash
 vagrant plugin install vagrant-digitalocean
 ```
 
@@ -61,7 +61,7 @@ Change ssh path in `Vagrantfile` to your own ssh private key.
 (Make sure that you have setup ENV variables `SSH_KEY_NAME`, `DIGITAL_OCEAN_TOKEN`)
 Your .zshrc file should look like this:
 
-```
+```bash
 export SSH_KEY_NAME="{YOUR_DIGITAL_OCEAN_KEYNAME}"
 export DIGITAL_OCEAN_TOKEN="{YOUR_DICITAL_OCEAN_TOKEN}"
 ```
