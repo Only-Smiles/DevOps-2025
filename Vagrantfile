@@ -92,6 +92,8 @@ Vagrant.configure("2") do |config|
 
     server.vm.hostname = unique_hostname
 
+    # ensures that our .bash_profile is idempotent
+    server.vm.provision "shell", inline: 'echo "" > ~/.bash_profile'
     server.vm.provision "shell", inline: 'echo "export DOCKER_USERNAME=' + "'" + DOCKER_USERNAME + "'" + '" >> ~/.bash_profile'
     server.vm.provision "shell", inline: 'echo "export DB_PASSWORD=' + "'" + DB_PASSWORD + "'" + '" >> ~/.bash_profile'
     server.vm.provision "shell", path: './start_vm.sh'
