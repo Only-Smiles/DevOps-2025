@@ -66,7 +66,7 @@ class ApiController < BaseController
     
     username = params[:username]
     user_id = get_user_id(username)
-    halt 404, unless user_id
+    halt 404 unless user_id
     
     messages = get_user_messages(user_id, no_messages)
     formatted_messages = format_messages_for_api(messages)
@@ -90,11 +90,11 @@ class ApiController < BaseController
   post '/api/fllws/:username' do
     who_username = params[:username]
     who_id = get_user_id(who_username)
-    halt 404, unless who_id
+    halt 404 unless who_id
     
     whom_username = @data['follow'] || @data['unfollow']
     whom_id = get_user_id(whom_username)
-    halt 404, unless whom_id
+    halt 404 unless whom_id
     
     if @data.key?('unfollow')
       unfollow_user(who_id, whom_id)
@@ -111,7 +111,7 @@ class ApiController < BaseController
     username = params[:username]
     id = get_user_id(username)
     
-    halt 404, unless id
+    halt 404 unless id
     
     followers = get_followers(id, no_followers)
     
