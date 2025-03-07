@@ -41,10 +41,9 @@ class ApiController < BaseController
     
     if result[:success]
       status 204
-      JSON.generate({ 'message': 'Account creation successful' })
     else
       status 400
-      JSON.generate({ 'error': result[:error].gsub(/\s+/, ""), 'message': result[:error] })
+      JSON.generate({'status': 400, 'error': result[:error].gsub(/\s+/, ""), 'message': result[:error] })
     end
   end
   
@@ -67,7 +66,7 @@ class ApiController < BaseController
     
     username = params[:username]
     user_id = get_user_id(username)
-    halt 404, "user " + username + " not found" unless user_id
+    halt 404, unless user_id
     
     messages = get_user_messages(user_id, no_messages)
     formatted_messages = format_messages_for_api(messages)
@@ -83,7 +82,7 @@ class ApiController < BaseController
     messages = get_public_messages(no_messages)
     formatted_messages = format_messages_for_api(messages)
     
-    status 200
+    status 200 
     formatted_messages.to_json
   end
   
@@ -91,20 +90,18 @@ class ApiController < BaseController
   post '/api/fllws/:username' do
     who_username = params[:username]
     who_id = get_user_id(who_username)
-    halt 404, who_username + " was not found" unless who_id
+    halt 404, unless who_id
     
     whom_username = @data['follow'] || @data['unfollow']
     whom_id = get_user_id(whom_username)
-    halt 404, whom_username + " was not found" unless whom_id
+    halt 404, unless whom_id
     
     if @data.key?('unfollow')
       unfollow_user(who_id, whom_id)
-      status 200
-      JSON.generate({ 'message': 'Unfollowed ' + whom_username })
+      status 204
     elsif @data.key?('follow')
       follow_user(who_id, whom_id)
-      status 200
-      JSON.generate({ 'message': 'Followed ' + whom_username })
+      status 204
     end
   end
   
@@ -114,11 +111,11 @@ class ApiController < BaseController
     username = params[:username]
     id = get_user_id(username)
     
-    halt 404, JSON.generate({ 'error': 'User not found', 'message': "User #{username} was not found" }) unless id
+    halt 404, unless id
     
     followers = get_followers(id, no_followers)
     
-    status 200
+    status 200 
     JSON.generate({ 'follows': followers })
   end
 
@@ -141,4 +138,3 @@ class ApiController < BaseController
     end
   end
 end
-
