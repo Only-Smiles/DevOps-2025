@@ -1,22 +1,24 @@
-drop table if exists user;
-create table user (
-  user_id integer primary key autoincrement,
-  username string not null,
-  email string not null,
-  pw_hash string not null
+
+CREATE DATABASE minitwit;
+
+USE minitwit;
+
+CREATE TABLE user (
+  user_id integer primary key auto_increment,
+  username varchar(100) not null,
+  email varchar(200) null,
+  pw_hash varchar(200) not null
 );
 
-drop table if exists follower;
-create table follower (
+CREATE TABLE follower (
   who_id integer,
   whom_id integer
 );
 
-drop table if exists message;
-create table message (
-  message_id integer primary key autoincrement,
+CREATE TABLE message (
+  message_id integer primary key auto_increment,
   author_id integer not null,
-  text string not null,
+  text varchar(500) not null,
   pub_date integer,
   flagged integer
 );
