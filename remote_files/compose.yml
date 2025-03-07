@@ -11,20 +11,21 @@ services:
     ports:
         - '4567:4567'
     volumes:
-      - '/tmp/minitwit.db:/tmp/minitwit.db'
+      - '/tmp/minitwit.db:/tmp/minitwit.db' 
     environment:
       - ENV=prod
+      - MYSQL_ROOT_PASSWORD=${{ secrets.DB_PASSWORD }} 
 
 
   itusqlimage:
-    image: ${DOCKER_USERNAME}/mysqlimage
-    container_name: minitwit_mysql
+    image: ${DOCKER_USERNAME}/dbimage
+    container_name: minitwit_db
     networks:
       - main
     ports:
       - '3306:3306'
     environment:
-        - MYSQL_ROOT_PASSWORD=root
+        - MYSQL_ROOT_PASSWORD=${{ secrets.DB_PASSWORD }} 
 
 networks:
   main:
