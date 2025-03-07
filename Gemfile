@@ -12,4 +12,3 @@ gem 'rackup', '~> 2.2'
 gem 'puma', '~> 6.6'
 gem 'sequel', '~> 5.89'
 gem "dotenv", '~> 3.1'
-gem "mysql", "~> 2.9"
