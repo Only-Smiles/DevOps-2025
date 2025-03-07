@@ -14,7 +14,7 @@ services:
       - '/tmp/minitwit.db:/tmp/minitwit.db' 
     environment:
       - ENV=prod
-      - MYSQL_ROOT_PASSWORD=${{ secrets.DB_PASSWORD }} 
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD} 
 
 
   itusqlimage:
@@ -25,7 +25,7 @@ services:
     ports:
       - '3306:3306'
     environment:
-        - MYSQL_ROOT_PASSWORD=${{ secrets.DB_PASSWORD }} 
+        - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
 
 networks:
   main:

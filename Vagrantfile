@@ -6,6 +6,7 @@ require 'json'
 
 DOCKER_USERNAME = 'rakt'
 DIGITAL_OCEAN_TOKEN = ENV["DIGITAL_OCEAN_TOKEN"]
+DB_PASSWORD = ENV["DB_PASSWORD"]
 DROPLET_REGION = 'fra1'
 SSH_KEYS_FILE = "/tmp/digitalocean_ssh_keys.txt"
 
@@ -92,6 +93,7 @@ Vagrant.configure("2") do |config|
     server.vm.hostname = unique_hostname
 
     server.vm.provision "shell", inline: 'echo "export DOCKER_USERNAME=' + "'" + DOCKER_USERNAME + "'" + '" >> ~/.bash_profile'
+    server.vm.provision "shell", inline: 'echo "export DB_PASSWORD=' + "'" + DB_PASSWORD + "'" + '" >> ~/.bash_profile'
     server.vm.provision "shell", path: './start_vm.sh'
 
     # Save SSH keys to a temporary file
