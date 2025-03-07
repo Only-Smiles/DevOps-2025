@@ -22,7 +22,7 @@ class MiniTwit < Sinatra::Base
   DATABASE = {
     'test' => File.join(__dir__, '../test/tmp/mock.db'),
     'dev' =>  File.join(__dir__, 'tmp/minitwit.db'),
-    'prod' =>  File.join(__dir__, '/tmp/minitwit.db'),
+    'prod' =>  '/tmp/minitwit.db',
   }[ENV.fetch('ENV', 'dev')]
   
   configure do
