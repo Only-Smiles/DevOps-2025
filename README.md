@@ -69,3 +69,4 @@ export DIGITAL_OCEAN_TOKEN="{YOUR_DICITAL_OCEAN_TOKEN}"
 Run `vagrant up` to deploy a new version.
 
 You can access the webserver and the restriced ip, which you can find inside your droplet settings in the Digital Ocean platform.
+
