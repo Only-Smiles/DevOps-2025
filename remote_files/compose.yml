@@ -11,21 +11,34 @@ services:
     ports:
         - '4567:4567'
     volumes:
-      - '/tmp/minitwit.db:/tmp/minitwit.db' 
+      - '/tmp/minitwit.db:/tmp/minitwit.db'
     environment:
       - ENV=prod
-      - MYSQL_ROOT_PASSWORD=${{ secrets.DB_PASSWORD }} 
+      - DB_USER=${DB_USER}
+      - DB_PWD=${DB_PWD}
+      - POSTGRES=${POSTGRES}
 
 
   itusqlimage:
-    image: ${DOCKER_USERNAME}/dbimage
+    image: postgres:17.4-bookworm
     container_name: minitwit_db
+    restart: always
     networks:
       - main
-    ports:
-      - '3306:3306'
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
     environment:
-        - MYSQL_ROOT_PASSWORD=${{ secrets.DB_PASSWORD }} 
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PWD}
+      POSTGRES_DB: minitwit
+      POSTGRES_INITDB_ARGS: "-A md5"
+    healthcheck:
+      test: "pg_isready -d $$POSTGRES_DB -U $$POSTGRES_USER"
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
 
 networks:
   main:
+    name: 'minitwit_main'
