@@ -1,7 +1,11 @@
 module DbHelper
   # Database connection helper with Sequel
   def self.db
-    @db ||= Sequel.sqlite(MiniTwit::DATABASE)
+    if ENV['POSTGRES'] == "yes"
+      @db ||= Sequel.connect("postgres://#{ENV['DB_USER']}:#{ENV['DB_PWD']}@itusqlimage:5432/minitwit")
+    else
+      @db ||= Sequel.sqlite(MiniTwit::DATABASE)
+    end
   end
 
   # Instance method to access the class methods
