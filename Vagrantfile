@@ -11,8 +11,7 @@ DIGITAL_OCEAN_TOKEN = ENV["DIGITAL_OCEAN_TOKEN"]
 DROPLET_REGION = 'fra1'
 SSH_KEYS_FILE = "/tmp/digitalocean_ssh_keys.txt"
 
-#unique_hostname = "webserver-#{Time.now.strftime('%Y%m%d%H%M')}"
-unique_hostname = "webserver-202503011311"
+unique_hostname = "webserver-#{Time.now.strftime('%Y%m%d%H%M')}"
 
 # Function to fetch SSH public keys from DigitalOcean
 def fetch_digitalocean_ssh_keys(token)
