@@ -44,16 +44,6 @@ jobs:
           cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwitimage:webbuildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwitimage:webbuildcache,mode=max
 
-      - name: Build and push dbimage
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: ./images/Dockerfile.mysql
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/dbimage:latest
-          cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/dbimage:mysqlbuildcache
-          cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/dbimage:mysqlbuildcache,mode=max
-
       - name: Build and push flagtoolimage
         uses: docker/build-push-action@v6
         with:
