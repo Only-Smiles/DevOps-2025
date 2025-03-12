@@ -1,5 +1,0 @@
-FROM mysql:9.2
-
-COPY remote_files/schema.sql /docker-entrypoint-initdb.d/
-
-EXPOSE 3306
