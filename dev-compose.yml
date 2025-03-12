@@ -1,6 +1,5 @@
 services:
-  minitwitimage:
-    image: ${DOCKER_USERNAME}/minitwitimage
+  minitwit:
     build:
       context: .
       dockerfile: images/Dockerfile.minitwit
@@ -10,19 +9,18 @@ services:
     networks:
       - main
     depends_on:
-      - itusqlimage
+      - database
     ports:
         - '4567:4567'
     volumes:
       - '/tmp/minitwit.db:/tmp/minitwit.db'
     environment:
-      - ENV=${ENV}
+      - RACK_ENV=${APP_ENV}
       - DB_USER=${DB_USER}
       - DB_PWD=${DB_PWD}
-      - POSTGRES=${POSTGRES}
 
 
-  itusqlimage:
+  database:
     image: postgres:17.4-bookworm
     container_name: minitwit_db
     restart: always
@@ -42,24 +40,22 @@ services:
       retries: 3
 
 
-  prometheus:
-    image: prom/prometheus
-    container_name: prometheus
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
-    ports:
-      - "9090:9090"
+  test:
+    build:
+      context: .
+      dockerfile: images/Dockerfile.test
+    container_name: minitwit_test
+    depends_on:
+      - minitwit
+      - database
+    restart: "no"
     networks:
       - main
+    environment:
+      DB_USER: ${DB_USER}
+      DB_PWD: ${DB_PWD}
 
 
-  grafana:
-    image: grafana/grafana:11.5.2
-    container_name: grafana
-    ports:
-      - "3000:3000"
-    networks:
-      - main
 
 networks:
   main:
