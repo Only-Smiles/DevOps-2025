@@ -1,0 +1,8 @@
+load database  
+    from sqlite:///tmp/minitwit.db  
+    into postgresql://admin@itusqlimage/minitwit  
+
+with include drop, create tables, create indexes, reset sequences
+
+cast type string to text;
+
