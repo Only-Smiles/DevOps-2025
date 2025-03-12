@@ -27,6 +27,7 @@
                         requests
                         python-dotenv
                         pytest
+                        psycopg
                     ]))
                 ];
 
