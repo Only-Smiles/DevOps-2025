@@ -13,3 +13,4 @@ gem 'puma', '~> 6.6'
 gem 'sequel', '~> 5.89'
 gem "dotenv", '~> 3.1'
 gem "pg", "~> 1.5"
+gem 'prometheus-client'

@@ -9,14 +9,13 @@ services:
     depends_on:
       - database
     ports:
-        - '4567:4567'
+      - '4567:4567'
     volumes:
       - '/tmp/minitwit.db:/tmp/minitwit.db'
     environment:
       - RACK_ENV=production
       - DB_USER=${DB_USER}
       - DB_PWD=${DB_PWD}
-
 
   database:
     image: postgres:17.4-bookworm
@@ -36,7 +35,6 @@ services:
       interval: 30s
       timeout: 20s
       retries: 3
-  
 
   prometheus:
     image: prom/prometheus
@@ -48,14 +46,12 @@ services:
     networks:
       - main
 
-
   grafana:
     image: grafana/grafana:11.5.2
     ports:
       - "3000:3000"
     networks:
       - main
-
 
 networks:
   main:

@@ -66,6 +66,8 @@ GEM
     nokogiri (1.18.2-x86_64-linux-musl)
       racc (~> 1.4)
     pg (1.5.9)
+    prometheus-client (4.2.4)
+      base64
     puma (6.6.0)
       nio4r (~> 2.0)
     racc (1.8.1)
@@ -136,6 +138,7 @@ DEPENDENCIES
   haml (~> 6.3)
   html2haml (~> 2.3)
   pg (~> 1.5)
+  prometheus-client
   puma (~> 6.6)
   rack-flash3 (>= 1.0.5)
   rackup (~> 2.2)
