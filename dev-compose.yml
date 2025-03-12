@@ -35,8 +35,8 @@ services:
       POSTGRES_INITDB_ARGS: "-A md5"
     healthcheck:
       test: "pg_isready -d $$POSTGRES_DB -U $$POSTGRES_USER"
-      interval: 30s
-      timeout: 20s
+      interval: 10s
+      timeout: 10s
       retries: 3
 
 
@@ -46,8 +46,10 @@ services:
       dockerfile: images/Dockerfile.test
     container_name: minitwit_test
     depends_on:
-      - minitwit
-      - database
+      minitwit:
+        condition: service_started
+      database:
+        condition: service_healthy
     restart: "no"
     networks:
       - main
