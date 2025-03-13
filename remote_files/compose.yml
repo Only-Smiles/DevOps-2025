@@ -17,6 +17,7 @@ services:
       - DB_USER=${DB_USER}
       - DB_PWD=${DB_PWD}
 
+
   database:
     image: postgres:17.4-bookworm
     container_name: minitwit_db
