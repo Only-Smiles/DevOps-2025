@@ -1,5 +1,5 @@
 services:
-  minitwitimage:
+  minitwit:
     image: ${DOCKER_USERNAME}/minitwitimage
     container_name: minitwit
     stdin_open: true
@@ -7,18 +7,17 @@ services:
     networks:
       - main
     depends_on:
-      - itusqlimage
+      - database
     ports:
       - '4567:4567'
     volumes:
       - '/tmp/minitwit.db:/tmp/minitwit.db'
     environment:
-      - ENV=prod
+      - RACK_ENV=production
       - DB_USER=${DB_USER}
       - DB_PWD=${DB_PWD}
-      - POSTGRES=${POSTGRES}
 
-  itusqlimage:
+  database:
     image: postgres:17.4-bookworm
     container_name: minitwit_db
     restart: always
@@ -49,6 +48,7 @@ services:
 
   grafana:
     image: grafana/grafana:11.5.2
+    container_name: grafana
     ports:
       - "3000:3000"
     networks:

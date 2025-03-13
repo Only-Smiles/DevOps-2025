@@ -19,11 +19,7 @@ require_relative 'controllers/api_controller'
 class MiniTwit < Sinatra::Base
   SECRET_KEY = SecureRandom.hex(32)
   PER_PAGE = 30
-  DATABASE = {
-    'test' => File.join(__dir__, '../test/tmp/mock.db'),
-    'dev' =>  File.join(__dir__, 'tmp/minitwit.db'),
-    'prod' =>  '/tmp/minitwit.db',
-  }[ENV.fetch('ENV', 'dev')]
+  DATABASE = "postgres://#{ENV['DB_USER']}:#{ENV['DB_PWD']}@database:5432/minitwit"
   
   configure do
     enable :sessions
@@ -31,7 +27,12 @@ class MiniTwit < Sinatra::Base
     use Rack::Flash
   end
 
+  configure :development, :test do
+    allowed_hosts = ['localhost', '127.0.0.1', 'minitwit']
+  end
+
   # Mount controllers
   use WebController
   use ApiController
+
 end
