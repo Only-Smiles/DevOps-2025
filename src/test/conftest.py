@@ -1,18 +1,23 @@
-from pathlib import Path
-from contextlib import closing
 import base64
 
-import sqlite3
 import pytest
 import requests
 import json
-from os.path import dirname, abspath, join
+from os import getenv
+from os.path import join
+import psycopg
+from dotenv import load_dotenv
 
-BASE_URL = 'http://localhost:4567'
+BASE_URL = 'http://minitwit:4567'
 API_URL = f"{BASE_URL}/api"
-BASE_DIR = dirname(abspath(__file__))
-DATABASE = join(BASE_DIR, "tmp", "mock.db")
-SCHEMA = join(BASE_DIR, "tmp", "schema.sql")
+
+load_dotenv()
+DB_USER = getenv('DB_USER')
+DB_PWD = getenv('DB_PWD')
+DATABASE = f"dbname=minitwit host=database user={DB_USER} password={DB_PWD}"
+
+SCHEMA = join("/test/tmp", "schema.sql")
+
 USERNAME = 'simulator'
 PWD = 'super_safe!'
 CREDENTIALS = ':'.join([USERNAME, PWD]).encode('ascii')
@@ -21,18 +26,28 @@ HEADERS = {'Connection': 'close',
            'Content-Type': 'application/json',
            'Authorization': f'Basic {ENCODED_CREDENTIALS}'}
 
+def init_db():
+    """Creates the database tables."""
+    with open(SCHEMA, "r") as fp:
+            schema = fp.read()
+    with psycopg.connect(DATABASE) as con:
+        with con.cursor() as cursor:
+            for statement in schema.split(";"):
+                if statement.strip():  # Avoid empty statements
+                    cursor.execute(statement)
+            con.commit()
+
+def reset_db():
+    """Empty the database and initialize the schema again"""
+    with psycopg.connect(DATABASE) as con:
+        with con.cursor() as cursor:
+            cursor.execute("DROP SCHEMA public CASCADE;")
+            cursor.execute("CREATE SCHEMA public;")  # Resets schema instead of dropping tables one by one
+            con.commit()
 
 @pytest.fixture(scope="module", autouse=True)
 def setup():
-    def init_db():
-        """Creates the database tables."""
-        with closing(sqlite3.connect(DATABASE)) as db:
-            with open(SCHEMA) as fp:
-                db.cursor().executescript(fp.read())
-            db.commit()
-
-# Empty the database and initialize the schema again
-    Path(DATABASE).unlink()
+    reset_db()
     init_db()
 
 
