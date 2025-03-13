@@ -13,8 +13,10 @@ services:
     volumes:
       - '/tmp/minitwit.db:/tmp/minitwit.db'
     environment:
-      - ENV=${ENV}
-      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - ENV=prod
+      - DB_USER=${DB_USER}
+      - DB_PWD=${DB_PWD}
+      - POSTGRES=${POSTGRES}
 
   itusqlimage:
     image: postgres:17.4-bookworm
