@@ -28,6 +28,7 @@ services:
       - main
     volumes:
       - ./pgdata:/var/lib/postgresql/data
+      - ./src/test/tmp/schema.sql:/docker-entrypoint-initdb.d/schema.sql
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PWD}
@@ -53,6 +54,7 @@ services:
 
   grafana:
     image: grafana/grafana:11.5.2
+    container_name: grafana
     ports:
       - "3000:3000"
     networks:

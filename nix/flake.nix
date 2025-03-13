@@ -21,6 +21,7 @@
                     git
                     ruby_3_4
                     bundler
+                    libpq
                 ];
                 packages = [
                     (pkgs.python313.withPackages (p: with p; [

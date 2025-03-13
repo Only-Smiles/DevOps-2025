@@ -48,6 +48,7 @@ services:
 
   grafana:
     image: grafana/grafana:11.5.2
+    container_name: grafana
     ports:
       - "3000:3000"
     networks:
