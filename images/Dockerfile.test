@@ -5,6 +5,7 @@ WORKDIR /test/
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
+COPY remote_files/schema.sql .
 COPY src/test .
 
 ENTRYPOINT ["pytest"]
