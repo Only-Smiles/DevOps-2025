@@ -9,18 +9,24 @@ on:
 jobs:
   hadolint:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dockerfile:
+          ["Dockerfile.flagtool", "Dockerfile.minitwit", "Dockerfile.test"]
     steps:
       - uses: actions/checkout@v3
+
       - name: Run Hadolint
         uses: hadolint/hadolint-action@v3.1.0
         with:
-          dockerfile: Dockerfile
+          dockerfile: images/${{ matrix.dockerfile }}
           format: sarif
-          output-file: hadolint-results.sarif
+          output-file: hadolint-results-${{ matrix.dockerfile }}.sarif
           failure-threshold: error
+
       - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@v2
         if: always()
         with:
-          sarif_file: hadolint-results.sarif
-          category: hadolint
+          sarif_file: hadolint-results-${{ matrix.dockerfile }}.sarif
+          category: hadolint-${{ matrix.dockerfile }}
