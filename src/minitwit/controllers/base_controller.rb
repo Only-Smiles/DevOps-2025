@@ -1,4 +1,4 @@
-# BaseController
+
 class BaseController < Sinatra::Base
   configure do
     set :views, File.join(__dir__, '..', 'views')
