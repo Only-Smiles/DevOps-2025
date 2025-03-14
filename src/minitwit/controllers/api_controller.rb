@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 
 # ApiController
 class ApiController < BaseController
