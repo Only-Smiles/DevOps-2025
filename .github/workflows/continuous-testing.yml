@@ -18,23 +18,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Ruby Setup
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.4' # Not needed with a .ruby-version, .tool-versions or mise.toml
-          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-          
-      - name: Run Website
-        run: nohup bundle exec rackup src/minitwit/config.ru --port 4567 &
-        env:
-          ENV: 'test'
-
-      - name: Python Setup 
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.13' 
-      
-      - name: Run Tests
+      - name: Test
         run: |
-            pip install pytest requests &&
-            pytest
+          docker compose -f dev-compose.yml up --build --abort-on-container-exit
+        env:
+          DB_USER: "test"
+          DB_PWD: "test"
+          APP_ENV: "test"

@@ -1,22 +1,22 @@
-drop table if exists user;
-create table user (
-  user_id integer primary key autoincrement,
-  username string not null,
-  email string not null,
-  pw_hash string not null
+DROP TABLE IF EXISTS "user";
+CREATE TABLE "user" (
+    user_id SERIAL PRIMARY KEY,
+    username TEXT NOT NULL,
+    email TEXT NOT NULL,
+    pw_hash TEXT NOT NULL
 );
 
-drop table if exists follower;
-create table follower (
-  who_id integer,
-  whom_id integer
+DROP TABLE IF EXISTS follower;
+CREATE TABLE follower (
+    who_id INTEGER REFERENCES "user"(user_id),
+    whom_id INTEGER REFERENCES "user"(user_id)
 );
 
-drop table if exists message;
-create table message (
-  message_id integer primary key autoincrement,
-  author_id integer not null,
-  text string not null,
-  pub_date integer,
-  flagged integer
+DROP TABLE IF EXISTS message;
+CREATE TABLE message (
+    message_id SERIAL PRIMARY KEY,
+    author_id INTEGER NOT NULL REFERENCES "user"(user_id),
+    text TEXT NOT NULL,
+    pub_date INTEGER,
+    flagged INTEGER
 );

@@ -1,6 +1,5 @@
 services:
-  minitwitimage:
-    image: ${DOCKER_USERNAME}/minitwitimage
+  minitwit:
     build:
       context: .
       dockerfile: images/Dockerfile.minitwit
@@ -10,19 +9,18 @@ services:
     networks:
       - main
     depends_on:
-      - itusqlimage
+      - database
     ports:
         - '4567:4567'
     volumes:
       - '/tmp/minitwit.db:/tmp/minitwit.db'
     environment:
-      - ENV=${ENV}
+      - RACK_ENV=${APP_ENV}
       - DB_USER=${DB_USER}
       - DB_PWD=${DB_PWD}
-      - POSTGRES=${POSTGRES}
 
 
-  itusqlimage:
+  database:
     image: postgres:17.4-bookworm
     container_name: minitwit_db
     restart: always
@@ -30,6 +28,7 @@ services:
       - main
     volumes:
       - ./pgdata:/var/lib/postgresql/data
+      - ./src/test/tmp/schema.sql:/docker-entrypoint-initdb.d/schema.sql
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PWD}
@@ -37,8 +36,8 @@ services:
       POSTGRES_INITDB_ARGS: "-A md5"
     healthcheck:
       test: "pg_isready -d $$POSTGRES_DB -U $$POSTGRES_USER"
-      interval: 30s
-      timeout: 20s
+      interval: 10s
+      timeout: 10s
       retries: 3
 
 
@@ -60,6 +59,25 @@ services:
       - "3000:3000"
     networks:
       - main
+
+
+  test:
+    build:
+      context: .
+      dockerfile: images/Dockerfile.test
+    container_name: minitwit_test
+    depends_on:
+      minitwit:
+        condition: service_started
+      database:
+        condition: service_healthy
+    restart: "no"
+    networks:
+      - main
+    environment:
+      DB_USER: ${DB_USER}
+      DB_PWD: ${DB_PWD}
+
 
 networks:
   main:
