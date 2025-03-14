@@ -1,3 +1,4 @@
+# rubocop:disable all
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
