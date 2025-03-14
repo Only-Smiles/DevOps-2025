@@ -16,7 +16,7 @@ DB_USER = getenv('DB_USER')
 DB_PWD = getenv('DB_PWD')
 DATABASE = f"dbname=minitwit host=database user={DB_USER} password={DB_PWD}"
 
-SCHEMA = join("/test/tmp", "schema.sql")
+SCHEMA = join("/test", "schema.sql")
 
 USERNAME = 'simulator'
 PWD = 'super_safe!'
