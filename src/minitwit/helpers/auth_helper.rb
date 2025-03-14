@@ -11,9 +11,6 @@ module AuthHelper
     @current_user ||= session[:user_id] ? get_user_by_id(session[:user_id]) : nil
   end
 
-  # rubocop:disable Metrics/CyclomaticComplexity
-  # rubocop:disable Metrics/MethodLength
-  # rubocop:disable Metrics/PerceivedComplexity
   # Register user
   def register_user(username, email, password)
     return { success: false, error: 'You have to enter a username' } if username.nil? || username.empty?
@@ -38,9 +35,6 @@ module AuthHelper
 
     { success: true }
   end
-  # rubocop:enable Metrics/CyclomaticComplexity
-  # rubocop:enable Metrics/MethodLength
-  # rubocop:enable Metrics/PerceivedComplexity
 
   # Authenticate user
   def authenticate_user(username, password)
