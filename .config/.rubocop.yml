@@ -6,3 +6,6 @@ Style/Documentation:
 
 Style/FrozenStringLiteralComment:
   Enabled: false
+
+Style/MutableConstant:
+  Enabled: false
