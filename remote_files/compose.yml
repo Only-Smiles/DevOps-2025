@@ -4,6 +4,7 @@ services:
     container_name: minitwit
     stdin_open: true
     tty: true
+    restart: always
     networks:
       - main
     depends_on:
