@@ -1,4 +1,3 @@
-
 class ApiController < BaseController
   LATEST = '../tmp/latest_processed_sim_action_id.txt'
 
