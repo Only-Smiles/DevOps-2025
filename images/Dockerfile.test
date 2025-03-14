@@ -1,10 +1,10 @@
-FROM python:3.7-alpine
+FROM python:3.13-alpine
 
-WORKDIR /minitwit-tests/
+WORKDIR /test/
 
 COPY requirements.txt .
-COPY /test . 
-
 RUN pip install -r requirements.txt
+
+COPY src/test .
 
 ENTRYPOINT ["pytest"]
