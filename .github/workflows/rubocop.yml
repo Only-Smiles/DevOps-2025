@@ -21,6 +21,7 @@ jobs:
             ${{ runner.os }}-rubocop-
       - name: Install gems
         run: |
-          bundle install
+          bundle config set path 'vendor/bundle'
+          bundle install --jobs 4 --retry 3
       - name: Run RuboCop
-        run: bundle exec rubocop --parallel
+        run: bundle exec rubocop --parallel --config .config/.rubocop.yml
