@@ -12,7 +12,7 @@ gem 'puma', '~> 6.6'
 gem 'rack-flash3', '>= 1.0.5'
 gem 'rackup', '~> 2.2'
 gem 'rake', '>= 13.2.1'
-gem 'rubocop', require: false
+gem 'rubocop', '~> 1.74'
 gem 'sequel', '~> 5.89'
 gem 'sinatra', '>= 4.1.1'
 gem 'sinatra-activerecord', '>= 2.0.28'
