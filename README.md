@@ -2,6 +2,21 @@
 
 Project repository for group 'the happy group'
 
+## Environment variables and Vagrant
+
+We are using a package called dotenv for managing environment variables. In order to install the package, run `bundle install` from your terminal.
+
+We must never expose our .env file public, because it contains secrets. Therefore it is ignored in our .gitignore. All developers must have a .env file located in the root folder of our project. Information about how to set this up is shared elsewhere.
+
+In order to be able to run vagrant commands, such as `vagrant provision` and `vagrant rsync`, you must have the following plugins installed to vagrant:
+
+```
+vagrant-digitalocean (0.9.6, global)
+vagrant-env (0.0.3, global)
+vagrant-reload (0.0.1, global)
+vagrant-scp (0.5.9, global)
+```
+
 ## Ruby installation
 
 Requires ruby version >= 3.4.1
