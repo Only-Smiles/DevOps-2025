@@ -1,7 +1,7 @@
 module DbHelper
   # Database connection helper with Sequel
   def self.db
-    @db ||= Sequel.connect(MiniTwit::DATABASE)
+    @db ||= Sequel.connect(MiniTwit::DATABASE, max_connections: 10)
   end
 
   # Instance method to access the class methods
@@ -104,4 +104,10 @@ module DbHelper
   def close_db
     DbHelper.close_db
   end
+
+  at_exit do
+    puts "Closing database connections..."
+    close_db
+  end
+
 end
