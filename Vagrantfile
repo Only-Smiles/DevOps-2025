@@ -5,14 +5,10 @@
 require 'net/http'
 require 'json'
 
-DOCKER_USERNAME = 'rakt'
-DB_USER = ENV["DB_USER"]
-DB_PWD = ENV["DB_PWD"]
-DIGITAL_OCEAN_TOKEN = ENV["DIGITAL_OCEAN_TOKEN"]
 DROPLET_REGION = 'fra1'
 SSH_KEYS_FILE = "/tmp/digitalocean_ssh_keys.txt"
 
-unique_hostname = "webserver-#{Time.now.strftime('%Y%m%d%H%M')}"
+unique_hostname = "webserver-202503011311"
 
 # Function to fetch SSH public keys from DigitalOcean
 def fetch_digitalocean_ssh_keys(token)
@@ -37,7 +33,7 @@ end
 def get_or_create_reserved_ip()
   uri = URI("https://api.digitalocean.com/v2/reserved_ips")
   request = Net::HTTP::Get.new(uri)
-  request["Authorization"] = "Bearer #{DIGITAL_OCEAN_TOKEN}"
+  request["Authorization"] = "Bearer #{ENV["DIGITAL_OCEAN_TOKEN"]}"
   request["Content-Type"] = "application/json"
 
   response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
@@ -55,7 +51,7 @@ def get_or_create_reserved_ip()
     puts "Requesting a new reserved IP..."
     uri = URI("https://api.digitalocean.com/v2/reserved_ips")
     request = Net::HTTP::Post.new(uri)
-    request["Authorization"] = "Bearer #{DIGITAL_OCEAN_TOKEN}"
+    request["Authorization"] = "Bearer #{ENV["DIGITAL_OCEAN_TOKEN"]}"
     request["Content-Type"] = "application/json"
     request.body = { "region" => DROPLET_REGION }.to_json
 
@@ -70,10 +66,10 @@ def get_or_create_reserved_ip()
 end
 
 RESERVED_IP = get_or_create_reserved_ip()
-
-ssh_keys = fetch_digitalocean_ssh_keys(DIGITAL_OCEAN_TOKEN)
+ssh_keys = fetch_digitalocean_ssh_keys(ENV["DIGITAL_OCEAN_TOKEN"])
 
 Vagrant.configure("2") do |config|
+  config.env.enable
   config.vm.box = 'digital_ocean'
   config.vm.box_url = "https://github.com/devopsgroup-io/vagrant-digitalocean/raw/master/box/digital_ocean.box"
   config.ssh.private_key_path = ENV["PRIVATE_KEY_PATH"]
@@ -84,7 +80,7 @@ Vagrant.configure("2") do |config|
   config.vm.define unique_hostname, primary: false do |server|
     server.vm.provider :digital_ocean do |provider|
       provider.ssh_key_name = ENV["SSH_KEY_NAME"]
-      provider.token = DIGITAL_OCEAN_TOKEN
+      provider.token = ENV["DIGITAL_OCEAN_TOKEN"]
       provider.image = 'ubuntu-22-04-x64'
       provider.region = DROPLET_REGION
       provider.size = 's-1vcpu-2gb'
@@ -96,9 +92,9 @@ Vagrant.configure("2") do |config|
 
     # ensures that our .bash_profile is idempotent
     server.vm.provision "shell", inline: 'echo "" > ~/.bash_profile'
-    server.vm.provision "shell", inline: 'echo "export DOCKER_USERNAME=' + "'" + DOCKER_USERNAME + "'" + '" >> ~/.bash_profile'
-    server.vm.provision "shell", inline: 'echo "export DB_USER=' + "'" + DB_USER + "'" + '" >> ~/.bash_profile'
-    server.vm.provision "shell", inline: 'echo "export DB_PWD=' + "'" + DB_PWD + "'" + '" >> ~/.bash_profile'
+    server.vm.provision "shell", inline: 'echo "export DOCKER_USERNAME=' + "'" + ENV["DOCKER_USERNAME"] + "'" + '" >> ~/.bash_profile'
+    server.vm.provision "shell", inline: 'echo "export DB_USER=' + "'" + ENV["DB_USER"] + "'" + '" >> ~/.bash_profile'
+    server.vm.provision "shell", inline: 'echo "export DB_PWD=' + "'" + ENV["DB_PWD"] + "'" + '" >> ~/.bash_profile'
     server.vm.provision "shell", path: './start_vm.sh'
 
     # Save SSH keys to a temporary file
@@ -115,7 +111,7 @@ Vagrant.configure("2") do |config|
       rm /tmp/authorized_keys
     SHELL
 
-    server.vm.provision "shell", path: './reassign_reserved_ip.sh', args: [DIGITAL_OCEAN_TOKEN, unique_hostname, RESERVED_IP]
+    server.vm.provision "shell", path: './reassign_reserved_ip.sh', args: [ENV["DIGITAL_OCEAN_TOKEN"], unique_hostname, RESERVED_IP]
 
     server.vm.provision "shell", inline: <<-SHELL
       echo "Provisioning new droplet..."
