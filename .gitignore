@@ -4,7 +4,6 @@
 ### Ruby ###
 *.gem
 *.rbc
-/.config
 /coverage/
 /InstalledFiles
 /pkg/
@@ -15,7 +14,7 @@
 /tmp/
 
 # Used by dotenv library to load environment variables.
-.env
+.env*
 .envrc
 
 # Ignore bin
