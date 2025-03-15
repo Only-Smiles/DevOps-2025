@@ -9,7 +9,6 @@ class ApiController < BaseController
 
   after do
     update_latest
-    close_db
   end
 
   # Latest action
