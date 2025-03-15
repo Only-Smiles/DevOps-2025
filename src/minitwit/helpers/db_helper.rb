@@ -106,8 +106,7 @@ module DbHelper
   end
 
   at_exit do
-    puts "Closing database connections..."
+    puts 'Closing database connections...'
     close_db
   end
-
 end
