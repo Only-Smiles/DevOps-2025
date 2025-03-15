@@ -3,6 +3,7 @@
 source 'https://rubygems.org'
 
 gem 'bcrypt', '>= 3.1.20'
+gem 'bundler-audit', '~> 0.9.2'
 gem 'dotenv', '~> 3.1'
 gem 'haml', '~> 6.3'
 gem 'html2haml', '~> 2.3'
