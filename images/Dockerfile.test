@@ -1,5 +1,19 @@
 FROM python:3.13-alpine
 
+# Install Firefox and required tools
+RUN apt-get update && apt-get install -y \
+    firefox-esr \
+    wget \
+    tar \
+    && rm -rf /var/lib/apt/lists/*
+
+# Download and install geckodriver
+RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.32.0/geckodriver-v0.32.0-linux64.tar.gz && \
+    tar -xzf geckodriver-v0.32.0-linux64.tar.gz && \
+    chmod +x geckodriver && \
+    mv geckodriver /usr/local/bin/ && \
+    rm geckodriver-v0.32.0-linux64.tar.gz
+
 WORKDIR /test
 
 COPY requirements.txt .
