@@ -1,11 +1,10 @@
 FROM python:3.13-alpine
 
-# Install Firefox and required tools
-RUN apt-get update && apt-get install -y \
+# Install Firefox and required tools using apk
+RUN apk add --no-cache \
     firefox-esr \
     wget \
-    tar \
-    && rm -rf /var/lib/apt/lists/*
+    tar
 
 # Download and install geckodriver
 RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.32.0/geckodriver-v0.32.0-linux64.tar.gz && \
