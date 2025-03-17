@@ -32,7 +32,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.firefox.options import Options
 
-GUI_URL = "{BASE_URL}/register"
+GUI_URL = f'{BASE_URL}/register'
 
 def _register_user_via_gui(driver, data):
     driver.get(GUI_URL)
