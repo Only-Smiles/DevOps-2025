@@ -63,7 +63,7 @@ def test_register_user_via_gui():
     firefox_options = Options()
     firefox_options.add_argument("--headless")
     # firefox_options = None
-    with webdriver.Firefox(service=Service("./geckodriver"), options=firefox_options) as driver:
+    with webdriver.Firefox(options=firefox_options) as driver:
         generated_msg = _register_user_via_gui(driver, ["Me1", "me@some.where", "secure123", "secure123"])
         expected_msg = "You were successfully registered and can login now"
         assert generated_msg == expected_msg
