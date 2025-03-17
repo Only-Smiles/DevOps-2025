@@ -62,6 +62,7 @@ def test_register_user_via_gui():
     """
     firefox_options = Options()
     firefox_options.add_argument("--headless")
+    firefox_options.binary_location = "/usr/bin/firefox-esr"
     # firefox_options = None
     with webdriver.Firefox(options=firefox_options) as driver:
         generated_msg = _register_user_via_gui(driver, ["Me1", "me@some.where", "secure123", "secure123"])
