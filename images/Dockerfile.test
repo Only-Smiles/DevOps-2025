@@ -6,7 +6,7 @@ RUN apk add --no-cache \
     wget \
     tar
 
-RUN firefox --version
+RUN /usr/bin/firefox-esr --version
 
 # Download and install geckodriver
 RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.32.0/geckodriver-v0.32.0-linux64.tar.gz && \
