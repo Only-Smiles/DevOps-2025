@@ -1,28 +1,3 @@
-"""
-To run this test with a visible browser, the following dependencies have to be setup:
-
-  * `pip install selenium`
-  * `pip install pymongo`
-  * `pip install pytest`
-  * `wget https://github.com/mozilla/geckodriver/releases/download/v0.32.0/geckodriver-v0.32.0-linux64.tar.gz`
-  * `tar xzvf geckodriver-v0.32.0-linux64.tar.gz`
-  * After extraction, the downloaded artifact can be removed: `rm geckodriver-v0.32.0-linux64.tar.gz`
-
-The application that it tests is the version of _ITU-MiniTwit_ that you got to know during the exercises on Docker:
-https://github.com/itu-devops/flask-minitwit-mongodb/tree/Containerize (*OBS*: branch Containerize)
-
-```bash
-$ git clone https://github.com/HelgeCPH/flask-minitwit-mongodb.git
-$ cd flask-minitwit-mongodb
-$ git switch Containerize
-```
-
-After editing the `docker-compose.yml` file file where you replace `youruser` with your respective username, the
-application can be started with `docker-compose up`.
-
-Now, the test itself can be executed via: `pytest test_itu_minitwit_ui.py`.
-"""
-
 from conftest import BASE_URL
 from selenium import webdriver
 from selenium.webdriver.common.by import By

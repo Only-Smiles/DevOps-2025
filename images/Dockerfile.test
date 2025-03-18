@@ -6,8 +6,6 @@ RUN apk add --no-cache \
     wget \
     tar
 
-RUN /usr/bin/firefox-esr --version
-
 # Download and install the latest geckodriver (recommended version for Firefox 136.0.1)
 RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.36.0/geckodriver-v0.36.0-linux64.tar.gz && \
     tar -xzf geckodriver-v0.36.0-linux64.tar.gz && \
