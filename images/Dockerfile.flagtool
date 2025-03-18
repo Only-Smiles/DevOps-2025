@@ -5,8 +5,8 @@ RUN mkdir /flag_tool
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 WORKDIR /build
 COPY /flag_tool .
-RUN dotnet restore "flag_tool.csproj"
-RUN dotnet build "flag_tool.csproj" -c Release -o /app
+RUN dotnet restore "flag_tool.csproj"  \
+&& dotnet build "flag_tool.csproj" -c Release -o /app
 
 # COMPILE
 FROM build AS publish
@@ -16,4 +16,4 @@ RUN dotnet publish "flag_tool.csproj" -c Release -o /app
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .														
-CMD '/bin/bash'
+CMD ["/bin/bash"]

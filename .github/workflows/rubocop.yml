@@ -7,7 +7,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout latest version
+      - uses: actions/checkout@v4
+      
       - name: Set up Ruby 3.4
         uses: ruby/setup-ruby@v1
         with:
