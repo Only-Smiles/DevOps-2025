@@ -11,13 +11,13 @@ source "${BASH_SOURCE[0]%/*}"/lib.sh
 
 declare -A users_passwords
 users_passwords=(
-	[logstash_internal]="${MASTER_PASSWORD:-}"
-	[kibana_system]="${MASTER_PASSWORD:-}"
-	[metricbeat_internal]="${MASTER_PASSWORD:-}"
-	[filebeat_internal]="${MASTER_PASSWORD:-}"
-	[heartbeat_internal]="${MASTER_PASSWORD:-}"
-	[monitoring_internal]="${MASTER_PASSWORD:-}"
-	[beats_system]="${MASTER_PASSWORD=:-}"
+	[logstash_internal]="${LOGSTASH_INTERNAL_PASSWORD:-}"
+	[kibana_system]="${KIBANA_SYSTEM_PASSWORD:-}"
+	[metricbeat_internal]="${METRICBEAT_INTERNAL_PASSWORD:-}"
+	[filebeat_internal]="${FILEBEAT_INTERNAL_PASSWORD:-}"
+	[heartbeat_internal]="${HEARTBEAT_INTERNAL_PASSWORD:-}"
+	[monitoring_internal]="${MONITORING_INTERNAL_PASSWORD:-}"
+	[beats_system]="${BEATS_SYSTEM_PASSWORD=:-}"
 )
 
 declare -A users_roles
