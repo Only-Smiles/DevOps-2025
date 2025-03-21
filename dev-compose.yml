@@ -55,6 +55,14 @@ services:
   grafana:
     image: grafana/grafana:11.5.2
     container_name: grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_USERNAME}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./remote_files/grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./remote_files/grafana/datasources:/etc/grafana/provisioning/datasources
+      - ./remote_files/grafana/alerting:/etc/grafana/provisioning/alerting
     ports:
       - "3000:3000"
     networks:
@@ -82,3 +90,6 @@ services:
 networks:
   main:
     name: 'minitwit_main'
+
+volumes:
+  grafana-data:
