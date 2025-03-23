@@ -1,7 +1,9 @@
 # Ruby ubuntu image
 FROM ruby:3.4.1-bookworm
 
-RUN apt-get update && apt-get -y upgrade
+RUN apt-get update && apt-get -y upgrade \
+&& apt-get clean \
+&& rm -rf /var/lib/apt/lists/*
 
 # Equivalent to mkdir -p /app && cd /app
 WORKDIR /app
