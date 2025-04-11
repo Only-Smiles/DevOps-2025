@@ -31,7 +31,7 @@ services:
     networks:
       - main
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - /pgdata:/var/lib/postgresql/data
       - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
     environment:
       POSTGRES_USER: ${DB_USER}
@@ -111,8 +111,6 @@ networks:
     name: 'minitwit_main'
 
 volumes:
-  pgdata:
-    driver: local
   grafana-data:
     driver: local
   redis-data:
