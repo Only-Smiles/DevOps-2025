@@ -9,6 +9,12 @@ require 'securerandom'
 require 'digest/md5'
 require 'sequel'
 require 'dotenv/load'
+require 'logger'
+
+puts "[BOOT] MiniTwit loaded"
+$stdout.sync = true # still useful in Docker
+LOGGER = Logger.new($stdout)
+LOGGER.level = Logger::DEBUG
 
 # Require helpers and controllers
 Dir[File.join(__dir__, 'helpers/*.rb')].sort.each { |file| require file }
@@ -22,8 +28,10 @@ class MiniTwit < Sinatra::Base
   DATABASE = "postgres://#{ENV.fetch('DB_USER', nil)}:#{ENV.fetch('DB_PWD', nil)}@database:5432/minitwit"
 
   configure do
+    enable :logging
+    set :logger, LOGGER
     enable :sessions
-    use Rack::Session::Cookie, key: 'rack.session', secret: SECRET_KEY
+    use Rack::Session::Cookie, key: 'rack.session', path: '/', secret: SECRET_KEY
     use Rack::Flash
   end
 
