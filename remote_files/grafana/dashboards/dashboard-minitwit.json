@@ -18,31 +18,55 @@
     "editable": true,
     "fiscalYearStartMonth": 0,
     "graphTooltip": 0,
-    "id": 1,
+    "id": 2,
     "links": [],
     "panels": [
         {
-            "datasource": "Prometheus",
+            "datasource": {
+                "type": "prometheus",
+                "uid": "PBFA97CFB590B2093"
+            },
             "fieldConfig": {
                 "defaults": {
                     "color": {
-                        "mode": "thresholds"
+                        "mode": "palette-classic"
                     },
                     "custom": {
-                        "fillOpacity": 70,
+                        "axisBorderShow": false,
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
+                        "axisLabel": "",
+                        "axisPlacement": "auto",
+                        "barAlignment": 0,
+                        "barWidthFactor": 0.6,
+                        "drawStyle": "line",
+                        "fillOpacity": 0,
+                        "gradientMode": "none",
                         "hideFrom": {
                             "legend": false,
                             "tooltip": false,
                             "viz": false
                         },
                         "insertNulls": false,
-                        "lineWidth": 0,
-                        "spanNulls": false
+                        "lineInterpolation": "linear",
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "scaleDistribution": {
+                            "type": "linear"
+                        },
+                        "showPoints": "auto",
+                        "spanNulls": false,
+                        "stacking": {
+                            "group": "A",
+                            "mode": "none"
+                        },
+                        "thresholdsStyle": {
+                            "mode": "off"
+                        }
                     },
-                    "displayName": "minitwit",
                     "mappings": [],
                     "thresholds": {
-                        "mode": "percentage",
+                        "mode": "absolute",
                         "steps": [
                             {
                                 "color": "green",
@@ -63,17 +87,14 @@
                 "x": 0,
                 "y": 0
             },
-            "id": 2,
+            "id": 3,
             "options": {
-                "alignValue": "center",
                 "legend": {
+                    "calcs": [],
                     "displayMode": "list",
                     "placement": "bottom",
                     "showLegend": true
                 },
-                "mergeValues": true,
-                "rowHeight": 1,
-                "showValue": "auto",
                 "tooltip": {
                     "hideZeros": false,
                     "mode": "single",
@@ -83,20 +104,15 @@
             "pluginVersion": "11.5.2",
             "targets": [
                 {
-                    "disableTextWrap": false,
-                    "editorMode": "builder",
-                    "exemplar": false,
-                    "expr": "up{instance=\"minitwit:4567\"}",
-                    "fullMetaSearch": false,
-                    "includeNullMetadata": true,
+                    "editorMode": "code",
+                    "expr": "100* (sum(http_server_requests_total) by (code)/ on() group_left() sum(http_server_requests_total))",
                     "legendFormat": "__auto",
                     "range": true,
-                    "refId": "A",
-                    "useBackend": false
+                    "refId": "A"
                 }
             ],
-            "title": "Website Uptime",
-            "type": "state-timeline"
+            "title": "Return Codes [%]",
+            "type": "timeseries"
         },
         {
             "datasource": "Prometheus",
@@ -206,6 +222,83 @@
             ],
             "title": "Cumulative Requests",
             "type": "timeseries"
+        },
+        {
+            "datasource": "Prometheus",
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "thresholds"
+                    },
+                    "custom": {
+                        "fillOpacity": 70,
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
+                        },
+                        "insertNulls": false,
+                        "lineWidth": 0,
+                        "spanNulls": false
+                    },
+                    "displayName": "minitwit",
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "percentage",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    }
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 0,
+                "y": 8
+            },
+            "id": 2,
+            "options": {
+                "alignValue": "center",
+                "legend": {
+                    "displayMode": "list",
+                    "placement": "bottom",
+                    "showLegend": true
+                },
+                "mergeValues": true,
+                "rowHeight": 1,
+                "showValue": "auto",
+                "tooltip": {
+                    "hideZeros": false,
+                    "mode": "single",
+                    "sort": "none"
+                }
+            },
+            "pluginVersion": "11.5.2",
+            "targets": [
+                {
+                    "disableTextWrap": false,
+                    "editorMode": "builder",
+                    "exemplar": false,
+                    "expr": "up{instance=\"minitwit:4567\"}",
+                    "fullMetaSearch": false,
+                    "includeNullMetadata": true,
+                    "legendFormat": "__auto",
+                    "range": true,
+                    "refId": "A",
+                    "useBackend": false
+                }
+            ],
+            "title": "Website Uptime",
+            "type": "state-timeline"
         }
     ],
     "preload": false,
@@ -216,13 +309,13 @@
         "list": []
     },
     "time": {
-        "from": "2025-03-21T05:31:03.761Z",
-        "to": "2025-03-21T07:22:11.943Z"
+        "from": "now-15m",
+        "to": "now"
     },
     "timepicker": {},
     "timezone": "browser",
     "title": "Minitwit System",
     "uid": "eeghjjvdaqcjkd",
-    "version": 7,
+    "version": 6,
     "weekStart": ""
 }
