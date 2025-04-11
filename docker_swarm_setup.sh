@@ -150,6 +150,5 @@ ssh root@"$IPV4_WORKER1" "docker swarm join --token ${WORKER_TOKEN} $IPV4_SWARM_
 # shellcheck disable=SC2029
 ssh root@"$IPV4_WORKER2" "docker swarm join --token ${WORKER_TOKEN} $IPV4_SWARM_MANAGER:2377"
 
-# ./reassign_reserved_ip.sh $SWARM_MANAGER_NAME "$(get_or_create_reserved_ip)"
 chmod +x reassign_reserved_ip.sh
-./reassign_reserved_ip.sh $SWARM_MANAGER_NAME "209.38.115.63"
+./reassign_reserved_ip.sh $SWARM_MANAGER_NAME "$(get_or_create_reserved_ip)"
