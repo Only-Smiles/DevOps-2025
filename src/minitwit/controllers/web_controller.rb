@@ -1,6 +1,10 @@
 class WebController < BaseController
   # Index route
   get '/' do
+    puts 'Hello World!'
+    LOGGER.info 'Home route hit'
+    LOGGER.warn 'Something might be off'
+    LOGGER.error 'Something went wrong'
     redirect '/public' unless current_user
     @messages = get_timeline_messages(current_user[:user_id])
     @title = 'My Timeline'

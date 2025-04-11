@@ -29,6 +29,267 @@
             "fieldConfig": {
                 "defaults": {
                     "color": {
+                        "mode": "thresholds"
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "light-purple",
+                                "value": 500
+                            }
+                        ]
+                    }
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 8,
+                "x": 0,
+                "y": 0
+            },
+            "id": 5,
+            "options": {
+                "minVizHeight": 75,
+                "minVizWidth": 75,
+                "orientation": "auto",
+                "reduceOptions": {
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": "",
+                    "values": false
+                },
+                "showThresholdLabels": false,
+                "showThresholdMarkers": true,
+                "sizing": "auto"
+            },
+            "pluginVersion": "11.5.2",
+            "targets": [
+                {
+                    "editorMode": "code",
+                    "expr": "label_replace(sum(increase(http_server_request_duration_seconds_sum[2m]))/ clamp_min(sum(increase(http_server_request_duration_seconds_count[2m])), 1) * 1000, \"average_latency\", \"average_latency\", \"name\", \"(.*)\")",
+                    "legendFormat": "Average latency",
+                    "range": true,
+                    "refId": "A"
+                },
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "PBFA97CFB590B2093"
+                    },
+                    "editorMode": "code",
+                    "expr": "label_replace(histogram_quantile(0.99, sum(increase(http_server_request_duration_seconds_bucket[2m])) by (le)) * 1000, \"max_latency\", \"max_latency\", \"name\", \"(.*)\")",
+                    "hide": false,
+                    "instant": false,
+                    "legendFormat": "Max latency",
+                    "range": true,
+                    "refId": "B"
+                }
+            ],
+            "title": "Average latency and max latency in ms [2m]",
+            "type": "gauge"
+        },
+        {
+            "datasource": "Prometheus",
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "thresholds"
+                    },
+                    "custom": {
+                        "fillOpacity": 70,
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
+                        },
+                        "insertNulls": false,
+                        "lineWidth": 0,
+                        "spanNulls": false
+                    },
+                    "displayName": "minitwit",
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "percentage",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    }
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 8,
+                "x": 8,
+                "y": 0
+            },
+            "id": 2,
+            "options": {
+                "alignValue": "center",
+                "legend": {
+                    "displayMode": "list",
+                    "placement": "bottom",
+                    "showLegend": true
+                },
+                "mergeValues": true,
+                "rowHeight": 1,
+                "showValue": "auto",
+                "tooltip": {
+                    "hideZeros": false,
+                    "mode": "single",
+                    "sort": "none"
+                }
+            },
+            "pluginVersion": "11.5.2",
+            "targets": [
+                {
+                    "disableTextWrap": false,
+                    "editorMode": "builder",
+                    "exemplar": false,
+                    "expr": "up{instance=\"minitwit:4567\"}",
+                    "fullMetaSearch": false,
+                    "includeNullMetadata": true,
+                    "legendFormat": "__auto",
+                    "range": true,
+                    "refId": "A",
+                    "useBackend": false
+                }
+            ],
+            "title": "Website Uptime",
+            "type": "state-timeline"
+        },
+        {
+            "datasource": "Prometheus",
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "palette-classic"
+                    },
+                    "custom": {
+                        "axisBorderShow": false,
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
+                        "axisLabel": "",
+                        "axisPlacement": "auto",
+                        "barAlignment": 0,
+                        "barWidthFactor": 0.6,
+                        "drawStyle": "line",
+                        "fillOpacity": 0,
+                        "gradientMode": "none",
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
+                        },
+                        "insertNulls": false,
+                        "lineInterpolation": "linear",
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "scaleDistribution": {
+                            "type": "linear"
+                        },
+                        "showPoints": "auto",
+                        "spanNulls": false,
+                        "stacking": {
+                            "group": "A",
+                            "mode": "none"
+                        },
+                        "thresholdsStyle": {
+                            "mode": "off"
+                        }
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    }
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 8,
+                "x": 16,
+                "y": 0
+            },
+            "id": 1,
+            "options": {
+                "legend": {
+                    "calcs": [],
+                    "displayMode": "list",
+                    "placement": "bottom",
+                    "showLegend": true
+                },
+                "tooltip": {
+                    "hideZeros": false,
+                    "mode": "single",
+                    "sort": "none"
+                }
+            },
+            "pluginVersion": "11.5.2",
+            "targets": [
+                {
+                    "datasource": "Prometheus",
+                    "editorMode": "code",
+                    "expr": "label_replace(sum(increase(http_server_requests_total{path=~\".*msgs.*\"}[10m])), \"msgs\", \"msgs\", \"name\", \"(.*)\")",
+                    "legendFormat": "__auto",
+                    "range": true,
+                    "refId": "Messages"
+                },
+                {
+                    "datasource": "Prometheus",
+                    "editorMode": "code",
+                    "expr": "label_replace(sum(increase(http_server_requests_total{path=~\".*register.*\"}[10m])), \"register\", \"register\", \"name\", \"(.*)\")",
+                    "hide": false,
+                    "legendFormat": "__auto",
+                    "range": true,
+                    "refId": "Registers"
+                },
+                {
+                    "datasource": "Prometheus",
+                    "editorMode": "code",
+                    "expr": "label_replace(sum(increase(http_server_requests_total{path=~\".*fllws.*\"}[10m])), \"fllws\", \"fllws\", \"name\", \"(.*)\")",
+                    "hide": false,
+                    "legendFormat": "__auto",
+                    "range": true,
+                    "refId": "Follows"
+                }
+            ],
+            "title": "Requests per endpoint [10m]",
+            "type": "timeseries"
+        },
+        {
+            "datasource": {
+                "type": "prometheus",
+                "uid": "PBFA97CFB590B2093"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
                         "mode": "palette-classic"
                     },
                     "custom": {
@@ -85,9 +346,9 @@
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 0
+                "y": 8
             },
-            "id": 3,
+            "id": 4,
             "options": {
                 "legend": {
                     "calcs": [],
@@ -105,17 +366,20 @@
             "targets": [
                 {
                     "editorMode": "code",
-                    "expr": "100* (sum(http_server_requests_total) by (code)/ on() group_left() sum(http_server_requests_total))",
+                    "expr": "sum(increase(http_server_requests_total[5m])) by (code)",
                     "legendFormat": "__auto",
                     "range": true,
                     "refId": "A"
                 }
             ],
-            "title": "Return Codes [%]",
+            "title": "Requests by status code [5m]",
             "type": "timeseries"
         },
         {
-            "datasource": "Prometheus",
+            "datasource": {
+                "type": "prometheus",
+                "uid": "PBFA97CFB590B2093"
+            },
             "fieldConfig": {
                 "defaults": {
                     "color": {
@@ -175,9 +439,9 @@
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 0
+                "y": 8
             },
-            "id": 1,
+            "id": 3,
             "options": {
                 "legend": {
                     "calcs": [],
@@ -194,111 +458,15 @@
             "pluginVersion": "11.5.2",
             "targets": [
                 {
-                    "datasource": "Prometheus",
                     "editorMode": "code",
-                    "expr": "label_replace(sum(http_server_requests_total{path=~\".*msgs.*\"}), \"msgs\", \"msgs\", \"name\", \"(.*)\")",
+                    "expr": "100* (sum(http_server_requests_total) by (code)/ on() group_left() sum(http_server_requests_total))",
                     "legendFormat": "__auto",
                     "range": true,
-                    "refId": "Messages"
-                },
-                {
-                    "datasource": "Prometheus",
-                    "editorMode": "code",
-                    "expr": "label_replace(sum(http_server_requests_total{path=~\".*register.*\"}), \"register\", \"register\", \"name\", \"(.*)\")",
-                    "hide": false,
-                    "legendFormat": "__auto",
-                    "range": true,
-                    "refId": "Registers"
-                },
-                {
-                    "datasource": "Prometheus",
-                    "editorMode": "code",
-                    "expr": "label_replace(sum(http_server_requests_total{path=~\".*fllws.*\"}), \"fllws\", \"fllws\", \"name\", \"(.*)\")",
-                    "hide": false,
-                    "legendFormat": "__auto",
-                    "range": true,
-                    "refId": "Follows"
+                    "refId": "A"
                 }
             ],
-            "title": "Cumulative Requests",
+            "title": "Return Codes [%]",
             "type": "timeseries"
-        },
-        {
-            "datasource": "Prometheus",
-            "fieldConfig": {
-                "defaults": {
-                    "color": {
-                        "mode": "thresholds"
-                    },
-                    "custom": {
-                        "fillOpacity": 70,
-                        "hideFrom": {
-                            "legend": false,
-                            "tooltip": false,
-                            "viz": false
-                        },
-                        "insertNulls": false,
-                        "lineWidth": 0,
-                        "spanNulls": false
-                    },
-                    "displayName": "minitwit",
-                    "mappings": [],
-                    "thresholds": {
-                        "mode": "percentage",
-                        "steps": [
-                            {
-                                "color": "green",
-                                "value": null
-                            },
-                            {
-                                "color": "red",
-                                "value": 80
-                            }
-                        ]
-                    }
-                },
-                "overrides": []
-            },
-            "gridPos": {
-                "h": 8,
-                "w": 12,
-                "x": 0,
-                "y": 8
-            },
-            "id": 2,
-            "options": {
-                "alignValue": "center",
-                "legend": {
-                    "displayMode": "list",
-                    "placement": "bottom",
-                    "showLegend": true
-                },
-                "mergeValues": true,
-                "rowHeight": 1,
-                "showValue": "auto",
-                "tooltip": {
-                    "hideZeros": false,
-                    "mode": "single",
-                    "sort": "none"
-                }
-            },
-            "pluginVersion": "11.5.2",
-            "targets": [
-                {
-                    "disableTextWrap": false,
-                    "editorMode": "builder",
-                    "exemplar": false,
-                    "expr": "up{instance=\"minitwit:4567\"}",
-                    "fullMetaSearch": false,
-                    "includeNullMetadata": true,
-                    "legendFormat": "__auto",
-                    "range": true,
-                    "refId": "A",
-                    "useBackend": false
-                }
-            ],
-            "title": "Website Uptime",
-            "type": "state-timeline"
         }
     ],
     "preload": false,
@@ -309,7 +477,7 @@
         "list": []
     },
     "time": {
-        "from": "now-15m",
+        "from": "now-6h",
         "to": "now"
     },
     "timepicker": {},

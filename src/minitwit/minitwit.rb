@@ -10,6 +10,12 @@ require 'sequel'
 require 'dotenv/load'
 require 'redis'
 require 'redis-rack'
+require 'logger'
+
+puts '[BOOT] MiniTwit loaded'
+$stdout.sync = true # still useful in Docker
+LOGGER = Logger.new($stdout)
+LOGGER.level = Logger::DEBUG
 
 # Require helpers and controllers
 Dir[File.join(__dir__, 'helpers/*.rb')].sort.each { |file| require file }
@@ -24,6 +30,8 @@ class MiniTwit < Sinatra::Base
   REDIS_URL = ENV.fetch('REDIS_URL', 'redis://redis:6379/0')
 
   configure do
+    enable :logging
+    set :logger, LOGGER
     enable :sessions
     
     # Use Redis for session storage
