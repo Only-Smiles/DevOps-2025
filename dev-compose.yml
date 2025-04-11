@@ -27,7 +27,7 @@ services:
     networks:
       - main
     volumes:
-      - ./pgdata:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
       - ./remote_files/schema.sql:/docker-entrypoint-initdb.d/schema.sql
     environment:
       POSTGRES_USER: ${DB_USER}
@@ -96,3 +96,4 @@ networks:
 
 volumes:
   grafana-data:
+  pgdata:

@@ -10,6 +10,9 @@ Style/FrozenStringLiteralComment:
 Style/MutableConstant:
   Enabled: false
 
+Style/StringLiterals:
+  Enabled: false
+
 Metrics/CyclomaticComplexity:
   Enabled: false
 
@@ -17,4 +20,7 @@ Metrics/MethodLength:
   Enabled: false
 
 Metrics/PerceivedComplexity:
+  Enabled: false
+
+Metrics/Metrics/ClassLength:
   Enabled: false
