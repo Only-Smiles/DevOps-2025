@@ -19,7 +19,7 @@ module AuthHelper
     # Check if user data is cached in Redis
     redis_key = "#{USER_SESSION_PREFIX}#{session_user_id}"
     cached_user = cache_get(redis_key)
-    
+
     if cached_user
       # Extend the TTL of the cached user data
       cache_set(redis_key, cached_user, USER_SESSION_TTL)
@@ -74,11 +74,11 @@ module AuthHelper
     else
       # Store user ID in session
       session[:user_id] = user[:user_id]
-      
+
       # Cache user data in Redis for cross-VM access
       redis_key = "#{USER_SESSION_PREFIX}#{user[:user_id]}"
       cache_set(redis_key, user, USER_SESSION_TTL)
-      
+
       { success: true, user: user }
     end
   end
@@ -90,7 +90,7 @@ module AuthHelper
       redis_key = "#{USER_SESSION_PREFIX}#{session[:user_id]}"
       cache_delete(redis_key)
     end
-    
+
     # Clear session
     session.clear
   end

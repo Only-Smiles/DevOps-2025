@@ -33,7 +33,7 @@ class MiniTwit < Sinatra::Base
     enable :logging
     set :logger, LOGGER
     enable :sessions
-    
+
     # Use Redis for session storage
     use Rack::Session::Redis, {
       redis_server: REDIS_URL,
@@ -41,7 +41,7 @@ class MiniTwit < Sinatra::Base
       secret: SECRET_KEY,
       expire_after: 86_400 # 1 day in seconds
     }
-    
+
     use Rack::Flash
   end
 

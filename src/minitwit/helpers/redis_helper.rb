@@ -42,4 +42,4 @@ module RedisHelper
     puts 'Closing Redis connections...'
     close_redis
   end
-end 
+end
