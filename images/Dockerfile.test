@@ -2,10 +2,10 @@ FROM python:3.13-alpine
 
 # Install Firefox and required tools using apk
 RUN apk add --no-cache \
-    firefox-esr=128.8.0-r0 \
+    firefox-esr='128.9.0-r0' \
     tar=1.35-r2 \
     wget=1.25.0-r0 \
-# Download and install the latest geckodriver (recommended version for Firefox 136.0.1)
+    # Download and install the latest geckodriver (recommended version for Firefox 136.0.1)
     && wget -nv https://github.com/mozilla/geckodriver/releases/download/v0.36.0/geckodriver-v0.36.0-linux64.tar.gz && \
     tar -xzf geckodriver-v0.36.0-linux64.tar.gz && \
     mv geckodriver /usr/local/bin/ && \
