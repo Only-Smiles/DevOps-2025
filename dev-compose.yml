@@ -46,7 +46,8 @@ services:
     container_name: prometheus
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
-    expose: ["9090"]
+    expose: 
+      - "9090"
     networks:
       - main
     deploy:
