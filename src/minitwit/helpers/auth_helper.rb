@@ -1,7 +1,7 @@
 module AuthHelper
   # Redis key prefix for user sessions
   USER_SESSION_PREFIX = 'user_session:'
-  USER_SESSION_TTL = 86400 # 1 day in seconds
+  USER_SESSION_TTL = 86_400 # 1 day in seconds
 
   # Check API authorization
   def authenticate_api_request

@@ -31,7 +31,7 @@ class MiniTwit < Sinatra::Base
       redis_server: REDIS_URL,
       key: 'rack.session',
       secret: SECRET_KEY,
-      expire_after: 86400 # 1 day in seconds
+      expire_after: 86_400 # 1 day in seconds
     }
     
     use Rack::Flash
