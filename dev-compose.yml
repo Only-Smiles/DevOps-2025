@@ -8,6 +8,9 @@ services:
     tty: true
     networks:
       - main
+      - loki
+    labels:
+      - "app=minitwit"
     depends_on:
       - database
     ports:
@@ -55,6 +58,24 @@ services:
         limits:
           cpus: '0.2'
 
+  loki:
+    image: grafana/loki:latest
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - loki
+
+  promtail:
+    image: grafana/promtail:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./remote_files/promtail.yml:/etc/promtail/config.yml
+    command: -config.file=/etc/promtail/config.yml
+    networks:
+      - loki
+      - main  # to reach Loki AND Grafana
+
   grafana:
     image: grafana/grafana:11.5.2
     container_name: grafana
@@ -70,6 +91,7 @@ services:
       - "3000:3000"
     networks:
       - main
+      - loki
 
 
   test:
@@ -93,6 +115,7 @@ services:
 networks:
   main:
     name: 'minitwit_main'
+  loki:
 
 volumes:
   grafana-data:
