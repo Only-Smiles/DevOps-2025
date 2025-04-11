@@ -29,6 +29,8 @@ echo "" > ~/.bash_profile
   echo "export DOCKER_USERNAME='$DOCKER_USERNAME'"
   echo "export DB_USER='$DB_USER'"
   echo "export DB_PWD='$DB_PWD'"
+  echo "export GRAFANA_USERNAME='$GRAFANA_USERNAME'"
+  echo "export GRAFANA_PASSWORD='$GRAFANA_PASSWORD'"
 } > ~/.bash_profile
 
 echo -e "\nConfiguring credentials as environment variables...\n"
