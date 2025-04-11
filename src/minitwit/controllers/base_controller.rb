@@ -7,4 +7,5 @@ class BaseController < Sinatra::Base
   include DbHelper
   include AuthHelper
   include FormatHelper
+  include RedisHelper
 end

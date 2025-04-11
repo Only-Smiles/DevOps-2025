@@ -1,7 +1,6 @@
 services:
   minitwit:
     image: ${DOCKER_USERNAME}/minitwitimage
-    container_name: minitwit
     stdin_open: true
     tty: true
     restart: always
@@ -10,22 +9,29 @@ services:
     depends_on:
       - database
     ports:
-      - '4567:4567'
-    volumes:
-      - '/tmp/minitwit.db:/tmp/minitwit.db'
+      - target: 4567
+        published: 4567
+        protocol: tcp
+        mode: ingress
     environment:
       - RACK_ENV=production
       - DB_USER=${DB_USER}
       - DB_PWD=${DB_PWD}
+    deploy:
+      replicas: 3
+      update_config:
+        parallelism: 1
+        order: start-first
+      restart_policy:
+        condition: on-failure
 
   database:
     image: postgres:17.4-bookworm
-    container_name: minitwit_db
     restart: always
     networks:
       - main
     volumes:
-      - /pgdata:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
       - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
     environment:
       POSTGRES_USER: ${DB_USER}
@@ -37,10 +43,14 @@ services:
       interval: 30s
       timeout: 20s
       retries: 3
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
 
   prometheus:
     image: prom/prometheus
-    container_name: prometheus
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
     expose:
@@ -48,13 +58,16 @@ services:
     networks:
       - main
     deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
       resources:
         limits:
           cpus: '0.2'
 
   grafana:
     image: grafana/grafana:11.5.2
-    container_name: grafana
     environment:
       - GF_SECURITY_ADMIN_USER=${GRAFANA_USERNAME}
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
@@ -67,10 +80,40 @@ services:
       - "3000:3000"
     networks:
       - main
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+
+  redis:
+    image: redis:7.2-alpine
+    restart: always
+    networks:
+      - main
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
 
 networks:
   main:
+    driver: overlay
     name: 'minitwit_main'
 
 volumes:
+  pgdata:
+    driver: local
   grafana-data:
+    driver: local
+  redis-data:
+    driver: local

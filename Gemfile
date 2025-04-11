@@ -17,4 +17,5 @@ gem 'rubocop', '~> 1.74', require: false
 gem 'sequel', '~> 5.89'
 gem 'sinatra', '>= 4.1.1'
 gem 'sinatra-activerecord', '>= 2.0.28'
-gem 'sqlite3', '~> 2.5'
+gem 'redis', '~> 5.4'
+gem 'redis-rack', '~> 3.0'
