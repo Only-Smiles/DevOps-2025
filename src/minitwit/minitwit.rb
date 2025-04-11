@@ -11,7 +11,7 @@ require 'sequel'
 require 'dotenv/load'
 require 'logger'
 
-puts "[BOOT] MiniTwit loaded"
+puts '[BOOT] MiniTwit loaded'
 $stdout.sync = true # still useful in Docker
 LOGGER = Logger.new($stdout)
 LOGGER.level = Logger::DEBUG
