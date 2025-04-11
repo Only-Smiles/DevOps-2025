@@ -1,7 +1,6 @@
 require 'sinatra/base'
 require 'json'
 require 'rack-flash'
-require 'sqlite3'
 require 'bcrypt'
 require 'erb'
 require 'rack/session/cookie'
@@ -9,6 +8,8 @@ require 'securerandom'
 require 'digest/md5'
 require 'sequel'
 require 'dotenv/load'
+require 'redis'
+require 'redis-rack'
 require 'logger'
 
 puts '[BOOT] MiniTwit loaded'
@@ -26,12 +27,21 @@ class MiniTwit < Sinatra::Base
   SECRET_KEY = SecureRandom.hex(32)
   PER_PAGE = 30
   DATABASE = "postgres://#{ENV.fetch('DB_USER', nil)}:#{ENV.fetch('DB_PWD', nil)}@database:5432/minitwit"
+  REDIS_URL = ENV.fetch('REDIS_URL', 'redis://redis:6379/0')
 
   configure do
     enable :logging
     set :logger, LOGGER
     enable :sessions
-    use Rack::Session::Cookie, key: 'rack.session', path: '/', secret: SECRET_KEY
+
+    # Use Redis for session storage
+    use Rack::Session::Redis, {
+      redis_server: REDIS_URL,
+      key: 'rack.session',
+      secret: SECRET_KEY,
+      expire_after: 86_400 # 1 day in seconds
+    }
+
     use Rack::Flash
   end
 

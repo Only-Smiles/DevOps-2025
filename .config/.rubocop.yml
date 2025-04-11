@@ -22,5 +22,5 @@ Metrics/MethodLength:
 Metrics/PerceivedComplexity:
   Enabled: false
 
-Metrics/Metrics/ClassLength:
+Metrics/ClassLength:
   Enabled: false

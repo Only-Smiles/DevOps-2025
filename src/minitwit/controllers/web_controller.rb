@@ -29,7 +29,6 @@ class WebController < BaseController
     result = authenticate_user(params[:username], params[:password])
 
     if result[:success]
-      session[:user_id] = result[:user][:user_id]
       flash[:notice] = 'You were logged in'
       redirect '/'
     else
@@ -68,7 +67,7 @@ class WebController < BaseController
 
   # Sign out user
   get '/logout' do
-    session.clear
+    logout_user
     flash[:notice] = 'You were logged out'
     redirect '/public'
   end

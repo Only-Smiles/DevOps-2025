@@ -1,21 +1,20 @@
 #!/usr/bin/env bash
 
 # Ensure all required arguments are provided
-if [ "$#" -ne 3 ]; then
-    echo "Usage: $0 <DIGITAL_OCEAN_TOKEN> <UNIQUE_HOSTNAME> <RESERVED_IP>"
+if [ "$#" -ne 2 ]; then
+    echo "Usage: $0 <UNIQUE_HOSTNAME> <RESERVED_IP>"
     exit 1
 fi
 
 # Assign arguments to variables
-DIGITAL_OCEAN_TOKEN="$1"
-UNIQUE_HOSTNAME="$2"
-RESERVED_IP="$3"
+UNIQUE_HOSTNAME="$1"
+RESERVED_IP="$2"
 
 # Fetch the new droplet ID
 NEW_DROPLET_ID=$(curl -s -X GET \
     -H "Content-Type: application/json" \
     -H "Authorization: Bearer ${DIGITAL_OCEAN_TOKEN}" \
-    "https://api.digitalocean.com/v2/droplets?tag_name=webserver" | \
+    "https://api.digitalocean.com/v2/droplets?name=$UNIQUE_HOSTNAME" | \
     jq -r --arg hostname "${UNIQUE_HOSTNAME}" '.droplets | map(select(.name == $hostname)) | .[0].id')
 
 if [ -z "$NEW_DROPLET_ID" ]; then
@@ -42,7 +41,7 @@ sleep 5
 OLD_DROPLET_ID=$(curl -s -X GET \
     -H "Content-Type: application/json" \
     -H "Authorization: Bearer ${DIGITAL_OCEAN_TOKEN}" \
-    "https://api.digitalocean.com/v2/droplets?tag_name=webserver" | \
+    "https://api.digitalocean.com/v2/droplets?tag_name=manager" | \
     jq -r --arg new_id "${NEW_DROPLET_ID}" '.droplets | map(select(.id != ($new_id | tonumber))) | .[0].id // empty')
 
 # If an old droplet is found, terminate it

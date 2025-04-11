@@ -70,6 +70,21 @@ services:
       - "3000:3000"
     networks:
       - main
+  
+  redis:
+    image: redis:7.2-alpine
+    container_name: redis
+    restart: always
+    networks:
+      - main
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
 
   test:
@@ -96,4 +111,6 @@ networks:
 
 volumes:
   grafana-data:
+  redis-data:
+    driver: local
   pgdata:
