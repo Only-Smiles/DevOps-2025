@@ -3,12 +3,10 @@
 # export TF_VAR_do_token=xxx
 variable "do_token" {}
 
-# do region
-variable "region" {}
-
 # make sure to generate a pair of ssh keys
 variable "pub_key" {}
 variable "pvt_key" {}
+variable "ssh_key_name" {}
 
 # setup the provider
 terraform {
@@ -25,5 +23,5 @@ provider "digitalocean" {
 }
 
 data "digitalocean_ssh_key" "terraform" {
-  name = "terraform"
+  name = var.ssh_key_name
 }

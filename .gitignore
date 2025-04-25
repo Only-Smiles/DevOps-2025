@@ -80,3 +80,4 @@ __pycache__
 pgdata/
 
 secrets
+minitwit.auto.tfvars
