@@ -97,3 +97,7 @@ Apply Terraform
 terraform apply
 ```
 Make sure you have secrets file
+Run deploy.sh script on server
+```bash
+./minitwit/deploy.sh
+```
