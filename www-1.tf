@@ -24,15 +24,22 @@ resource "digitalocean_droplet" "minitwit-swarm-leader" {
 
   provisioner "remote-exec" {
     inline = [
-      "mkdir -p /minitwit",
-      "echo 'set -a' >> ~/.profile",
-      "echo 'source /minitwit/.env.production' >> ~/.profile",
-      "echo 'set +a' >> ~/.profile"
+      "mkdir -p /minitwit"
     ]
   }
   provisioner "file" {
-    source      = "remote_files/.env.production"
-    destination = "/minitwit/.env.production"
+    source      = "remote_files/"
+    destination = "/minitwit/"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "echo 'set -a' >> ~/.profile",
+      "echo 'source /minitwit/.env.production' >> ~/.profile",
+      "echo 'set +a' >> ~/.profile",
+      "chmod +x /minitwit/deploy.sh",
+      "mkdir pgdata"
+    ]
   }
 
   provisioner "remote-exec" {
@@ -55,11 +62,6 @@ resource "digitalocean_droplet" "minitwit-swarm-leader" {
       # initialize docker swarm cluster
       "docker swarm init --advertise-addr ${self.ipv4_address}",
     ]
-  }
-
-  provisioner "file" {
-    source      = ".env"
-    destination = "/root/.env"
   }
 }
 
@@ -140,11 +142,6 @@ resource "digitalocean_droplet" "minitwit-swarm-manager" {
       "echo 'set +a' >> ~/.profile"
     ]
   }
-
-  provisioner "file" {
-    source      = ".env"
-    destination = "/root/.env"
-  }
 }
 
 
@@ -205,11 +202,6 @@ resource "digitalocean_droplet" "minitwit-swarm-worker" {
       "echo 'source /minitwit/.env.production' >> ~/.profile",
       "echo 'set +a' >> ~/.profile"
     ]
-  }
-
-  provisioner "file" {
-    source      = ".env"
-    destination = "/root/.env"
   }
 }
 

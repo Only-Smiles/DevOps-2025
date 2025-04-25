@@ -84,3 +84,16 @@ export DIGITAL_OCEAN_TOKEN="{YOUR_DICITAL_OCEAN_TOKEN}"
 Run `vagrant up` to deploy a new version.
 
 You can access the webserver and the restriced ip, which you can find inside your droplet settings in the Digital Ocean platform.
+
+## Deployment via Terraform
+
+Start an ssh agent 
+```bash
+eval "$(ssh-agent -s)"
+ssh-add "/Users/XXXX/.ssh/PUBLIC_KEY_NAME"
+```
+Apply Terraform
+```bash
+terraform apply
+```
+Make sure you have secrets file
