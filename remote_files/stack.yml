@@ -1,11 +1,14 @@
 services:
   minitwit:
     image: ${DOCKER_USERNAME}/minitwitimage
+    labels:
+      - "app=minitwit"
     stdin_open: true
     tty: true
     restart: always
     networks:
       - main
+      - loki
     depends_on:
       - database
     ports:
@@ -27,6 +30,8 @@ services:
 
   database:
     image: postgres:17.4-bookworm
+    labels:
+      - "app=postgres"
     restart: always
     networks:
       - main
@@ -51,6 +56,8 @@ services:
 
   prometheus:
     image: prom/prometheus
+    labels:
+      - "app=prometheus"
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
     expose:
@@ -68,6 +75,8 @@ services:
 
   grafana:
     image: grafana/grafana:11.5.2
+    labels:
+      - "app=grafana"
     environment:
       - GF_SECURITY_ADMIN_USER=${GRAFANA_USERNAME}
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
@@ -80,6 +89,7 @@ services:
       - "3000:3000"
     networks:
       - main
+      - loki
     deploy:
       replicas: 1
       placement:
@@ -88,6 +98,8 @@ services:
 
   redis:
     image: redis:7.2-alpine
+    labels:
+      - "app=redis"
     restart: always
     networks:
       - main
@@ -104,11 +116,34 @@ services:
       placement:
         constraints:
           - node.role == manager
+    
+  loki:
+    image: grafana/loki:latest
+    labels:
+      - "app=loki"
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - loki
+
+  promtail:
+    image: grafana/promtail:latest
+    labels:
+      - "app=promtail"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./promtail.yml:/etc/promtail/config.yml
+    command: -config.file=/etc/promtail/config.yml
+    networks:
+      - loki
+      - main  # to reach Loki AND Grafana
 
 networks:
   main:
     driver: overlay
     name: 'minitwit_main'
+  loki:
 
 volumes:
   grafana-data:
