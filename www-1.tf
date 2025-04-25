@@ -1,4 +1,3 @@
-
 #  _                _
 # | | ___  __ _  __| | ___ _ __
 # | |/ _ \/ _` |/ _` |/ _ \ '__|
@@ -25,12 +24,15 @@ resource "digitalocean_droplet" "minitwit-swarm-leader" {
 
   provisioner "remote-exec" {
     inline = [
-      "mkdir -p /minitwit"
+      "mkdir -p /minitwit",
+      "echo 'set -a' >> ~/.profile",
+      "echo 'source /minitwit/.env.production' >> ~/.profile",
+      "echo 'set +a' >> ~/.profile"
     ]
   }
   provisioner "file" {
-    source = "remote_files"
-    destination = "/minitwit"
+    source      = "remote_files/.env.production"
+    destination = "/minitwit/.env.production"
   }
 
   provisioner "remote-exec" {
@@ -51,8 +53,13 @@ resource "digitalocean_droplet" "minitwit-swarm-leader" {
       "ufw allow 8888",
 
       # initialize docker swarm cluster
-      "docker swarm init --advertise-addr ${self.ipv4_address}"
+      "docker swarm init --advertise-addr ${self.ipv4_address}",
     ]
+  }
+
+  provisioner "file" {
+    source      = ".env"
+    destination = "/root/.env"
   }
 }
 
@@ -127,8 +134,16 @@ resource "digitalocean_droplet" "minitwit-swarm-manager" {
       "ufw allow 8888",
 
       # join swarm cluster as managers
-      "docker swarm join --token $(cat manager_token) ${digitalocean_droplet.minitwit-swarm-leader.ipv4_address}"
+      "docker swarm join --token $(cat manager_token) ${digitalocean_droplet.minitwit-swarm-leader.ipv4_address}",
+      "echo 'set -a' >> ~/.profile",
+      "echo 'source /minitwit/.env.production' >> ~/.profile",
+      "echo 'set +a' >> ~/.profile"
     ]
+  }
+
+  provisioner "file" {
+    source      = ".env"
+    destination = "/root/.env"
   }
 }
 
@@ -185,8 +200,16 @@ resource "digitalocean_droplet" "minitwit-swarm-worker" {
       "ufw allow 8888",
 
       # join swarm cluster as workers
-      "docker swarm join --token $(cat worker_token) ${digitalocean_droplet.minitwit-swarm-leader.ipv4_address}"
+      "docker swarm join --token $(cat worker_token) ${digitalocean_droplet.minitwit-swarm-leader.ipv4_address}",
+      "echo 'set -a' >> ~/.profile",
+      "echo 'source /minitwit/.env.production' >> ~/.profile",
+      "echo 'set +a' >> ~/.profile"
     ]
+  }
+
+  provisioner "file" {
+    source      = ".env"
+    destination = "/root/.env"
   }
 }
 
