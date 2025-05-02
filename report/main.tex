@@ -14,14 +14,14 @@
 
 \bibliographystyle{plain}
 
-\newcommand{\quickwordcount}[1]{
-    \immediate\write18{texcount -1 -sum -merge #1.tex > #1-words.sum}
-    \openin\tmp=#1-words.sum
-    \read\tmp to \theword
-    \closein\tmp
-}
-\quickwordcount{main}
-\def\totalwords{\the\numexpr\theword\relax}
+%\newcommand{\quickwordcount}[1]{
+%   \immediate\write18{texcount -1 -sum -merge #1.tex > #1-words.sum}
+%   \openin\tmp=#1-words.sum
+%   \read\tmp to \theword
+%   \closein\tmp
+%}
+%\quickwordcount{main}
+%\def\totalwords{\the\numexpr\theword\relax}
 %TC:ignore
 \title{Group L - DevOps Report}
 \author{ }
@@ -58,7 +58,7 @@
 \tableofcontents
 \newpage
 
-Total words: \totalwords/2500
+%Total words: \totalwords/2500
 %TC:endignore
 \input{tex/01-system}
 
