@@ -24,12 +24,18 @@ resource "digitalocean_droplet" "minitwit-swarm-leader" {
 
   provisioner "remote-exec" {
     inline = [
-      "mkdir -p /minitwit"
+      "mkdir -p /minitwit",
+      "mkdir -p /pgdata"
     ]
   }
   provisioner "file" {
     source      = "remote_files/"
     destination = "/minitwit/"
+  }
+
+  provisioner "file" {
+    source      = ".env.production"                  # Local secret file
+    destination = "/minitwit/.env.production"        # Upload to leader droplet
   }
 
   provisioner "remote-exec" {
@@ -38,7 +44,6 @@ resource "digitalocean_droplet" "minitwit-swarm-leader" {
       "echo 'source /minitwit/.env.production' >> ~/.profile",
       "echo 'set +a' >> ~/.profile",
       "chmod +x /minitwit/deploy.sh",
-      "mkdir pgdata"
     ]
   }
 
@@ -67,6 +72,11 @@ resource "digitalocean_droplet" "minitwit-swarm-leader" {
 
 resource "null_resource" "swarm-worker-token" {
   depends_on = [digitalocean_droplet.minitwit-swarm-leader]
+  
+  # triggers that the manager_token gets overwritten everytime
+  triggers = {
+    leader_ip = digitalocean_droplet.minitwit-swarm-leader.ipv4_address
+  }
 
   # save the worker join token
   provisioner "local-exec" {
@@ -76,6 +86,11 @@ resource "null_resource" "swarm-worker-token" {
 
 resource "null_resource" "swarm-manager-token" {
   depends_on = [digitalocean_droplet.minitwit-swarm-leader]
+
+  # triggers that the manager_token gets overwritten everytime (not sure if we want this, what about re-deployment?)
+  triggers = {
+    leader_ip = digitalocean_droplet.minitwit-swarm-leader.ipv4_address
+  }
   # save the manager join token
   provisioner "local-exec" {
     command = "ssh -o 'ConnectionAttempts 3600' -o 'StrictHostKeyChecking no' root@${digitalocean_droplet.minitwit-swarm-leader.ipv4_address} -i ${var.pvt_key} 'docker swarm join-token manager -q' > temp/manager_token"
@@ -195,6 +210,8 @@ resource "digitalocean_droplet" "minitwit-swarm-worker" {
       "ufw allow 443",
       "ufw allow 8080",
       "ufw allow 8888",
+
+      
 
       # join swarm cluster as workers
       "docker swarm join --token $(cat worker_token) ${digitalocean_droplet.minitwit-swarm-leader.ipv4_address}",
