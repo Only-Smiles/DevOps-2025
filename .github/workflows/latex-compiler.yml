@@ -12,8 +12,7 @@ jobs:
       - name: Set up Git repository
         uses: actions/checkout@v4
       - name: latex2pdf
-        working-directory: report
         id: compile-latex-document
         uses: xu-cheng/latex-action@v3
         with:
-          root_file: main.tex
+          root_file: report/main.tex
