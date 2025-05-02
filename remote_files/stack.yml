@@ -138,7 +138,7 @@ services:
     networks:
       - loki
       - main  # to reach Loki AND Grafana
-
+      
 networks:
   main:
     driver: overlay
