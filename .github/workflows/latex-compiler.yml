@@ -16,9 +16,3 @@ jobs:
         uses: xu-cheng/latex-action@v3
         with:
           root_file: report/main.tex
-      - name: Upload PDF to the workflow tab
-        id: upload-workflow-tab
-        uses: actions/upload-artifact@v2
-        with:
-          name: output
-          path: output/test.pdf
