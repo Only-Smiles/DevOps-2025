@@ -81,3 +81,5 @@ pgdata/
 
 secrets
 minitwit.auto.tfvars
+
+temp/
