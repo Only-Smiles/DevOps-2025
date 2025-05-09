@@ -25,3 +25,5 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           file_pattern: '*.pdf'
+          commit_user_name: 'Chris Aftzidis'
+          commit_user_email: '89577421+chrisaftzidis@users.noreply.github.com'
