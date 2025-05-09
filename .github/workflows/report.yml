@@ -3,9 +3,6 @@ on:
   [push]
 jobs:
   build_latex:
-    permissions:
-      contents: write
-      pull-requests: write
     runs-on: ubuntu-latest
     steps:
       - name: Set up Git repository
@@ -16,10 +13,10 @@ jobs:
           root_file: main.tex
           working_directory: report
       - name: Rename pdf
-        run: mv report/main.pdf report/MSc_group_l.pdf
+        run: mv report/main.pdf report/main.pdf
       - name: Create release
         uses: ncipollo/release-action@v1
         with:
           tag: "latest"
-          artifacts: "report/MSc_group_l.pdf"
+          artifacts: "report/main.pdf"
           token: ${{ secrets.GITHUB_TOKEN }}
