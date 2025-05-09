@@ -20,7 +20,7 @@ jobs:
           root_file: report/main.tex
       - name: Move and rename
         run: |
-          mv report/main.pdf report/build/MSc_group_l.pdf
+          mv main.pdf report/build/MSc_group_l.pdf
       - name: Commit report
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
