@@ -13,10 +13,10 @@ jobs:
           root_file: main.tex
           working_directory: report
       - name: Rename pdf
-        run: mv report/main.pdf report/main.pdf
+        run: mv report/main.pdf report/main1.pdf
       - name: Create release
         uses: ncipollo/release-action@v1
         with:
           tag: "latest"
-          artifacts: "report/main.pdf"
+          artifacts: "report/main1.pdf"
           token: ${{ secrets.GITHUB_TOKEN }}
