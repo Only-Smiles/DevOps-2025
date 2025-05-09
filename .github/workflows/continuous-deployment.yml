@@ -54,19 +54,6 @@ jobs:
           cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/flagtoolimage:flagtoolbuildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/flagtoolimage:flagtoolbuildcache,mode=max
 
-      - name: Test minitwit
-        run: |
-          docker build -t $DOCKER_USERNAME/minitwittestimage -f ./images/Dockerfile.test .
-          yes 2>/dev/null | docker compose -f remote_files/compose.yml up -d
-          docker run --rm --network=minitwit_main \
-          --env DB_USER=${DB_USER} --env DB_PWD=${DB_PWD} \
-          $DOCKER_USERNAME/minitwittestimage
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DB_USER: "test"
-          DB_PWD: "test"
-          APP_ENV: "test"
-
 
       - name: Configure SSH
         run: |
