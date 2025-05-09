@@ -16,19 +16,10 @@ jobs:
           root_file: main.tex
           working_directory: report
       - name: Rename pdf
-        run: mv report/main.pdf report/Thesis.pdf
-        
-      - name: Generate release tag
-        id: generate_release_tag
-        uses: amitsingh-007/next-release-tag@v6.0.0
+        run: mv report/main.pdf report/MSc_group_l.pdf
+      - name: Create release
+        uses: ncipollo/release-action@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          tag_prefix: 'v'
-          tag_template: 'yyyy.mm.dd.i'
-      - name: Create Release
-        uses: softprops/action-gh-release@v2
-        with:
-          name: Report release ${{ steps.generate_release_tag.outputs.next_release_tag }}
-          tag_name: ${{ steps.generate_release_tag.outputs.next_release_tag }}
+          tag: "latest"
+          artifacts: "report/MSc_group_l.pdf"
           token: ${{ secrets.GITHUB_TOKEN }}
-          generate_release_notes: false     
