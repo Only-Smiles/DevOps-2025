@@ -54,7 +54,6 @@ jobs:
           cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/flagtoolimage:flagtoolbuildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/flagtoolimage:flagtoolbuildcache,mode=max
 
-# Removed the Test minitwit step as per the issue report.
 
       - name: Configure SSH
         run: |
