@@ -19,6 +19,6 @@ jobs:
       - name: Create release
         uses: ncipollo/release-action@v1
         with:
-          tag: "latest"
+          tag: "latest_second"
           artifacts: "report/main1.pdf"
           token: ${{ secrets.GITHUB_TOKEN }}
