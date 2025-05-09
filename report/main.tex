@@ -1,0 +1,77 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{float} %to do the [H]
+\usepackage{tabularx}
+\usepackage{booktabs} %To do the mid/top rules of our table on front
+\usepackage{hyperref}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{comment}
+\usepackage{soul}
+\graphicspath{ {./images/} }
+
+\bibliographystyle{plain}
+
+%\newcommand{\quickwordcount}[1]{
+%   \immediate\write18{texcount -1 -sum -merge #1.tex > #1-words.sum}
+%   \openin\tmp=#1-words.sum
+%   \read\tmp to \theword
+%   \closein\tmp
+%}
+%\quickwordcount{main}
+%\def\totalwords{\the\numexpr\theword\relax}
+%TC:ignore
+\title{Group L - DevOps Report}
+\author{ }
+\date{\today}
+
+\begin{document}
+
+
+\maketitle
+\begin{center}
+    IT University of Copenhagen \\
+    MSC in Computer Science \\
+    DevOps, Software Evolution and Software Maintenance \\ 
+    Course Code: KSDSESM1KU \\
+\end{center}
+
+\begin{table}[h]
+    \begin{center}
+        \begin{tabular*}{1\textwidth}{l l}
+        \toprule
+        Email: & Name: \\
+        \midrule
+        {caft@itu.dk} & {Christina Aftzidis} \\
+        {dhel@itu.dk} & {Daniel Held-Hansen} \\
+        {fsan@itu.dk} & {Frederico Alves} \\
+        {lrpe@itu.dk} & {Laurids Robert Holme Pedersen} \\
+        {labp@itu.dk} & {Laurits Brok Pedersen} \\
+        {rakt@itu.dk} & {Rakul Maria Hjalmarsdóttir Tórgarð} \\
+        \bottomrule
+        \end{tabular*}
+    \end{center}
+\end{table}
+\newpage
+\tableofcontents
+\newpage
+
+%Total words: \totalwords/2500
+%TC:endignore
+\input{report/tex/01-system.tex}
+
+\input{report/tex/02-process.tex}
+\input{report/tex/03-reflection.tex}
+\newpage
+%TC:ignore
+\bibliography{report/refs.bib} 
+\newpage
+\input{report/tex/04-appendix.tex}
+%TC:endignore
+
+
+
+
+\end{document}

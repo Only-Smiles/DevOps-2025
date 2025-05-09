@@ -1,0 +1,28 @@
+name: LateX to PDF
+
+on:
+  push:
+    branches: 
+      - report
+
+jobs:
+  build_latex:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v4
+      - name: latex2pdf
+        id: compile-latex-document
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: report/main.tex
+      - name: Move and rename
+        run: |
+
+          mv main.pdf report/build/MSc_group_l.pdf
+      - name: Commit report
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          file_pattern: '*.pdf'
