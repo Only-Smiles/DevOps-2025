@@ -1,0 +1,27 @@
+name: Build LaTeX document
+on: 
+  [push]
+jobs:
+  build_latex:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+      - name: Compile LaTeX document
+        uses: xu-cheng/latex-action@master
+        with:
+          root_file: main.tex
+          working_directory: report
+      - name: Delete latest release
+        if: success()
+        uses: ame-yu/action-delete-latest-release@v2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Rename pdf
+        run: mv report/main.pdf report/Thesis.pdf
+      - name: Create release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: "latest report"
+          artifacts: "report/MSc_group_l.pdf"
+          token: ${{ secrets.GITHUB_TOKEN }}

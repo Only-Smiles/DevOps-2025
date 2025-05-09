@@ -1,0 +1,27 @@
+
+\usepackage{graphicx}
+\usepackage{float} %to do the [H]
+\usepackage{tabularx}
+\usepackage{booktabs} %To do the mid/top rules of our table on front
+\usepackage{hyperref}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{comment}
+\usepackage{soul}
+\usepackage{verbatim}
+\graphicspath{ {./images/} }
+\usepackage{multirow}
+
+
+
+\bibliographystyle{plain}
+\newcommand{\quickwordcount}[1]{
+    \immediate\write18{texcount -1 -sum -merge #1.tex > #1-words.sum}
+    \openin\tmp=#1-words.sum
+    \read\tmp to \theword
+    \closein\tmp
+}
+\quickwordcount{main}
+\def\totalwords{\the\numexpr\theword\relax}
