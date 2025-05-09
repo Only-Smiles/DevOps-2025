@@ -131,14 +131,18 @@ services:
     image: grafana/promtail:latest
     labels:
       - "app=promtail"
+    configs:
+      - source: promtail_config
+        target: /etc/promtail/config.yml
+      
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./promtail.yml:/etc/promtail/config.yml
     command: -config.file=/etc/promtail/config.yml
     networks:
       - loki
       - main  # to reach Loki AND Grafana
-      
+    deploy:
+      mode: global
 networks:
   main:
     driver: overlay
@@ -150,3 +154,6 @@ volumes:
     driver: local
   redis-data:
     driver: local
+configs:
+  promtail_config:
+    file: ./promtail.yml
