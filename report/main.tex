@@ -1,4 +1,5 @@
 \documentclass{article}
+% -- packages --
 \usepackage{graphicx}
 \usepackage{float} %to do the [H]
 \usepackage{tabularx}
@@ -10,36 +11,86 @@
 \usepackage[dvipsnames]{xcolor}
 \usepackage{comment}
 \usepackage{soul}
-\graphicspath{ {./images/} }
+\usepackage{verbatim}
+\usepackage{multirow}
+\renewcommand{\arraystretch}{1.8}
+\setlength{\tabcolsep}{12pt}
+\usepackage[table]{xcolor}
+\usepackage{colortbl}
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
+\usepackage[
+    backend=biber,
+    style=numeric,
+  ]{biblatex}
+\addbibresource{refs.bib}
+\usepackage{csquotes}
+\definecolor{low1}{RGB}{204, 255, 204} % Very Low Risk
+\definecolor{low2}{RGB}{144, 238, 144}     % Low Risk
+\definecolor{medium1}{RGB}{255, 204, 102}    % Medium Risk
+\definecolor{medium2}{RGB}{255, 102, 102}       % High Risk
+\definecolor{high}{RGB}{255, 51, 51}        % Very High Risk
 
-\bibliographystyle{plain}
+\usepackage{listings}
+\usepackage{xcolor}
+\lstdefinelanguage{Ruby}{
+  morekeywords={class, def, end, if, else, elsif, while, do, until, true, false, nil, require},
+  sensitive=true,
+  morecomment=[l]\#,
+  morestring=[b]",
+  morestring=[b]'
+}
 
-%\newcommand{\quickwordcount}[1]{
-%   \immediate\write18{texcount -1 -sum -merge #1.tex > #1-words.sum}
-%   \openin\tmp=#1-words.sum
-%   \read\tmp to \theword
-%   \closein\tmp
-%}
-%\quickwordcount{main}
-%\def\totalwords{\the\numexpr\theword\relax}
-%TC:ignore
-\title{Group L - DevOps Report}
-\author{ }
-\date{\today}
+\lstset{
+  language=Ruby,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{gray},
+  stringstyle=\color{orange},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  stepnumber=1,
+  numbersep=8pt,
+  showstringspaces=false,
+  tabsize=2,
+  breaklines=true,
+  captionpos=b
+}
+
+\usepackage[table]{xcolor}
+\usepackage{colortbl}
+\usepackage{multirow}
+\usepackage{tikz}
+\usepackage[margin=1in]{geometry}
+\setlength{\parindent}{0pt} % no indentation after line break
+
+% Custom command to create a semi-transparent cell background
+\newcommand{\transparentcell}[3]{%
+    \tikz[baseline=(X.base)] \node[fill=#1, fill opacity=#2, text opacity=1, rounded corners=2pt, inner sep=2pt] (X) {#3};%
+}
 
 \begin{document}
 
+\begin{titlepage}
+   \begin{center}
 
-\maketitle
-\begin{center}
-    IT University of Copenhagen \\
-    MSC in Computer Science \\
-    DevOps, Software Evolution and Software Maintenance \\ 
-    Course Code: KSDSESM1KU \\
-\end{center}
+    \vspace*{1cm}
 
-\begin{table}[h]
-    \begin{center}
+    \includegraphics[width=0.5\textwidth]{images/ITU-logo.jpg}\\
+    
+    \vspace{1cm}
+    \Large
+    MSc in Computer Science 
+    
+    DevOps, Software Evolution and Software Maintenance 
+    
+    KSDSESM1KU 
+    
+    \vspace{1cm}
+    
+    \huge{\textbf{Group L}}
+
+    \begin{table}[h]
         \begin{tabular*}{1\textwidth}{l l}
         \toprule
         Email: & Name: \\
@@ -52,26 +103,25 @@
         {rakt@itu.dk} & {Rakul Maria Hjalmarsdóttir Tórgarð} \\
         \bottomrule
         \end{tabular*}
-    \end{center}
-\end{table}
+    \end{table}
+
+    \vfill
+
+    \large
+    \today
+   \end{center}
+\end{titlepage}
+    
 \newpage
 \tableofcontents
 \newpage
 
-%Total words: \totalwords/2500
-%TC:endignore
-\input{report/tex/01-system.tex}
-
-\input{report/tex/02-process.tex}
-\input{report/tex/03-reflection.tex}
+\input{tex/01-system}
+\input{tex/02-process}
+\input{tex/03-reflection}
 \newpage
-%TC:ignore
-\bibliography{report/refs.bib} 
+\printbibliography
 \newpage
-\input{report/tex/04-appendix.tex}
-%TC:endignore
-
-
-
+\input{tex/04-appendix}
 
 \end{document}

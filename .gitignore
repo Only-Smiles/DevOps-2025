@@ -78,3 +78,8 @@ __pycache__
 .db
 pgdata/
 
+# Secrets
+temp/*
+secrets
+
+.DS_Store

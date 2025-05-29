@@ -17,11 +17,11 @@ jobs:
         id: compile-latex-document
         uses: xu-cheng/latex-action@v3
         with:
-          root_file: report/main.tex
+          root_file: main.tex
+          working_directory: report
       - name: Move and rename
         run: |
-
-          mv main.pdf report/build/MSc_group_l.pdf
+          mv report/main.pdf report/build/MSc_group_l.pdf
       - name: Commit report
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
