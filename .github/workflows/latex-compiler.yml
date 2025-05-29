@@ -21,8 +21,7 @@ jobs:
           working_directory: report
       - name: Move and rename
         run: |
-
-          mv main.pdf report/build/MSc_group_l.pdf
+          mv report/main.pdf report/build/MSc_group_l.pdf
       - name: Commit report
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
