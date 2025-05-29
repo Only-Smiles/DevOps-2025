@@ -1,0 +1,182 @@
+2025-05-11 14:27:28.096	
+10.0.0.2 - - [11/May/2025:12:27:28 +0000] "GET /public HTTP/1.1" 500 30 0.0183
+2025-05-11 14:27:28.094	
+	/usr/local/bundle/gems/puma-6.6.0/lib/puma/thread_pool.rb:167:in 'block in Puma::ThreadPool#spawn_thread'
+2025-05-11 14:27:28.094	
+	/usr/local/bundle/gems/puma-6.6.0/lib/puma/server.rb:254:in 'block in Puma::Server#run'
+2025-05-11 14:27:28.094	
+	/usr/local/bundle/gems/puma-6.6.0/lib/puma/server.rb:472:in 'Puma::Server#process_client'
+2025-05-11 14:27:28.094	
+	/usr/local/bundle/gems/puma-6.6.0/lib/puma/request.rb:98:in 'Puma::Request#handle_request'
+2025-05-11 14:27:28.094	
+	/usr/local/bundle/gems/puma-6.6.0/lib/puma/thread_pool.rb:390:in 'Puma::ThreadPool#with_force_shutdown'
+2025-05-11 14:27:28.094	
+	/usr/local/bundle/gems/puma-6.6.0/lib/puma/request.rb:99:in 'block in Puma::Request#handle_request'
+2025-05-11 14:27:28.094	
+	/usr/local/bundle/gems/puma-6.6.0/lib/puma/configuration.rb:279:in 'Puma::Configuration::ConfigMiddleware#call'
+2025-05-11 14:27:28.094	
+	/usr/local/bundle/gems/prometheus-client-4.2.4/lib/prometheus/middleware/collector.rb:32:in 'Prometheus::Middleware::Collector#call'
+2025-05-11 14:27:28.094	
+	/usr/local/bundle/gems/prometheus-client-4.2.4/lib/prometheus/middleware/collector.rb:61:in 'Prometheus::Middleware::Collector#trace'
+2025-05-11 14:27:28.094	
+	/usr/local/bundle/gems/benchmark-0.4.0/lib/benchmark.rb:323:in 'Benchmark.realtime'
+2025-05-11 14:27:28.094	
+	/usr/local/bundle/gems/prometheus-client-4.2.4/lib/prometheus/middleware/collector.rb:61:in 'block in Prometheus::Middleware::Collector#trace'
+2025-05-11 14:27:28.094	
+	/usr/local/bundle/gems/prometheus-client-4.2.4/lib/prometheus/middleware/collector.rb:32:in 'block in Prometheus::Middleware::Collector#call'
+2025-05-11 14:27:28.094	
+	/usr/local/bundle/gems/prometheus-client-4.2.4/lib/prometheus/middleware/exporter.rb:33:in 'Prometheus::Middleware::Exporter#call'
+2025-05-11 14:27:28.094	
+	/usr/local/bundle/gems/sinatra-4.1.1/lib/sinatra/base.rb:2138:in 'Sinatra::Wrapper#call'
+2025-05-11 14:27:28.094	
+	/usr/local/bundle/gems/sinatra-4.1.1/lib/sinatra/base.rb:227:in 'Sinatra::ExtendedRack#call'
+2025-05-11 14:27:28.094	
+	/usr/local/bundle/gems/rack-3.1.14/lib/rack/head.rb:15:in 'Rack::Head#call'
+2025-05-11 14:27:28.094	
+	/usr/local/bundle/gems/sinatra-4.1.1/lib/sinatra/base.rb:262:in 'Sinatra::CommonLogger#call'
+2025-05-11 14:27:28.094	
+	/usr/local/bundle/gems/sinatra-4.1.1/lib/sinatra/base.rb:269:in 'Rack::CommonLogger#call'
+2025-05-11 14:27:28.094	
+	/usr/local/bundle/gems/rack-3.1.14/lib/rack/common_logger.rb:43:in 'Rack::CommonLogger#call'
+2025-05-11 14:27:28.094	
+	/usr/local/bundle/gems/sinatra-4.1.1/lib/sinatra/middleware/logger.rb:17:in 'Sinatra::Middleware::Logger#call'
+2025-05-11 14:27:28.094	
+	/usr/local/bundle/gems/rack-session-2.1.1/lib/rack/session/abstract/id.rb:268:in 'Rack::Session::Abstract::Persisted#call'
+2025-05-11 14:27:28.094	
+	/usr/local/bundle/gems/rack-session-2.1.1/lib/rack/session/abstract/id.rb:274:in 'Rack::Session::Abstract::Persisted#context'
+2025-05-11 14:27:28.094	
+	/usr/local/bundle/gems/rack-protection-4.1.1/lib/rack/protection/frame_options.rb:33:in 'Rack::Protection::FrameOptions#call'
+2025-05-11 14:27:28.094	
+	/usr/local/bundle/gems/rack-protection-4.1.1/lib/rack/protection/base.rb:53:in 'Rack::Protection::Base#call'
+2025-05-11 14:27:28.094	
+	/usr/local/bundle/gems/rack-protection-4.1.1/lib/rack/protection/base.rb:53:in 'Rack::Protection::Base#call'
+2025-05-11 14:27:28.094	
+	/usr/local/bundle/gems/rack-protection-4.1.1/lib/rack/protection/json_csrf.rb:28:in 'Rack::Protection::JsonCsrf#call'
+2025-05-11 14:27:28.094	
+	/usr/local/bundle/gems/rack-protection-4.1.1/lib/rack/protection/path_traversal.rb:18:in 'Rack::Protection::PathTraversal#call'
+2025-05-11 14:27:28.094	
+	/usr/local/bundle/gems/rack-protection-4.1.1/lib/rack/protection/base.rb:53:in 'Rack::Protection::Base#call'
+2025-05-11 14:27:28.094	
+	/usr/local/bundle/gems/rack-protection-4.1.1/lib/rack/protection/xss_header.rb:20:in 'Rack::Protection::XSSHeader#call'
+2025-05-11 14:27:28.094	
+	/usr/local/bundle/gems/rack-protection-4.1.1/lib/rack/protection/base.rb:53:in 'Rack::Protection::Base#call'
+2025-05-11 14:27:28.094	
+	/usr/local/bundle/gems/rack-session-2.1.1/lib/rack/session/abstract/id.rb:268:in 'Rack::Session::Abstract::Persisted#call'
+2025-05-11 14:27:28.094	
+	/usr/local/bundle/gems/rack-session-2.1.1/lib/rack/session/abstract/id.rb:274:in 'Rack::Session::Abstract::Persisted#context'
+2025-05-11 14:27:28.094	
+	/usr/local/bundle/gems/rack-flash3-1.0.5/lib/rack/flash.rb:124:in 'Rack::Flash#call'
+2025-05-11 14:27:28.094	
+	/usr/local/bundle/gems/sinatra-4.1.1/lib/sinatra/base.rb:2138:in 'Sinatra::Wrapper#call'
+2025-05-11 14:27:28.094	
+	/usr/local/bundle/gems/sinatra-4.1.1/lib/sinatra/base.rb:227:in 'Sinatra::ExtendedRack#call'
+2025-05-11 14:27:28.094	
+	/usr/local/bundle/gems/rack-3.1.14/lib/rack/head.rb:15:in 'Rack::Head#call'
+2025-05-11 14:27:28.094	
+	/usr/local/bundle/gems/sinatra-4.1.1/lib/sinatra/middleware/logger.rb:17:in 'Sinatra::Middleware::Logger#call'
+2025-05-11 14:27:28.085	
+	/usr/local/bundle/gems/rack-protection-4.1.1/lib/rack/protection/frame_options.rb:33:in 'Rack::Protection::FrameOptions#call'
+2025-05-11 14:27:28.085	
+	/usr/local/bundle/gems/rack-protection-4.1.1/lib/rack/protection/base.rb:53:in 'Rack::Protection::Base#call'
+2025-05-11 14:27:28.085	
+	/usr/local/bundle/gems/rack-protection-4.1.1/lib/rack/protection/base.rb:53:in 'Rack::Protection::Base#call'
+2025-05-11 14:27:28.085	
+	/usr/local/bundle/gems/rack-protection-4.1.1/lib/rack/protection/json_csrf.rb:28:in 'Rack::Protection::JsonCsrf#call'
+2025-05-11 14:27:28.085	
+	/usr/local/bundle/gems/rack-protection-4.1.1/lib/rack/protection/path_traversal.rb:18:in 'Rack::Protection::PathTraversal#call'
+2025-05-11 14:27:28.085	
+	/usr/local/bundle/gems/rack-protection-4.1.1/lib/rack/protection/xss_header.rb:20:in 'Rack::Protection::XSSHeader#call'
+2025-05-11 14:27:28.085	
+	/usr/local/bundle/gems/rack-protection-4.1.1/lib/rack/protection/base.rb:53:in 'Rack::Protection::Base#call'
+2025-05-11 14:27:28.085	
+	/usr/local/bundle/gems/sinatra-4.1.1/lib/sinatra/base.rb:993:in 'Sinatra::Base#call'
+2025-05-11 14:27:28.085	
+	/usr/local/bundle/gems/sinatra-4.1.1/lib/sinatra/base.rb:1004:in 'Sinatra::Base#call!'
+2025-05-11 14:27:28.085	
+	/usr/local/bundle/gems/sinatra-4.1.1/lib/sinatra/base.rb:1164:in 'Sinatra::Base#invoke'
+2025-05-11 14:27:28.085	
+	/usr/local/bundle/gems/sinatra-4.1.1/lib/sinatra/base.rb:1164:in 'Kernel#catch'
+2025-05-11 14:27:28.085	
+	/usr/local/bundle/gems/sinatra-4.1.1/lib/sinatra/base.rb:1004:in 'block in Sinatra::Base#call!'
+2025-05-11 14:27:28.085	
+	/usr/local/bundle/gems/sinatra-4.1.1/lib/sinatra/base.rb:1188:in 'Sinatra::Base#dispatch!'
+2025-05-11 14:27:28.085	
+	/usr/local/bundle/gems/sinatra-4.1.1/lib/sinatra/base.rb:1164:in 'Sinatra::Base#invoke'
+2025-05-11 14:27:28.085	
+	/usr/local/bundle/gems/sinatra-4.1.1/lib/sinatra/base.rb:1164:in 'Kernel#catch'
+2025-05-11 14:27:28.085	
+	/usr/local/bundle/gems/sinatra-4.1.1/lib/sinatra/base.rb:1193:in 'block in Sinatra::Base#dispatch!'
+2025-05-11 14:27:28.085	
+	/usr/local/bundle/gems/sinatra-4.1.1/lib/sinatra/base.rb:1069:in 'Sinatra::Base#route!'
+2025-05-11 14:27:28.085	
+	/usr/local/bundle/gems/sinatra-4.1.1/lib/sinatra/base.rb:1069:in 'Array#each'
+2025-05-11 14:27:28.085	
+	/usr/local/bundle/gems/sinatra-4.1.1/lib/sinatra/base.rb:1072:in 'block in Sinatra::Base#route!'
+2025-05-11 14:27:28.085	
+	/usr/local/bundle/gems/sinatra-4.1.1/lib/sinatra/base.rb:1121:in 'Sinatra::Base#process_route'
+2025-05-11 14:27:28.085	
+	/usr/local/bundle/gems/sinatra-4.1.1/lib/sinatra/base.rb:1121:in 'Kernel#catch'
+2025-05-11 14:27:28.085	
+	/usr/local/bundle/gems/sinatra-4.1.1/lib/sinatra/base.rb:1123:in 'block in Sinatra::Base#process_route'
+2025-05-11 14:27:28.085	
+	/usr/local/bundle/gems/sinatra-4.1.1/lib/sinatra/base.rb:1074:in 'block (2 levels) in Sinatra::Base#route!'
+2025-05-11 14:27:28.085	
+	/usr/local/bundle/gems/sinatra-4.1.1/lib/sinatra/base.rb:1092:in 'Sinatra::Base#route_eval'
+2025-05-11 14:27:28.085	
+	/usr/local/bundle/gems/sinatra-4.1.1/lib/sinatra/base.rb:1074:in 'block (3 levels) in Sinatra::Base#route!'
+2025-05-11 14:27:28.085	
+	/usr/local/bundle/gems/sinatra-4.1.1/lib/sinatra/base.rb:1807:in 'block in Sinatra::Base.compile!'
+2025-05-11 14:27:28.085	
+	/usr/local/bundle/gems/sinatra-4.1.1/lib/sinatra/base.rb:1807:in 'Method#call'
+2025-05-11 14:27:28.085	
+	/app/controllers/web_controller.rb:16:in 'block in <class:WebController>'
+2025-05-11 14:27:28.084	
+	/app/helpers/db_helper.rb:49:in 'DbHelper#get_public_messages'
+2025-05-11 14:27:28.084	
+	/usr/local/bundle/gems/sequel-5.91.0/lib/sequel/dataset/actions.rb:51:in 'Sequel::Dataset#all'
+2025-05-11 14:27:28.084	
+	/usr/local/bundle/gems/sequel-5.91.0/lib/sequel/dataset/actions.rb:1105:in 'Sequel::Dataset#_all'
+2025-05-11 14:27:28.084	
+	/usr/local/bundle/gems/sequel-5.91.0/lib/sequel/dataset/actions.rb:51:in 'block in Sequel::Dataset#all'
+2025-05-11 14:27:28.084	
+	/usr/local/bundle/gems/sequel-5.91.0/lib/sequel/dataset/actions.rb:164:in 'Sequel::Dataset#each'
+2025-05-11 14:27:28.084	
+	/usr/local/bundle/gems/sequel-5.91.0/lib/sequel/adapters/postgres.rb:651:in 'Sequel::Postgres::Dataset#fetch_rows'
+2025-05-11 14:27:28.084	
+	/usr/local/bundle/gems/sequel-5.91.0/lib/sequel/dataset/actions.rb:1197:in 'Sequel::Dataset#execute'
+2025-05-11 14:27:28.084	
+	/usr/local/bundle/gems/sequel-5.91.0/lib/sequel/adapters/postgres.rb:348:in 'Sequel::Postgres::Database#execute'
+2025-05-11 14:27:28.084	
+	/usr/local/bundle/gems/sequel-5.91.0/lib/sequel/database/connecting.rb:283:in 'Sequel::Database#synchronize'
+2025-05-11 14:27:28.084	
+	/usr/local/bundle/gems/sequel-5.91.0/lib/sequel/connection_pool/timed_queue.rb:90:in 'Sequel::TimedQueueConnectionPool#hold'
+2025-05-11 14:27:28.084	
+	/usr/local/bundle/gems/sequel-5.91.0/lib/sequel/adapters/postgres.rb:348:in 'block in Sequel::Postgres::Database#execute'
+2025-05-11 14:27:28.084	
+	/usr/local/bundle/gems/sequel-5.91.0/lib/sequel/adapters/postgres.rb:555:in 'Sequel::Postgres::Database#check_database_errors'
+2025-05-11 14:27:28.084	
+	/usr/local/bundle/gems/sequel-5.91.0/lib/sequel/adapters/postgres.rb:348:in 'block (2 levels) in Sequel::Postgres::Database#execute'
+2025-05-11 14:27:28.084	
+	/usr/local/bundle/gems/sequel-5.91.0/lib/sequel/adapters/postgres.rb:532:in 'Sequel::Postgres::Database#_execute'
+2025-05-11 14:27:28.084	
+	/usr/local/bundle/gems/sequel-5.91.0/lib/sequel/adapters/postgres.rb:159:in 'Sequel::Postgres::Adapter#execute'
+2025-05-11 14:27:28.084	
+	/usr/local/bundle/gems/sequel-5.91.0/lib/sequel/adapters/postgres.rb:136:in 'Sequel::Postgres::Adapter#check_disconnect_errors'
+2025-05-11 14:27:28.084	
+	/usr/local/bundle/gems/sequel-5.91.0/lib/sequel/adapters/postgres.rb:159:in 'block in Sequel::Postgres::Adapter#execute'
+2025-05-11 14:27:28.084	
+	/usr/local/bundle/gems/sequel-5.91.0/lib/sequel/adapters/postgres.rb:171:in 'Sequel::Postgres::Adapter#execute_query'
+2025-05-11 14:27:28.084	
+	/usr/local/bundle/gems/sequel-5.91.0/lib/sequel/database/logging.rb:38:in 'Sequel::Database#log_connection_yield'
+2025-05-11 14:27:28.084	
+	/usr/local/bundle/gems/sequel-5.91.0/lib/sequel/adapters/postgres.rb:171:in 'block in Sequel::Postgres::Adapter#execute_query'
+2025-05-11 14:27:28.084	
+	/usr/local/bundle/gems/sequel-5.91.0/lib/sequel/adapters/postgres.rb:171:in 'PG::Connection#exec'
+2025-05-11 14:27:28.084	
+		before or while processing the request.
+2025-05-11 14:27:28.084	
+		This probably means the server terminated abnormally
+2025-05-11 14:27:28.084	
+2025-05-11 12:27:28 - Sequel::DatabaseDisconnectError - PG::ConnectionBad: PQconsumeInput() server closed the connection unexpectedly:
+2025-05-11 14:27:28.076	
+Session cookie encryptor error: HMAC is invalid
