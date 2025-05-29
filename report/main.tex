@@ -1,5 +1,5 @@
 \documentclass{article}
-% packages
+% -- packages --
 \usepackage{graphicx}
 \usepackage{float} %to do the [H]
 \usepackage{tabularx}
@@ -12,7 +12,6 @@
 \usepackage{comment}
 \usepackage{soul}
 \usepackage{verbatim}
-\graphicspath{ {./images/} }
 \usepackage{multirow}
 \renewcommand{\arraystretch}{1.8}
 \setlength{\tabcolsep}{12pt}
@@ -70,26 +69,28 @@
     \tikz[baseline=(X.base)] \node[fill=#1, fill opacity=#2, text opacity=1, rounded corners=2pt, inner sep=2pt] (X) {#3};%
 }
 
-%TC:ignore
-\title{Group L}
-\author{ }
-\date{\today}
-
-
 \begin{document}
 
-\begin{center}
-    \includegraphics[width=0.5\textwidth]{images/ITU-logo.jpg}\\
-    \vspace{1cm}
-    MSC in Computer Science \\
-    DevOps, Software Evolution and Software Maintenance \\ 
-    KSDSESM1KU \\
-    \vspace{1cm}
-    \huge{\textbf{Group L}}
-\end{center}
+\begin{titlepage}
+   \begin{center}
 
-\begin{table}[h]
-    \begin{center}
+    \vspace*{1cm}
+
+    \includegraphics[width=0.5\textwidth]{images/ITU-logo.jpg}\\
+    
+    \vspace{1cm}
+    \Large
+    MSc in Computer Science 
+    
+    DevOps, Software Evolution and Software Maintenance 
+    
+    KSDSESM1KU 
+    
+    \vspace{1cm}
+    
+    \huge{\textbf{Group L}}
+
+    \begin{table}[h]
         \begin{tabular*}{1\textwidth}{l l}
         \toprule
         Email: & Name: \\
@@ -102,29 +103,25 @@
         {rakt@itu.dk} & {Rakul Maria Hjalmarsdóttir Tórgarð} \\
         \bottomrule
         \end{tabular*}
-    \end{center}
-\end{table}
+    \end{table}
 
-\vspace{1cm}
-\begin{center}
+    \vfill
+
+    \large
     \today
-\end{center}
+   \end{center}
+\end{titlepage}
     
 \newpage
 \tableofcontents
 \newpage
 
-%TC:endignore
 \input{tex/01-system}
-
 \input{tex/02-process}
 \input{tex/03-reflection}
 \newpage
-%TC:ignore
-%\bibliography{refs} 
 \printbibliography
 \newpage
 \input{tex/04-appendix}
-%TC:endignore
 
 \end{document}
