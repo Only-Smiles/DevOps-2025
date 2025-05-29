@@ -17,7 +17,8 @@ jobs:
         id: compile-latex-document
         uses: xu-cheng/latex-action@v3
         with:
-          root_file: report/main.tex
+          root_file: main.tex
+          working_directory: report
       - name: Move and rename
         run: |
 
