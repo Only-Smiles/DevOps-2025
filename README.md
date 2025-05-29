@@ -2,21 +2,6 @@
 
 Project repository for group 'the happy group'
 
-## Environment variables and Vagrant
-
-We are using a package called dotenv for managing environment variables. In order to install the package, run `bundle install` from your terminal.
-
-We must never expose our .env file public, because it contains secrets. Therefore it is ignored in our .gitignore. All developers must have a .env file located in the root folder of our project. Information about how to set this up is shared elsewhere.
-
-In order to be able to run vagrant commands, such as `vagrant provision` and `vagrant rsync`, you must have the following plugins installed to vagrant:
-
-```
-vagrant-digitalocean (0.9.6, global)
-vagrant-env (0.0.3, global)
-vagrant-reload (0.0.1, global)
-vagrant-scp (0.5.9, global)
-```
-
 ## Ruby installation
 
 Requires ruby version >= 3.4.1
@@ -60,27 +45,8 @@ docker run --rm -p 4567:4567 thg/rubytwit
 
 And you should be able to access the container at http://localhost:4567/public
 
-## Vagrant
+## Environment variables and package management
 
-This assumes you have a DigitalOcean account linked to your public SSH key and that you have created a API key in your account settings.
+Dotenv is used for managing environment variables. 
 
-You also need to install Vagrant on your machine.
-
-Install Vagrant DigitalOcean Plugin
-
-```bash
-vagrant plugin install vagrant-digitalocean
-```
-
-Change ssh path in `Vagrantfile` to your own ssh private key.
-(Make sure that you have setup ENV variables `SSH_KEY_NAME`, `DIGITAL_OCEAN_TOKEN`)
-Your .zshrc file should look like this:
-
-```bash
-export SSH_KEY_NAME="{YOUR_DIGITAL_OCEAN_KEYNAME}"
-export DIGITAL_OCEAN_TOKEN="{YOUR_DICITAL_OCEAN_TOKEN}"
-```
-
-Run `vagrant up` to deploy a new version.
-
-You can access the webserver and the restriced ip, which you can find inside your droplet settings in the Digital Ocean platform.
+Environment variables are not publicly exposed in order to prevent potential security vulnerabilities. Developers will be guided on how to setup their .env file elsewhere. An `.env.example` file is provided in the project.
