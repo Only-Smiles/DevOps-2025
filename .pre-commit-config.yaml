@@ -3,19 +3,19 @@ repos:
     rev: v1.24.1
     hooks:
       - id: rubocop
-        stages: [push]
+        stages: [pre-push]
 
   - repo: https://github.com/jumanjihouse/pre-commit-hooks
     rev: master
     hooks:
       - id: bundler-audit
-        stages: [push]
+        stages: [pre-push]
 
   - repo: https://github.com/hadolint/hadolint
     rev: v2.12.0
     hooks:
       - id: hadolint
-        stages: [push]
+        stages: [pre-push]
 
 
 # pre-commit run --all-files    
